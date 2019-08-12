@@ -29,4 +29,7 @@ public class Article {
         return content;
     }
 
+    public void update(String content) {
+        this.content = content;
+    }
 }

@@ -32,4 +32,10 @@ public class ArticleService {
         Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
         return ArticleAssembler.toResponse(article);
     }
+
+    public ArticleResponse update(Long id, ArticleRequest updatedRequest) {
+        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
+        article.update(updatedRequest.getContent());
+        return ArticleAssembler.toResponse(article);
+    }
 }

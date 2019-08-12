@@ -33,4 +33,16 @@ class ArticleServiceTest {
 
         assertThrows(NotFoundArticleException.class, () -> articleService.findById(deletedId));
     }
+
+    @Test
+    void 글을_잘_수정하는지_확인한다() {
+        ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
+        ArticleResponse articleResponse = articleService.save(articleRequest);
+        ArticleRequest updatedRequest = new ArticleRequest("수정된 내용입니다.");
+
+        ArticleResponse updatedArticle = articleService.update(articleResponse.getId(), updatedRequest);
+
+        assertThat(updatedArticle.getContent()).isEqualTo(updatedRequest.getContent());
+        assertThat(updatedArticle.getId()).isEqualTo(articleResponse.getId());
+    }
 }
