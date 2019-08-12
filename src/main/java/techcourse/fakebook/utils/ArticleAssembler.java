@@ -1,6 +1,6 @@
 package techcourse.fakebook.utils;
 
-import techcourse.fakebook.domain.Article;
+import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 

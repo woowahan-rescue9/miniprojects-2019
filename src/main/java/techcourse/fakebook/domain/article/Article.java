@@ -1,4 +1,4 @@
-package techcourse.fakebook.domain;
+package techcourse.fakebook.domain.article;
 
 import javax.persistence.*;
 
@@ -12,6 +12,10 @@ public class Article {
     @Lob
     @Column(nullable = false)
     private String content;
+
+    public Article() {
+
+    }
 
     public Article(String content) {
         this.content = content;

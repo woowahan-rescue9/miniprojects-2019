@@ -1,7 +1,6 @@
-package techcourse.fakebook.repository;
+package techcourse.fakebook.domain.article;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import techcourse.fakebook.domain.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 }
