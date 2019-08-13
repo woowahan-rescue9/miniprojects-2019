@@ -15,12 +15,15 @@ public class Article extends DateTime {
     @Column(nullable = false)
     private String content;
 
-    public Article() {
+    @Column(nullable = false)
+    private boolean isPresent;
 
+    private Article() {
     }
 
     public Article(String content) {
         this.content = content;
+        this.isPresent = true;
     }
 
     public Long getId() {
@@ -33,5 +36,13 @@ public class Article extends DateTime {
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public boolean isNotPresent() {
+        return !isPresent;
+    }
+
+    public void delete() {
+        isPresent = false;
     }
 }

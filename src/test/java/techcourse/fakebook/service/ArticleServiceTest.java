@@ -16,6 +16,11 @@ class ArticleServiceTest {
     private ArticleService articleService;
 
     @Test
+    void 없는_글을_찾을_때_예외를_잘_던지는지_확인한다() {
+        assertThrows(NotFoundArticleException.class, () -> articleService.findById(0L));
+    }
+
+    @Test
     void 글을_잘_작성하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
         ArticleResponse articleResponse = articleService.save(articleRequest);
@@ -44,10 +49,5 @@ class ArticleServiceTest {
 
         assertThat(updatedArticle.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedArticle.getId()).isEqualTo(articleResponse.getId());
-    }
-
-    @Test
-    void 내가_쓴글만_조회_테스트() {
-
     }
 }

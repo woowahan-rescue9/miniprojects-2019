@@ -24,18 +24,27 @@ public class ArticleService {
         return ArticleAssembler.toResponse(article);
     }
 
-    public void deleteById(Long id) {
-        articleRepository.deleteById(id);
-    }
-
     public ArticleResponse findById(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
+        Article article = getArticle(id);
         return ArticleAssembler.toResponse(article);
     }
 
     public ArticleResponse update(Long id, ArticleRequest updatedRequest) {
-        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
+        Article article = getArticle(id);
         article.update(updatedRequest.getContent());
         return ArticleAssembler.toResponse(article);
+    }
+
+    public void deleteById(Long id) {
+        Article article = getArticle(id);
+        article.delete();
+    }
+
+    private Article getArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
+        if (article.isNotPresent()) {
+            throw new NotFoundArticleException();
+        }
+        return article;
     }
 }

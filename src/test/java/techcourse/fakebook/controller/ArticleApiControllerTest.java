@@ -27,6 +27,15 @@ public class ArticleApiControllerTest {
         then().
                 statusCode(201).
                 body("content", equalTo(articleRequest.getContent()));
+    }
 
+    @Test
+    void 글을_잘_삭제하는지_확인() {
+        given().
+                port(port).
+        when().
+                delete("/articles/2").
+        then().
+                statusCode(204);
     }
 }
