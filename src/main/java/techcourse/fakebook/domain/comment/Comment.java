@@ -23,12 +23,11 @@ public class Comment extends DateTime {
     @Column(nullable = false)
     private boolean isPresent;
 
+    private Comment() {}
 
-    private Comment() {
-    }
-
-    public Comment(String content) {
+    public Comment(String content, Article article) {
         this.content = content;
+        this.article = article;
         this.isPresent = true;
     }
 
@@ -38,6 +37,14 @@ public class Comment extends DateTime {
 
     public String getContent() {
         return content;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public boolean isPresent() {
+        return isPresent;
     }
 
     public void update(String content) {

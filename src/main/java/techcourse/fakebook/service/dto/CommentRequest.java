@@ -1,11 +1,11 @@
 package techcourse.fakebook.service.dto;
 
-public class ArticleRequest {
+public class CommentRequest {
     private String content;
 
-    public ArticleRequest() {}
+    private CommentRequest() {}
 
-    public ArticleRequest(String content) {
+    public CommentRequest(String content) {
         this.content = content;
     }
 

@@ -18,8 +18,7 @@ public class Article extends DateTime {
     @Column(nullable = false)
     private boolean isPresent;
 
-    private Article() {
-    }
+    private Article() {}
 
     public Article(String content) {
         this.content = content;

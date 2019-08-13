@@ -40,7 +40,7 @@ public class ArticleService {
         article.delete();
     }
 
-    private Article getArticle(Long id) {
+    public Article getArticle(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
         if (article.isNotPresent()) {
             throw new NotFoundArticleException();
