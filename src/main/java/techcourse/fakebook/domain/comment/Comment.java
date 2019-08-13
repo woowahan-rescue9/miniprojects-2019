@@ -2,6 +2,7 @@ package techcourse.fakebook.domain.comment;
 
 import techcourse.fakebook.domain.DateTime;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.user.User;
 
 import javax.persistence.*;
 
@@ -20,27 +21,19 @@ public class Comment extends DateTime {
     @JoinColumn(foreignKey = @ForeignKey(name = "FK_COMMENT_TO_ARTICLE"))
     private Article article;
 
+    @ManyToOne
+    private User user;
+
     @Column(nullable = false)
     private boolean isPresent;
 
     private Comment() {}
 
-    public Comment(String content, Article article) {
+    public Comment(String content, Article article, User user) {
         this.content = content;
         this.article = article;
+        this.user = user;
         this.isPresent = true;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Article getArticle() {
-        return article;
     }
 
     public boolean isPresent() {
@@ -57,5 +50,21 @@ public class Comment extends DateTime {
 
     public void delete() {
         isPresent = false;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

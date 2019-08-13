@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.CommentService;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.UserDto;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -25,20 +27,23 @@ public class CommentApiController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest) {
-        CommentResponse commentResponse = commentService.save(articleId, commentRequest);
+    public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        CommentResponse commentResponse = commentService.save(articleId, commentRequest, userDto);
         return new ResponseEntity<>(commentResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
-        CommentResponse commentResponse = commentService.update(commentId, commentRequest);
+    public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        CommentResponse commentResponse = commentService.update(commentId, commentRequest, userDto);
         return new ResponseEntity<>(commentResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId) {
-        commentService.deleteById(commentId);
+    public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        commentService.deleteById(commentId, userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

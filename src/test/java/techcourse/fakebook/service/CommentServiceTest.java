@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.UserDto;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class CommentServiceTest {
     @Autowired
     private CommentService commentService;
 
+    private UserDto userDto = new UserDto(1L, "cony");
+
     @Test
     void 댓글을_잘_불러오는지_확인한다() {
         List<CommentResponse> commentResponses = commentService.findAllByArticleId(1L);
@@ -28,7 +31,7 @@ public class CommentServiceTest {
     @Test
     void 댓글을_잘_작성하는지_확인한다() {
         CommentRequest commentRequest = new CommentRequest("댓글입니다.");
-        CommentResponse commentResponse = commentService.save(1L, commentRequest);
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userDto);
 
         assertThat(commentResponse.getContent()).isEqualTo(commentRequest.getContent());
     }
@@ -36,10 +39,10 @@ public class CommentServiceTest {
     @Test
     void 댓글을_잘_삭제하는지_확인한다() {
         CommentRequest commentRequest = new CommentRequest("댓글입니다.");
-        CommentResponse commentResponse = commentService.save(1L, commentRequest);
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userDto);
         Long deletedId = commentResponse.getId();
 
-        commentService.deleteById(deletedId);
+        commentService.deleteById(deletedId, userDto);
 
         assertThrows(NotFoundCommentException.class, () -> commentService.findById(deletedId));
     }
@@ -47,10 +50,10 @@ public class CommentServiceTest {
     @Test
     void 댓글을_잘_수정하는지_확인한다() {
         CommentRequest commentRequest = new CommentRequest("댓글입니다.");
-        CommentResponse commentResponse = commentService.save(1L, commentRequest);
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userDto);
         CommentRequest updatedRequest = new CommentRequest("수정된 내용입니다.");
 
-        CommentResponse updatedComment = commentService.update(commentResponse.getId(), updatedRequest);
+        CommentResponse updatedComment = commentService.update(commentResponse.getId(), updatedRequest, userDto);
 
         assertThat(updatedComment.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedComment.getId()).isEqualTo(commentResponse.getId());
