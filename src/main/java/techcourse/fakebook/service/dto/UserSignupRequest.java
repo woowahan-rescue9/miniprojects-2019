@@ -46,4 +46,17 @@ public class UserSignupRequest {
     public String getIntroduction() {
         return introduction;
     }
+
+    @Override
+    public String toString() {
+        return "UserSignupRequest{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", coverUrl='" + coverUrl + '\'' +
+                ", birth='" + birth + '\'' +
+                ", introduction='" + introduction + '\'' +
+                '}';
+    }
 }

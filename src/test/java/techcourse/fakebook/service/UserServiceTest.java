@@ -11,7 +11,7 @@ import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.dto.UserResponse;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
-import techcourse.fakebook.utils.UserAssembler;
+import techcourse.fakebook.service.utils.UserAssembler;
 
 import java.util.Optional;
 
@@ -89,7 +89,6 @@ class UserServiceTest {
     @Test
     void update_존재하지_않는_유저_유저_수정() {
         // Arrange
-        User user = mock(User.class);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
         Long notExistUserId = 1L;
         given(userRepository.findById(notExistUserId)).willReturn(Optional.empty());
@@ -97,5 +96,30 @@ class UserServiceTest {
         // Act & Assert
         assertThrows(NotFoundUserException.class, () ->
                 userService.update(notExistUserId, userUpdateRequest));
+    }
+
+    @Test
+    void delete_존재하는_유저_유저_삭제() {
+        // Arrange
+        User user = mock(User.class);
+        Long existUserId = 1L;
+        given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
+
+        // Act
+        userService.deleteById(existUserId);
+
+        // Assert
+        verify(userRepository).delete(user);
+    }
+
+    @Test
+    void delete_존재하지_않는_유저_유저_삭제() {
+        // Arrange
+        Long notExistUserId = 1L;
+        given(userRepository.findById(notExistUserId)).willReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NotFoundUserException.class, () ->
+                userService.deleteById(notExistUserId));
     }
 }

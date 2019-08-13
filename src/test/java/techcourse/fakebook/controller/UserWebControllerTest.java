@@ -18,6 +18,7 @@ class UserWebControllerTest extends ControllerTestHelper {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
         signup(userSignupRequest);
         Long userId = getId(userSignupRequest.getEmail());
+
         webTestClient.get().uri("/users/" + userId)
                 .exchange()
                 .expectStatus()
@@ -32,5 +33,20 @@ class UserWebControllerTest extends ControllerTestHelper {
                     assertThat(body.contains(userSignupRequest.getBirth())).isTrue();
                     assertThat(body.contains(userSignupRequest.getIntroduction())).isTrue();
                 });
+    }
+
+    @Test
+    void 존재하는_유저삭제() {
+        UserSignupRequest userSignupRequest = newUserSignupRequest();
+        signup(userSignupRequest);
+        Long userId = getId(userSignupRequest.getEmail());
+
+        webTestClient.delete().uri("/users/" + userId)
+                .exchange()
+                .expectStatus()
+                .isFound();
+
+        // TODO: 삭제여부
+        // 애러페이지
     }
 }

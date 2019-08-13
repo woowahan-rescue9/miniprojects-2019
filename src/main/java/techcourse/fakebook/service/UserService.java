@@ -10,7 +10,7 @@ import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserResponse;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
-import techcourse.fakebook.utils.UserAssembler;
+import techcourse.fakebook.service.utils.UserAssembler;
 
 @Service
 public class UserService {
@@ -55,5 +55,12 @@ public class UserService {
 
         log.debug("user: {}", user);
         return userAssembler.toResponse(user);
+    }
+
+    public void deleteById(Long userId) {
+        log.debug("begin");
+
+        User user = userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
+        userRepository.delete(user);
     }
 }

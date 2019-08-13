@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils.encryptor;
+package techcourse.fakebook.service.utils.encryptor;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;

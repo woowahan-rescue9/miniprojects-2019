@@ -27,7 +27,7 @@ class UserApiControllerTest extends ControllerTestHelper {
                 accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 body(userUpdateRequest).
         when().
-                put("api/users/" + userId).
+                put("/api/users/" + userId).
         then().
                 statusCode(200).
                 body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).

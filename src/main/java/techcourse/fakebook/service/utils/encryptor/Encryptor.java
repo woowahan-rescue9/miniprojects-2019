@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils.encryptor;
+package techcourse.fakebook.service.utils.encryptor;
 
 public interface Encryptor {
     String encrypt(String data);
