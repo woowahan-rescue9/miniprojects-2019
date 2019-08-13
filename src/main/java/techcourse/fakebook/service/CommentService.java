@@ -88,4 +88,11 @@ public class CommentService {
         commentLikeRepository.save(commentLike);
         return new CommentLikeResponse(id, true);
     }
+
+    public CommentLikeResponse isLiked(Long commentId, UserDto userDto) {
+        if (commentLikeRepository.existsByUserIdAndCommentId(userDto.getId(), commentId)) {
+            return new CommentLikeResponse(commentId, true);
+        }
+        return new CommentLikeResponse(commentId, false);
+    }
 }

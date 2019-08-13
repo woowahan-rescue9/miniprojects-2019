@@ -76,4 +76,11 @@ public class ArticleService {
         articleLikeRepository.save(articleLike);
         return new ArticleLikeResponse(id, true);
     }
+
+    public ArticleLikeResponse isLiked(Long id, UserDto userDto) {
+        if (articleLikeRepository.existsByUserIdAndArticleId(userDto.getId(), id)) {
+            return new ArticleLikeResponse(id, true);
+        }
+        return new ArticleLikeResponse(id, false);
+    }
 }

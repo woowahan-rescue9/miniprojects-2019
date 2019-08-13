@@ -41,6 +41,13 @@ public class ArticleApiController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/{id}/like")
+    public ResponseEntity<ArticleLikeResponse> checkLike(@PathVariable Long id, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        ArticleLikeResponse articleLikeResponse = articleService.isLiked(id, userDto);
+        return new ResponseEntity<>(articleLikeResponse, HttpStatus.OK);
+    }
+
     @PostMapping("/{id}/like")
     public ResponseEntity<ArticleLikeResponse> like(@PathVariable Long id, HttpSession session) {
         UserDto userDto = (UserDto) session.getAttribute("user");

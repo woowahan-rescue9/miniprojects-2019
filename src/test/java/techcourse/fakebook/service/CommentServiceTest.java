@@ -72,4 +72,10 @@ public class CommentServiceTest {
         CommentLikeResponse commentLikeResponse = commentService.like(3L, userDto);
         assertThat(commentLikeResponse.isLiked()).isFalse();
     }
+
+    @Test
+    void 좋아요_여부를_확인한다() {
+        CommentLikeResponse commentLikeResponse = commentService.isLiked(4L, userDto);
+        assertThat(commentLikeResponse.isLiked()).isFalse();
+    }
 }

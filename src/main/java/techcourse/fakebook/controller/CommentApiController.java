@@ -4,10 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.CommentService;
-import techcourse.fakebook.service.dto.CommentLikeResponse;
-import techcourse.fakebook.service.dto.CommentRequest;
-import techcourse.fakebook.service.dto.CommentResponse;
-import techcourse.fakebook.service.dto.UserDto;
+import techcourse.fakebook.service.dto.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -46,6 +43,13 @@ public class CommentApiController {
         UserDto userDto = (UserDto) session.getAttribute("user");
         commentService.deleteById(commentId, userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{commentId}/like")
+    public ResponseEntity<CommentLikeResponse> checkLike(@PathVariable Long commentId, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        CommentLikeResponse commentLikeResponse = commentService.isLiked(commentId, userDto);
+        return new ResponseEntity<>(commentLikeResponse, HttpStatus.OK);
     }
 
     @PostMapping("/{commentId}/like")
