@@ -5,8 +5,7 @@ import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 
 public class ArticleAssembler {
-    private ArticleAssembler() {
-    }
+    private ArticleAssembler() {}
 
     public static Article toEntity(ArticleRequest articleRequest) {
         return new Article(articleRequest.getContent());
