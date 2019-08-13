@@ -38,4 +38,19 @@ public class ArticleApiControllerTest {
         then().
                 statusCode(204);
     }
+
+    @Test
+    void 글을_잘_수정하는지_확인() {
+        ArticleRequest articleRequest = new ArticleRequest("수정된 글입니다.");
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                body(articleRequest).
+        when().
+                put("/articles/1").
+        then().
+                statusCode(200).
+                body("content", equalTo(articleRequest.getContent()));
+    }
 }

@@ -22,6 +22,12 @@ public class ArticleApiController {
         return new ResponseEntity<>(articleResponse, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ArticleResponse> update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest) {
+        ArticleResponse articleResponse = articleService.update(id, articleRequest);
+        return new ResponseEntity<>(articleResponse, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ArticleResponse> delete(@PathVariable Long id) {
         articleService.deleteById(id);
