@@ -28,4 +28,14 @@ public class CommentApiControllerTest {
                 statusCode(201).
                 body("content", equalTo(commentRequest.getContent()));
     }
+
+    @Test
+    void 댓글을_잘_삭제하는지_확인한다() {
+        given().
+                port(port).
+        when().
+                delete("/articles/1/comments/2").
+        then().
+                statusCode(204);
+    }
 }

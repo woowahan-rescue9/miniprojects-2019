@@ -21,4 +21,10 @@ public class CommentApiController {
         CommentResponse commentResponse = commentService.save(articleId, commentRequest);
         return new ResponseEntity<>(commentResponse, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId) {
+        commentService.deleteById(commentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
