@@ -3,9 +3,12 @@ package techcourse.fakebook.service;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
+import techcourse.fakebook.domain.like.ArticleLike;
+import techcourse.fakebook.domain.like.ArticleLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundArticleException;
+import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserDto;
@@ -17,10 +20,12 @@ import javax.transaction.Transactional;
 @Transactional
 public class ArticleService {
     private ArticleRepository articleRepository;
+    private ArticleLikeRepository articleLikeRepository;
     private UserService userService;
 
-    public ArticleService(ArticleRepository articleRepository, UserService userService) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService) {
         this.articleRepository = articleRepository;
+        this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
     }
 
@@ -60,5 +65,15 @@ public class ArticleService {
         if (article.getUser().isNotAuthor(userDto.getId())) {
             throw new InvalidAuthorException();
         }
+    }
+
+    public ArticleLikeResponse like(Long id, UserDto userDto) {
+        ArticleLike articleLike = new ArticleLike(userService.getUser(userDto.getId()), getArticle(id));
+        if (articleLikeRepository.existsByUserIdAndArticleId(userDto.getId(), id)) {
+            articleLikeRepository.delete(articleLike);
+            return new ArticleLikeResponse(id, false);
+        }
+        articleLikeRepository.save(articleLike);
+        return new ArticleLikeResponse(id, true);
     }
 }

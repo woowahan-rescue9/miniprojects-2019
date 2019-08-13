@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.ArticleService;
+import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserDto;
@@ -38,5 +39,12 @@ public class ArticleApiController {
         UserDto userDto = (UserDto) session.getAttribute("user");
         articleService.deleteById(id, userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<ArticleLikeResponse> like(@PathVariable Long id, HttpSession session) {
+        UserDto userDto = (UserDto) session.getAttribute("user");
+        ArticleLikeResponse articleLikeResponse = articleService.like(id, userDto);
+        return new ResponseEntity<>(articleLikeResponse, HttpStatus.OK);
     }
 }

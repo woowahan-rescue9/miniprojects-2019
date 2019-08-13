@@ -1,12 +1,28 @@
 package techcourse.fakebook.domain.like;
 
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class ArticleLike extends Like {
+public class ArticleLike {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    private User user;
+
     @ManyToOne
     private Article article;
+
+    public ArticleLike(User user, Article article) {
+        this.user = user;
+        this.article = article;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

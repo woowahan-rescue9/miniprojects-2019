@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.exception.NotFoundArticleException;
+import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserDto;
@@ -52,5 +53,18 @@ class ArticleServiceTest {
 
         assertThat(updatedArticle.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedArticle.getId()).isEqualTo(articleResponse.getId());
+    }
+
+    @Test
+    void 좋아요가_잘_등록되는지_확인한다() {
+        ArticleLikeResponse articleLikeResponse = articleService.like(1L, userDto);
+        assertThat(articleLikeResponse.isLiked()).isTrue();
+    }
+
+    @Test
+    void 좋아요가_잘_취소되는지_확인한다() {
+        articleService.like(3L, userDto);
+        ArticleLikeResponse articleLikeResponse = articleService.like(3L, userDto);
+        assertThat(articleLikeResponse.isLiked()).isFalse();
     }
 }
