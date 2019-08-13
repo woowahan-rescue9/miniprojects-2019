@@ -19,13 +19,13 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public ArticleResponse save(ArticleRequest articleRequest) {
-        Article article = articleRepository.save(ArticleAssembler.toEntity(articleRequest));
+    public ArticleResponse findById(Long id) {
+        Article article = getArticle(id);
         return ArticleAssembler.toResponse(article);
     }
 
-    public ArticleResponse findById(Long id) {
-        Article article = getArticle(id);
+    public ArticleResponse save(ArticleRequest articleRequest) {
+        Article article = articleRepository.save(ArticleAssembler.toEntity(articleRequest));
         return ArticleAssembler.toResponse(article);
     }
 
