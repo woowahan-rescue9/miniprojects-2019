@@ -34,4 +34,6 @@ dependencies {
 		exclude group: 'junit'
 	}
 	testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
 }
