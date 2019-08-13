@@ -3,11 +3,13 @@ package techcourse.fakebook.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.User;
 import techcourse.fakebook.domain.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.service.dto.UserRequest;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserResponse;
+import techcourse.fakebook.service.dto.UserUpdateRequest;
 import techcourse.fakebook.utils.UserAssembler;
 
 @Service
@@ -22,10 +24,10 @@ public class UserService {
         this.userAssembler = userAssembler;
     }
 
-    public UserResponse save(UserRequest userRequest) {
+    public UserResponse save(UserSignupRequest userSignupRequest) {
         log.debug("begin");
 
-        User user = userAssembler.toEntity(userRequest);
+        User user = userAssembler.toEntity(userSignupRequest);
 
 
         User savedUser = userRepository.save(user);
@@ -42,5 +44,16 @@ public class UserService {
                 .findById(userId)
                 .map(userAssembler::toResponse)
                 .orElseThrow(NotFoundUserException::new);
+    }
+
+    @Transactional
+    public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
+        log.debug("begin");
+
+        User user = userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
+        user.updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
+
+        log.debug("user: {}", user);
+        return userAssembler.toResponse(user);
     }
 }

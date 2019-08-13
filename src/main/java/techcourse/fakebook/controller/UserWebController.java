@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import techcourse.fakebook.service.UserService;
-import techcourse.fakebook.service.dto.UserRequest;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserResponse;
 
 @Controller
@@ -24,10 +24,10 @@ public class UserWebController {
     }
 
     @PostMapping
-    public String create(UserRequest userRequest) {
+    public String create(UserSignupRequest userSignupRequest) {
         log.debug("begin");
 
-        userService.save(userRequest);
+        userService.save(userSignupRequest);
 
         return "redirect:/timeline";
     }

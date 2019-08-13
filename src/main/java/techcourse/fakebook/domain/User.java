@@ -87,4 +87,9 @@ public class User {
                 ", introduction='" + introduction + '\'' +
                 '}';
     }
+
+    public void updateModifiableFields(String coverUrl, String introduction) {
+        this.coverUrl = coverUrl;
+        this.introduction = introduction;
+    }
 }

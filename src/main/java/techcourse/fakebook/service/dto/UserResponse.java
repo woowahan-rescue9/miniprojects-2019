@@ -40,4 +40,16 @@ public class UserResponse {
     public String getIntroduction() {
         return introduction;
     }
+
+    @Override
+    public String toString() {
+        return "UserResponse{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", coverUrl='" + coverUrl + '\'' +
+                ", birth='" + birth + '\'' +
+                ", introduction='" + introduction + '\'' +
+                '}';
+    }
 }

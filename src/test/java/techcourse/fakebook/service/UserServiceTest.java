@@ -8,14 +8,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.User;
 import techcourse.fakebook.domain.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.service.dto.UserRequest;
 import techcourse.fakebook.service.dto.UserResponse;
+import techcourse.fakebook.service.dto.UserSignupRequest;
+import techcourse.fakebook.service.dto.UserUpdateRequest;
 import techcourse.fakebook.utils.UserAssembler;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -34,12 +34,12 @@ class UserServiceTest {
     @Test
     void save_유저_저장() {
         // Arrange
-        UserRequest userRequest = mock(UserRequest.class);
+        UserSignupRequest userSignupRequest = mock(UserSignupRequest.class);
         User user = mock(User.class);
-        given(userAssembler.toEntity(userRequest)).willReturn(user);
+        given(userAssembler.toEntity(userSignupRequest)).willReturn(user);
 
         // Act
-        userService.save(userRequest);
+        userService.save(userSignupRequest);
 
         // Assert
         verify(userRepository).save(user);
@@ -69,5 +69,33 @@ class UserServiceTest {
         // Act & Assert
         assertThrows(NotFoundUserException.class, () ->
                 userService.findById(notExistUserId));
+    }
+
+    @Test
+    void update_존재하는_유저_유저_수정() {
+        // Arrange
+        User user = mock(User.class);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        Long existUserId = 1L;
+        given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
+
+        // Act
+        userService.update(existUserId, userUpdateRequest);
+
+        // Assert
+        verify(user).updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
+    }
+
+    @Test
+    void update_존재하지_않는_유저_유저_수정() {
+        // Arrange
+        User user = mock(User.class);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        Long notExistUserId = 1L;
+        given(userRepository.findById(notExistUserId)).willReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(NotFoundUserException.class, () ->
+                userService.update(notExistUserId, userUpdateRequest));
     }
 }

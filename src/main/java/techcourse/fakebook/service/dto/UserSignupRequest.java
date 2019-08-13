@@ -1,6 +1,6 @@
 package techcourse.fakebook.service.dto;
 
-public class UserRequest {
+public class UserSignupRequest {
     private String email;
     private String password;
     private String name;
@@ -9,7 +9,7 @@ public class UserRequest {
     private String birth;
     private String introduction;
 
-    public UserRequest(String email, String password, String name, String gender, String coverUrl, String birth, String introduction) {
+    public UserSignupRequest(String email, String password, String name, String gender, String coverUrl, String birth, String introduction) {
         this.email = email;
         this.password = password;
         this.name = name;
