@@ -45,4 +45,9 @@ class ArticleServiceTest {
         assertThat(updatedArticle.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedArticle.getId()).isEqualTo(articleResponse.getId());
     }
+
+    @Test
+    void 내가_쓴글만_조회_테스트() {
+
+    }
 }
