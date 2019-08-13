@@ -1,9 +1,11 @@
 package techcourse.fakebook.domain.article;
 
+import techcourse.fakebook.domain.DateTime;
+
 import javax.persistence.*;
 
 @Entity
-public class Article {
+public class Article extends DateTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
