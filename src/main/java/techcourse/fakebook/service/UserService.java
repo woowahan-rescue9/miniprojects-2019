@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.User;
 import techcourse.fakebook.domain.UserRepository;
+import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.dto.UserRequest;
 import techcourse.fakebook.service.dto.UserResponse;
 import techcourse.fakebook.utils.UserAssembler;
@@ -26,10 +27,20 @@ public class UserService {
 
         User user = userAssembler.toEntity(userRequest);
 
+
         User savedUser = userRepository.save(user);
 
         log.debug("savedUser: {}", savedUser);
 
         return userAssembler.toResponse(savedUser);
+    }
+
+    public UserResponse findById(Long userId) {
+        log.debug("begin");
+
+        return userRepository
+                .findById(userId)
+                .map(userAssembler::toResponse)
+                .orElseThrow(NotFoundUserException::new);
     }
 }

@@ -26,7 +26,14 @@ public class UserAssembler {
         );
     }
 
-    public UserResponse toResponse(User savedUser) {
-        return null;
+    public UserResponse toResponse(User user) {
+        return new UserResponse(
+                user.getEmail(),
+                user.getName(),
+                user.getGender(),
+                user.getCoverUrl(),
+                user.getBirth(),
+                user.getIntroduction()
+        );
     }
 }
