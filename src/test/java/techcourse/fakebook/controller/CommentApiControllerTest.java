@@ -38,4 +38,19 @@ public class CommentApiControllerTest {
         then().
                 statusCode(204);
     }
+
+    @Test
+    void 댓글을_잘_수정하는지_확인() {
+        CommentRequest commentRequest = new CommentRequest("수정된 댓글입니다.");
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                body(commentRequest).
+        when().
+                put("/articles/1/comments/1").
+        then().
+                statusCode(200).
+                body("content", equalTo(commentRequest.getContent()));
+    }
 }

@@ -22,6 +22,12 @@ public class CommentApiController {
         return new ResponseEntity<>(commentResponse, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{commentId}")
+    public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+        CommentResponse commentResponse = commentService.update(commentId, commentRequest);
+        return new ResponseEntity<>(commentResponse, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{commentId}")
     public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId) {
         commentService.deleteById(commentId);
