@@ -7,6 +7,8 @@ import techcourse.fakebook.service.CommentService;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/articles/{articleId}/comments")
 public class CommentApiController {
@@ -14,6 +16,12 @@ public class CommentApiController {
 
     public CommentApiController(CommentService commentService) {
         this.commentService = commentService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CommentResponse>> findAllByArticleId(@PathVariable Long articleId) {
+        List<CommentResponse> commentResponses = commentService.findAllByArticleId(articleId);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 
     @PostMapping

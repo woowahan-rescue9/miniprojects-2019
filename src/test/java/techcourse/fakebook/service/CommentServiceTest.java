@@ -7,6 +7,8 @@ import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,6 +17,13 @@ public class CommentServiceTest {
 
     @Autowired
     private CommentService commentService;
+
+    @Test
+    void 댓글을_잘_불러오는지_확인한다() {
+        List<CommentResponse> commentResponses = commentService.findAllByArticleId(1L);
+
+        assertThat(commentResponses).isNotEmpty();
+    }
 
     @Test
     void 댓글을_잘_작성하는지_확인한다() {

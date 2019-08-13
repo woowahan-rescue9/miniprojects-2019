@@ -7,12 +7,24 @@ import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.CommentRequest;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CommentApiControllerTest {
     @LocalServerPort
     private int port;
+
+    @Test
+    void 댓글을_잘_불러오는지_확인한다() {
+        given().
+                port(port).
+        when().
+                get("/articles/1/comments").
+        then().
+                statusCode(200).
+                body(containsString("댓글입니다."));
+    }
 
     @Test
     void 댓글을_잘_작성하는지_확인한다() {

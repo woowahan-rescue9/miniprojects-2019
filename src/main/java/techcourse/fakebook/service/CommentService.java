@@ -10,6 +10,8 @@ import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.utils.CommentAssembler;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,6 +27,12 @@ public class CommentService {
     public CommentResponse findById(Long id) {
         Comment comment = getComment(id);
         return CommentAssembler.toResponse(comment);
+    }
+
+    public List<CommentResponse> findAllByArticleId(Long id) {
+        return commentRepository.findAllByArticleId(id).stream()
+                .map(CommentAssembler::toResponse)
+                .collect(Collectors.toList());
     }
 
     public CommentResponse save(Long articleId, CommentRequest commentRequest) {
