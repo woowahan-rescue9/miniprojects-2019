@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.dto.UserDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,6 +16,8 @@ class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
 
+    private UserDto userDto = new UserDto(1L, "cony");
+
     @Test
     void 없는_글을_찾을_때_예외를_잘_던지는지_확인한다() {
         assertThrows(NotFoundArticleException.class, () -> articleService.findById(0L));
@@ -23,7 +26,7 @@ class ArticleServiceTest {
     @Test
     void 글을_잘_작성하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
-        ArticleResponse articleResponse = articleService.save(articleRequest);
+        ArticleResponse articleResponse = articleService.save(articleRequest, userDto);
 
         assertThat(articleRequest.getContent()).isEqualTo(articleResponse.getContent());
     }
@@ -31,10 +34,10 @@ class ArticleServiceTest {
     @Test
     void 글을_잘_삭제하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
-        ArticleResponse articleResponse = articleService.save(articleRequest);
+        ArticleResponse articleResponse = articleService.save(articleRequest, userDto);
         Long deletedId = articleResponse.getId();
 
-        articleService.deleteById(deletedId);
+        articleService.deleteById(deletedId, userDto);
 
         assertThrows(NotFoundArticleException.class, () -> articleService.findById(deletedId));
     }
@@ -42,10 +45,10 @@ class ArticleServiceTest {
     @Test
     void 글을_잘_수정하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
-        ArticleResponse articleResponse = articleService.save(articleRequest);
+        ArticleResponse articleResponse = articleService.save(articleRequest, userDto);
         ArticleRequest updatedRequest = new ArticleRequest("수정된 내용입니다.");
 
-        ArticleResponse updatedArticle = articleService.update(articleResponse.getId(), updatedRequest);
+        ArticleResponse updatedArticle = articleService.update(articleResponse.getId(), updatedRequest, userDto);
 
         assertThat(updatedArticle.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedArticle.getId()).isEqualTo(articleResponse.getId());

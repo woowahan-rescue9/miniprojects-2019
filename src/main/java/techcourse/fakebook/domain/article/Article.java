@@ -1,6 +1,7 @@
 package techcourse.fakebook.domain.article;
 
 import techcourse.fakebook.domain.DateTime;
+import techcourse.fakebook.domain.user.User;
 
 import javax.persistence.*;
 
@@ -15,14 +16,31 @@ public class Article extends DateTime {
     @Column(nullable = false)
     private String content;
 
+    @ManyToOne
+    private User user;
+
     @Column(nullable = false)
     private boolean isPresent;
 
-    private Article() {}
+    private Article() {
+    }
 
-    public Article(String content) {
+    public Article(String content, User user) {
         this.content = content;
+        this.user = user;
         this.isPresent = true;
+    }
+
+    public boolean isNotPresent() {
+        return !isPresent;
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
+
+    public void delete() {
+        isPresent = false;
     }
 
     public Long getId() {
@@ -33,15 +51,7 @@ public class Article extends DateTime {
         return content;
     }
 
-    public void update(String content) {
-        this.content = content;
-    }
-
-    public boolean isNotPresent() {
-        return !isPresent;
-    }
-
-    public void delete() {
-        isPresent = false;
+    public User getUser() {
+        return user;
     }
 }
