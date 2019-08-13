@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.comment.CommentRepository;
+import techcourse.fakebook.domain.like.CommentLike;
+import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundCommentException;
+import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.UserDto;
@@ -22,11 +25,13 @@ public class CommentService {
     private ArticleService articleService;
     private UserService userService;
     private CommentRepository commentRepository;
+    private CommentLikeRepository commentLikeRepository;
 
-    public CommentService(ArticleService articleService, UserService userService, CommentRepository commentRepository) {
+    public CommentService(ArticleService articleService, UserService userService, CommentRepository commentRepository, CommentLikeRepository commentLikeRepository) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentRepository = commentRepository;
+        this.commentLikeRepository = commentLikeRepository;
     }
 
     public CommentResponse findById(Long id) {
@@ -72,5 +77,15 @@ public class CommentService {
         if (comment.getUser().isNotAuthor(userDto.getId())) {
             throw new InvalidAuthorException();
         }
+    }
+
+    public CommentLikeResponse like(Long id, UserDto userDto) {
+        CommentLike commentLike = new CommentLike(userService.getUser(userDto.getId()), getComment(id));
+        if (commentLikeRepository.existsByUserIdAndCommentId(userDto.getId(), id)) {
+            commentLikeRepository.delete(commentLike);
+            return new CommentLikeResponse(id, false);
+        }
+        commentLikeRepository.save(commentLike);
+        return new CommentLikeResponse(id, true);
     }
 }

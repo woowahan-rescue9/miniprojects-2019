@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.exception.NotFoundCommentException;
+import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.UserDto;
@@ -57,5 +58,18 @@ public class CommentServiceTest {
 
         assertThat(updatedComment.getContent()).isEqualTo(updatedRequest.getContent());
         assertThat(updatedComment.getId()).isEqualTo(commentResponse.getId());
+    }
+
+    @Test
+    void 좋아요가_잘_등록되는지_확인한다() {
+        CommentLikeResponse commentLikeResponse = commentService.like(1L, userDto);
+        assertThat(commentLikeResponse.isLiked()).isTrue();
+    }
+
+    @Test
+    void 좋아요가_잘_취소되는지_확인한다() {
+        commentService.like(3L, userDto);
+        CommentLikeResponse commentLikeResponse = commentService.like(3L, userDto);
+        assertThat(commentLikeResponse.isLiked()).isFalse();
     }
 }
