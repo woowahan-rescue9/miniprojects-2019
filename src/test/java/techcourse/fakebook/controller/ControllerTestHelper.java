@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.web.reactive.function.BodyInserters;
-import techcourse.fakebook.domain.UserRepository;
+import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 

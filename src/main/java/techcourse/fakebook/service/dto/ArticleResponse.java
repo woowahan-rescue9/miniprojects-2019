@@ -1,14 +1,16 @@
 package techcourse.fakebook.service.dto;
 
+import techcourse.fakebook.controller.utils.SessionUser;
+
 public class ArticleResponse {
     private Long id;
     private String content;
-    private UserDto userDto;
+    private SessionUser sessionUser;
 
-    public ArticleResponse(Long id, String content, UserDto userDto) {
+    public ArticleResponse(Long id, String content, SessionUser sessionUser) {
         this.id = id;
         this.content = content;
-        this.userDto = userDto;
+        this.sessionUser = sessionUser;
     }
 
     public Long getId() {
@@ -19,7 +21,7 @@ public class ArticleResponse {
         return content;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public SessionUser getSessionUser() {
+        return sessionUser;
     }
 }

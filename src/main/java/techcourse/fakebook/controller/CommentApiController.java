@@ -3,6 +3,7 @@ package techcourse.fakebook.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.service.CommentService;
 import techcourse.fakebook.service.dto.*;
 
@@ -26,36 +27,36 @@ public class CommentApiController {
 
     @PostMapping
     public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest, HttpSession session) {
-        UserDto userDto = (UserDto) session.getAttribute("user");
-        CommentResponse commentResponse = commentService.save(articleId, commentRequest, userDto);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+        CommentResponse commentResponse = commentService.save(articleId, commentRequest, sessionUser);
         return new ResponseEntity<>(commentResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{commentId}")
     public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest, HttpSession session) {
-        UserDto userDto = (UserDto) session.getAttribute("user");
-        CommentResponse commentResponse = commentService.update(commentId, commentRequest, userDto);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+        CommentResponse commentResponse = commentService.update(commentId, commentRequest, sessionUser);
         return new ResponseEntity<>(commentResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId, HttpSession session) {
-        UserDto userDto = (UserDto) session.getAttribute("user");
-        commentService.deleteById(commentId, userDto);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+        commentService.deleteById(commentId, sessionUser);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/{commentId}/like")
     public ResponseEntity<CommentLikeResponse> checkLike(@PathVariable Long commentId, HttpSession session) {
-        UserDto userDto = (UserDto) session.getAttribute("user");
-        CommentLikeResponse commentLikeResponse = commentService.isLiked(commentId, userDto);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+        CommentLikeResponse commentLikeResponse = commentService.isLiked(commentId, sessionUser);
         return new ResponseEntity<>(commentLikeResponse, HttpStatus.OK);
     }
 
     @PostMapping("/{commentId}/like")
     public ResponseEntity<CommentLikeResponse> like(@PathVariable Long commentId, HttpSession session) {
-        UserDto userDto = (UserDto) session.getAttribute("user");
-        CommentLikeResponse commentLikeResponse = commentService.like(commentId, userDto);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("user");
+        CommentLikeResponse commentLikeResponse = commentService.like(commentId, sessionUser);
         return new ResponseEntity<>(commentLikeResponse, HttpStatus.OK);
     }
 }

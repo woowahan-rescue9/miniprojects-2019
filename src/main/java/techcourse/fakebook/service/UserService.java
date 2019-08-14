@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import techcourse.fakebook.domain.User;
-import techcourse.fakebook.domain.UserRepository;
+import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserResponse;
@@ -48,7 +48,7 @@ public class UserService {
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
 
-        User user = userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
+        User user = getUser(userId);
         user.updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
 
         log.debug("user: {}", user);
@@ -58,7 +58,11 @@ public class UserService {
     public void deleteById(Long userId) {
         log.debug("begin");
 
-        User user = userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
+        User user = getUser(userId);
         userRepository.delete(user);
+    }
+
+    public User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
     }
 }

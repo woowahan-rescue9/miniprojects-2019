@@ -3,11 +3,11 @@ package techcourse.fakebook.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.UserDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +17,7 @@ class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
 
-    private UserDto userDto = new UserDto(1L, "cony");
+    private SessionUser userDto = new SessionUser(1L, "cony", "https");
 
     @Test
     void 없는_글을_찾을_때_예외를_잘_던지는지_확인한다() {

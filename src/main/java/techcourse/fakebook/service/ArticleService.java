@@ -1,6 +1,7 @@
 package techcourse.fakebook.service;
 
 import org.springframework.stereotype.Service;
+import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.domain.like.ArticleLike;
@@ -11,7 +12,6 @@ import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.UserDto;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
@@ -34,22 +34,22 @@ public class ArticleService {
         return ArticleAssembler.toResponse(article);
     }
 
-    public ArticleResponse save(ArticleRequest articleRequest, UserDto userDto) {
-        User user = userService.getUser(userDto.getId());
+    public ArticleResponse save(ArticleRequest articleRequest, SessionUser sessionUser) {
+        User user = userService.getUser(sessionUser.getId());
         Article article = articleRepository.save(ArticleAssembler.toEntity(articleRequest, user));
         return ArticleAssembler.toResponse(article);
     }
 
-    public ArticleResponse update(Long id, ArticleRequest updatedRequest, UserDto userDto) {
+    public ArticleResponse update(Long id, ArticleRequest updatedRequest, SessionUser sessionUser) {
         Article article = getArticle(id);
-        checkAuthor(userDto, article);
+        checkAuthor(sessionUser, article);
         article.update(updatedRequest.getContent());
         return ArticleAssembler.toResponse(article);
     }
 
-    public void deleteById(Long id, UserDto userDto) {
+    public void deleteById(Long id, SessionUser sessionUser) {
         Article article = getArticle(id);
-        checkAuthor(userDto, article);
+        checkAuthor(sessionUser, article);
         article.delete();
     }
 
@@ -61,9 +61,9 @@ public class ArticleService {
         return article;
     }
 
-    public ArticleLikeResponse like(Long id, UserDto userDto) {
-        ArticleLike articleLike = new ArticleLike(userService.getUser(userDto.getId()), getArticle(id));
-        if (articleLikeRepository.existsByUserIdAndArticleId(userDto.getId(), id)) {
+    public ArticleLikeResponse like(Long id, SessionUser sessionUser) {
+        ArticleLike articleLike = new ArticleLike(userService.getUser(sessionUser.getId()), getArticle(id));
+        if (articleLikeRepository.existsByUserIdAndArticleId(sessionUser.getId(), id)) {
             articleLikeRepository.delete(articleLike);
             return new ArticleLikeResponse(id, false);
         }
@@ -71,15 +71,15 @@ public class ArticleService {
         return new ArticleLikeResponse(id, true);
     }
 
-    public ArticleLikeResponse isLiked(Long id, UserDto userDto) {
-        if (articleLikeRepository.existsByUserIdAndArticleId(userDto.getId(), id)) {
+    public ArticleLikeResponse isLiked(Long id, SessionUser sessionUser) {
+        if (articleLikeRepository.existsByUserIdAndArticleId(sessionUser.getId(), id)) {
             return new ArticleLikeResponse(id, true);
         }
         return new ArticleLikeResponse(id, false);
     }
 
-    private void checkAuthor(UserDto userDto, Article article) {
-        if (article.getUser().isNotAuthor(userDto.getId())) {
+    private void checkAuthor(SessionUser sessionUser, Article article) {
+        if (article.getUser().isNotAuthor(sessionUser.getId())) {
             throw new InvalidAuthorException();
         }
     }

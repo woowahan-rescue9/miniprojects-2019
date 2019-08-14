@@ -14,6 +14,6 @@ public class SessionUserArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public SessionUser resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-
+        return null;
     }
 }

@@ -1,4 +1,4 @@
-INSERT into user(email, name) values('van@van.com', 'cony');
+INSERT into user(email,encrypted_password, name, gender, cover_url, birth, introduction) values('van@van.com', 'Password!1','name' ,'gender', 'coverUrl', 'birth', 'introduction');
 
 INSERT into article(content, is_present, user_id) values('수정될 내용입니다.', 1, 1);
 INSERT into article(content, is_present, user_id) values('삭제될 내용입니다.', 1, 1);
