@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%-5level] [%thread] [%logger{36}] [%M] - %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="techcourse.fakebook" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+</configuration>
