@@ -1,18 +1,26 @@
 package techcourse.fakebook.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.ArticleRequest;
+import techcourse.fakebook.service.dto.LoginRequest;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ArticleApiControllerTest {
+public class ArticleApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
     private int port;
+
+    private LoginRequest loginRequest = new LoginRequest("van@van.com", "Password!1");
+    private String cookie;
+
+    @BeforeEach
+    void setUp() {
+        cookie = getCookie(login(loginRequest));
+    }
 
     @Test
     void 글을_잘_작성하는지_확인한다() {
@@ -21,6 +29,7 @@ public class ArticleApiControllerTest {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
                 body(articleRequest).
         when().
                 post("/articles").
@@ -33,6 +42,7 @@ public class ArticleApiControllerTest {
     void 글을_잘_삭제하는지_확인() {
         given().
                 port(port).
+                cookie(cookie).
         when().
                 delete("/articles/2").
         then().
@@ -46,6 +56,7 @@ public class ArticleApiControllerTest {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
                 body(articleRequest).
         when().
                 put("/articles/1").
