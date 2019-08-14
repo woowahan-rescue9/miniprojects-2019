@@ -30,6 +30,7 @@ public class LoginService {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(NotFoundUserException::new);
 
+        // TODO: user 에서 확인 // matches
         if (!encryptor.isMatch(loginRequest.getPassword(), user.getEncryptedPassword())) {
             throw new NotMatchPasswordException();
         }

@@ -13,7 +13,7 @@ import techcourse.fakebook.service.dto.UserUpdateRequest;
 public class UserApiController {
     private static final Logger log = LoggerFactory.getLogger(UserApiController.class);
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserApiController(UserService userService) {
         this.userService = userService;

@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = false)
     private String introduction;
 
-    public User() {
+    private User() {
     }
 
     public User(String email, String encryptedPassword, String name, String gender, String coverUrl, String birth, String introduction) {
@@ -74,6 +74,11 @@ public class User {
         return introduction;
     }
 
+    public void updateModifiableFields(String coverUrl, String introduction) {
+        this.coverUrl = coverUrl;
+        this.introduction = introduction;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -86,10 +91,5 @@ public class User {
                 ", birth='" + birth + '\'' +
                 ", introduction='" + introduction + '\'' +
                 '}';
-    }
-
-    public void updateModifiableFields(String coverUrl, String introduction) {
-        this.coverUrl = coverUrl;
-        this.introduction = introduction;
     }
 }

@@ -8,7 +8,7 @@ import techcourse.fakebook.service.utils.encryptor.Encryptor;
 
 @Component
 public class UserAssembler {
-    private Encryptor encryptor;
+    private final Encryptor encryptor;
 
     public UserAssembler(Encryptor encryptor) {
         this.encryptor = encryptor;

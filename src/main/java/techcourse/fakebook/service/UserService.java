@@ -13,6 +13,7 @@ import techcourse.fakebook.service.dto.UserUpdateRequest;
 import techcourse.fakebook.service.utils.UserAssembler;
 
 @Service
+@Transactional
 public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -28,15 +29,13 @@ public class UserService {
         log.debug("begin");
 
         User user = userAssembler.toEntity(userSignupRequest);
-
-
         User savedUser = userRepository.save(user);
-
         log.debug("savedUser: {}", savedUser);
 
         return userAssembler.toResponse(savedUser);
     }
 
+    // tx readonly
     public UserResponse findById(Long userId) {
         log.debug("begin");
 
@@ -46,7 +45,6 @@ public class UserService {
                 .orElseThrow(NotFoundUserException::new);
     }
 
-    @Transactional
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
 
