@@ -1,20 +1,18 @@
 package techcourse.fakebook.service.dto;
 
-import techcourse.fakebook.controller.utils.SessionUser;
-
 import java.time.LocalDateTime;
 
 public class CommentResponse {
     private Long id;
     private String content;
     private LocalDateTime createdDate;
-    private SessionUser sessionUser;
+    private UserOutline userOutline;
 
-    public CommentResponse(Long id, String content, LocalDateTime createdDate, SessionUser sessionUser) {
+    public CommentResponse(Long id, String content, LocalDateTime createdDate, UserOutline userOutline) {
         this.id = id;
         this.content = content;
         this.createdDate = createdDate;
-        this.sessionUser = sessionUser;
+        this.userOutline = userOutline;
     }
 
     public Long getId() {
@@ -29,7 +27,7 @@ public class CommentResponse {
         return createdDate;
     }
 
-    public SessionUser getSessionUser() {
-        return sessionUser;
+    public UserOutline getUserOutline() {
+        return userOutline;
     }
 }

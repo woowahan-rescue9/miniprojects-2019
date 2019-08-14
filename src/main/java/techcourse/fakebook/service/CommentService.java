@@ -1,7 +1,7 @@
 package techcourse.fakebook.service;
 
 import org.springframework.stereotype.Service;
-import techcourse.fakebook.controller.utils.SessionUser;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.comment.CommentRepository;
@@ -45,23 +45,23 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
-    public CommentResponse save(Long articleId, CommentRequest commentRequest, SessionUser sessionUser) {
-        User user = userService.getUser(sessionUser.getId());
+    public CommentResponse save(Long articleId, CommentRequest commentRequest, UserOutline userOutline) {
+        User user = userService.getUser(userOutline.getId());
         Article article = articleService.getArticle(articleId);
         Comment comment = commentRepository.save(CommentAssembler.toEntity(commentRequest, article, user));
         return CommentAssembler.toResponse(comment);
     }
 
-    public CommentResponse update(Long id, CommentRequest updatedRequest, SessionUser sessionUser) {
+    public CommentResponse update(Long id, CommentRequest updatedRequest, UserOutline userOutline) {
         Comment comment = getComment(id);
-        checkAuthor(sessionUser, comment);
+        checkAuthor(userOutline, comment);
         comment.update(updatedRequest.getContent());
         return CommentAssembler.toResponse(comment);
     }
 
-    public void deleteById(Long id, SessionUser sessionUser) {
+    public void deleteById(Long id, UserOutline userOutline) {
         Comment comment = getComment(id);
-        checkAuthor(sessionUser, comment);
+        checkAuthor(userOutline, comment);
         comment.delete();
     }
 
@@ -73,15 +73,15 @@ public class CommentService {
         return comment;
     }
 
-    private void checkAuthor(SessionUser sessionUser, Comment comment) {
-        if (comment.getUser().isNotAuthor(sessionUser.getId())) {
+    private void checkAuthor(UserOutline userOutline, Comment comment) {
+        if (comment.getUser().isNotAuthor(userOutline.getId())) {
             throw new InvalidAuthorException();
         }
     }
 
-    public CommentLikeResponse like(Long id, SessionUser sessionUser) {
-        CommentLike commentLike = new CommentLike(userService.getUser(sessionUser.getId()), getComment(id));
-        if (commentLikeRepository.existsByUserIdAndCommentId(sessionUser.getId(), id)) {
+    public CommentLikeResponse like(Long id, UserOutline userOutline) {
+        CommentLike commentLike = new CommentLike(userService.getUser(userOutline.getId()), getComment(id));
+        if (commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), id)) {
             commentLikeRepository.delete(commentLike);
             return new CommentLikeResponse(id, false);
         }
@@ -89,8 +89,8 @@ public class CommentService {
         return new CommentLikeResponse(id, true);
     }
 
-    public CommentLikeResponse isLiked(Long commentId, SessionUser sessionUser) {
-        if (commentLikeRepository.existsByUserIdAndCommentId(sessionUser.getId(), commentId)) {
+    public CommentLikeResponse isLiked(Long commentId, UserOutline userOutline) {
+        if (commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId)) {
             return new CommentLikeResponse(commentId, true);
         }
         return new CommentLikeResponse(commentId, false);

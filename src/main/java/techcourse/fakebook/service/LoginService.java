@@ -4,7 +4,8 @@ package techcourse.fakebook.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import techcourse.fakebook.controller.utils.SessionUser;
+import org.springframework.transaction.annotation.Transactional;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
@@ -13,6 +14,7 @@ import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.utils.encryptor.Encryptor;
 
 @Service
+@Transactional
 public class LoginService {
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
@@ -24,17 +26,23 @@ public class LoginService {
         this.encryptor = encryptor;
     }
 
-    public SessionUser login(LoginRequest loginRequest) {
+    @Transactional(readOnly = true)
+    public UserOutline login(LoginRequest loginRequest) {
         log.debug("begin");
 
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(NotFoundUserException::new);
 
         // TODO: user 에서 확인 // matches
-        if (!encryptor.isMatch(loginRequest.getPassword(), user.getEncryptedPassword())) {
+        if (!encryptor.matches(loginRequest.getPassword(), user.getEncryptedPassword())) {
             throw new NotMatchPasswordException();
         }
 
-        return new SessionUser(user.getId(), user.getName(), user.getCoverUrl());
+        String encryptedPassword = encryptor.encrypt(loginRequest.getPassword());
+        if (user.checkEncryptedPassword(encryptedPassword)) {
+            throw new NotMatchPasswordException();
+        }
+
+        return new UserOutline(user.getId(), user.getName(), user.getCoverUrl());
     }
 }

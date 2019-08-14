@@ -11,7 +11,7 @@ public class BCryptorEncryptor implements Encryptor {
     }
 
     @Override
-    public boolean isMatch(String data, String encrypted) {
+    public boolean matches(String data, String encrypted) {
         return BCrypt.checkpw(data, encrypted);
     }
 }
