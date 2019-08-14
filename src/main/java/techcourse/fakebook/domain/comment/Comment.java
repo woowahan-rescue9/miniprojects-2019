@@ -36,10 +36,6 @@ public class Comment extends DateTime {
         this.isPresent = true;
     }
 
-    public boolean isPresent() {
-        return isPresent;
-    }
-
     public void update(String content) {
         this.content = content;
     }

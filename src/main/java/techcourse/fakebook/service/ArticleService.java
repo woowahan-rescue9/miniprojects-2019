@@ -61,12 +61,6 @@ public class ArticleService {
         return article;
     }
 
-    private void checkAuthor(UserDto userDto, Article article) {
-        if (article.getUser().isNotAuthor(userDto.getId())) {
-            throw new InvalidAuthorException();
-        }
-    }
-
     public ArticleLikeResponse like(Long id, UserDto userDto) {
         ArticleLike articleLike = new ArticleLike(userService.getUser(userDto.getId()), getArticle(id));
         if (articleLikeRepository.existsByUserIdAndArticleId(userDto.getId(), id)) {
@@ -82,5 +76,11 @@ public class ArticleService {
             return new ArticleLikeResponse(id, true);
         }
         return new ArticleLikeResponse(id, false);
+    }
+
+    private void checkAuthor(UserDto userDto, Article article) {
+        if (article.getUser().isNotAuthor(userDto.getId())) {
+            throw new InvalidAuthorException();
+        }
     }
 }
