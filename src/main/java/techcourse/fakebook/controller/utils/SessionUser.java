@@ -1,43 +1,11 @@
 package techcourse.fakebook.controller.utils;
 
-import java.util.Objects;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class SessionUser {
-    private Long id;
-    private String name;
-    private String coverUrl;
-
-    public SessionUser(Long id, String name, String coverUrl) {
-        this.id = id;
-        this.name = name;
-        this.coverUrl = coverUrl;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCoverUrl() {
-        return coverUrl;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SessionUser that = (SessionUser) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(coverUrl, that.coverUrl);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, coverUrl);
-    }
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface SessionUser {
 }
-

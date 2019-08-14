@@ -1,6 +1,6 @@
 package techcourse.fakebook.service.utils;
 
-import techcourse.fakebook.controller.utils.SessionUser;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.ArticleRequest;
@@ -14,7 +14,7 @@ public class ArticleAssembler {
     }
 
     public static ArticleResponse toResponse(Article article) {
-        SessionUser sessionUser = UserAssembler.toSessionUser(article.getUser());
-        return new ArticleResponse(article.getId(), article.getContent(), sessionUser);
+        UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
+        return new ArticleResponse(article.getId(), article.getContent(), userOutline);
     }
 }

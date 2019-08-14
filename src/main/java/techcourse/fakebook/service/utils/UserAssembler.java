@@ -1,10 +1,10 @@
 package techcourse.fakebook.service.utils;
 
 import org.springframework.stereotype.Component;
-import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.service.dto.UserSignupRequest;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.dto.UserResponse;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.utils.encryptor.Encryptor;
 
 @Component
@@ -15,8 +15,8 @@ public class UserAssembler {
         this.encryptor = encryptor;
     }
 
-    public static SessionUser toSessionUser(User user) {
-        return new SessionUser(user.getId(),
+    public static UserOutline toUserOutline(User user) {
+        return new UserOutline(user.getId(),
                 user.getName(),
                 user.getCoverUrl());
     }

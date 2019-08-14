@@ -1,9 +1,11 @@
 package techcourse.fakebook.domain.user;
 
+import techcourse.fakebook.domain.DateTime;
+
 import javax.persistence.*;
 
 @Entity
-public class User {
+public class User extends DateTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -83,6 +85,10 @@ public class User {
         return !this.id.equals(id);
     }
 
+    public boolean checkEncryptedPassword(String encryptedPassword) {
+        return this.encryptedPassword.equals(encryptedPassword);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -96,5 +102,4 @@ public class User {
                 ", introduction='" + introduction + '\'' +
                 '}';
     }
-
 }

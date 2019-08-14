@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.service.dto.UserSignupRequest;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.dto.UserResponse;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
 import techcourse.fakebook.service.utils.UserAssembler;
 
@@ -35,7 +36,7 @@ public class UserService {
         return userAssembler.toResponse(savedUser);
     }
 
-    // tx readonly
+    @Transactional(readOnly = true)
     public UserResponse findById(Long userId) {
         log.debug("begin");
 
@@ -62,7 +63,15 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    @Transactional(readOnly = true)
     public User getUser(Long userId) {
         return userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
+    }
+
+    @Transactional(readOnly = true)
+    public UserOutline getUserOutline(Long userId) {
+        return userRepository.findById(userId)
+                .map(UserAssembler::toUserOutline)
+                .orElseThrow(NotFoundUserException::new);
     }
 }

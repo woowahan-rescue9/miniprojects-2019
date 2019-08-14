@@ -1,6 +1,6 @@
 package techcourse.fakebook.service.utils;
 
-import techcourse.fakebook.controller.utils.SessionUser;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.user.User;
@@ -15,7 +15,7 @@ public class CommentAssembler {
     }
 
     public static CommentResponse toResponse(Comment comment) {
-        SessionUser sessionUser = UserAssembler.toSessionUser(comment.getUser());
-        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(), sessionUser);
+        UserOutline userOutline = UserAssembler.toUserOutline(comment.getUser());
+        return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(), userOutline);
     }
 }

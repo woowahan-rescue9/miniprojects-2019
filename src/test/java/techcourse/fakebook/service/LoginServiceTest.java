@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import techcourse.fakebook.controller.utils.SessionUser;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
@@ -48,7 +48,7 @@ class LoginServiceTest {
         User user = mock(User.class);
         given(userRepository.findByEmail(loginRequest.getEmail()))
                 .willReturn(Optional.of(user));
-        given(encryptor.isMatch(loginRequest.getPassword(), user.getEncryptedPassword()))
+        given(encryptor.matches(loginRequest.getPassword(), user.getEncryptedPassword()))
                 .willReturn(false);
 
         // Act & Assert
@@ -62,18 +62,18 @@ class LoginServiceTest {
         User user = mock(User.class);
         given(userRepository.findByEmail(loginRequest.getEmail()))
                 .willReturn(Optional.of(user));
-        given(encryptor.isMatch(loginRequest.getPassword(), user.getEncryptedPassword()))
+        given(encryptor.matches(loginRequest.getPassword(), user.getEncryptedPassword()))
                 .willReturn(true);
-        SessionUser expectedSessionUser = new SessionUser(1l, "name", "coverUrl");
-        given(user.getId()).willReturn(expectedSessionUser.getId());
-        given(user.getName()).willReturn(expectedSessionUser.getName());
-        given(user.getCoverUrl()).willReturn(expectedSessionUser.getCoverUrl());
+        UserOutline expectedUserOutline = new UserOutline(1l, "name", "coverUrl");
+        given(user.getId()).willReturn(expectedUserOutline.getId());
+        given(user.getName()).willReturn(expectedUserOutline.getName());
+        given(user.getCoverUrl()).willReturn(expectedUserOutline.getCoverUrl());
 
         // Act
-        SessionUser sessionUser = loginService.login(loginRequest);
+        UserOutline userOutline = loginService.login(loginRequest);
 
         // Assert
-        assertThat(sessionUser).isEqualTo(expectedSessionUser);
+        assertThat(userOutline).isEqualTo(expectedUserOutline);
     }
 
 }
