@@ -13,7 +13,7 @@ import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.UserDto;
-import techcourse.fakebook.utils.CommentAssembler;
+import techcourse.fakebook.service.utils.CommentAssembler;
 
 import javax.transaction.Transactional;
 import java.util.List;

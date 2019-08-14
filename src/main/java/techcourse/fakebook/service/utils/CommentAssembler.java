@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils;
+package techcourse.fakebook.service.utils;
 
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;

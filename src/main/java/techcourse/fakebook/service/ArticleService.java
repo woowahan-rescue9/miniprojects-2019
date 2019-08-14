@@ -12,7 +12,7 @@ import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserDto;
-import techcourse.fakebook.utils.ArticleAssembler;
+import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
 
