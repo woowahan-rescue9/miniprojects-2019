@@ -38,7 +38,7 @@
                 <nav class="header-container max-width-lg mx-auto">
                     <ul class="nav-left mrg-left-0">
                         <li>
-                            <a href="" title="Fakebook 홈으로 이동">
+                            <a href="/" title="Fakebook 홈으로 이동">
                                 <div class="logo logo-big" style="background-image: url('images/default/icons.png')"></div>
                             </a>
                         </li>
@@ -58,10 +58,10 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input class="credentials" type="email" name="email" id="email">
+                                                <input class="credentials" type="email" name="email" id="email" required>
                                             </td>
                                             <td>
-                                                <input class="credentials" type="password" name="password" id="password">
+                                                <input class="credentials" type="password" name="password" id="password" required minlength="8">
                                             </td>
                                             <td>
                                                 <label id="login-button-label" for="login-button">
@@ -97,19 +97,19 @@
                             <div id="registration-box">
                                 <form method="post" name="register" action="">
                                     <div id="names-wrapper">
-                                        <input class="registration-textbox-short" type="text" name="lastname" placeholder="성(姓)">
-                                        <input id="firstname" class="registration-textbox-short" type="text" name="firstname" placeholder="이름(성은 제외)">
+                                        <input class="registration-textbox-short" type="text" name="lastname" placeholder="성(姓)" required>
+                                        <input id="firstname" class="registration-textbox-short" type="text" name="firstname" placeholder="이름(성은 제외)" required>
                                     </div>
                                     <div>
-                                        <input class="registration-textbox-long" type="text" name="email" placeholder="이메일">
+                                        <input class="registration-textbox-long" type="email" name="email" placeholder="이메일" required>
                                     </div>
                                     <div>
-                                        <input class="registration-textbox-long" type="password" name="password" placeholder="새 비밀번호">
+                                        <input class="registration-textbox-long" type="password" name="password" placeholder="새 비밀번호" required minlength="8">
                                     </div>
                                     <div>
                                         <div class="registration-label">생일</div>
                                         <span class="rest-wrapper">
-                                            <select name="birthdate-year" title="연도">
+                                            <select name="birthdate-year" title="연도" required>
                                                 <option value="0">연도</option>
                                                 <option value="2019">2019</option>
                                                 <option value="2018">2018</option>
@@ -232,7 +232,7 @@
                                                 <option value="1901">1901</option>
                                                 <option value="1900">1900</option>
                                             </select>
-                                            <select name="birthdate-month" title="월">
+                                            <select name="birthdate-month" title="월" required>
                                                 <option value="0">월</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -247,7 +247,7 @@
                                                 <option value="11">11</option>
                                                 <option value="12">12</option>
                                             </select>
-                                            <select name="birthdate-day" title="일">
+                                            <select name="birthdate-day" title="일" required>
                                                 <option value="0">일</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -286,9 +286,9 @@
                                     <div>
                                         <div class="registration-label">성별</div>
                                         <span class="rest-wrapper">
-                                            <input id="male" type="radio" name="gender" value="1" checked="1">
+                                            <input id="male" type="radio" name="gender" value="1" checked="1" required>
                                             <label class="male-female-label" for="female">여성</label>
-                                            <input id="female" type="radio" name="gender" value="2">
+                                            <input id="female" type="radio" name="gender" value="2" required>
                                             <label class="male-female-label" for="male">남성</label>
                                         </span>
                                     </div>
