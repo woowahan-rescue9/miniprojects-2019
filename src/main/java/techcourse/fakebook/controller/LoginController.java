@@ -23,6 +23,11 @@ public class LoginController {
         this.loginService = loginService;
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
     @PostMapping("/login")
     public String login(LoginRequest loginRequest, HttpSession session) {
         log.debug("begin");
