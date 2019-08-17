@@ -27,9 +27,9 @@ public class UserAssembler {
                 encryptor.encrypt(userSignupRequest.getPassword()),
                 userSignupRequest.getName(),
                 userSignupRequest.getGender(),
-                userSignupRequest.getCoverUrl(),
+                "default.png",
                 userSignupRequest.getBirth(),
-                userSignupRequest.getIntroduction()
+                ""
         );
     }
 
