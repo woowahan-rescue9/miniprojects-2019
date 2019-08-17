@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.UserService;
-import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserResponse;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 
 @Controller
 @RequestMapping("/users")
@@ -26,7 +26,7 @@ public class UserWebController {
 
         userService.save(userSignupRequest);
 
-        return "redirect:/timeline";
+        return "redirect:/newsfeed";
     }
 
     @GetMapping("/{userId}")
@@ -35,7 +35,7 @@ public class UserWebController {
 
         UserResponse userResponse = userService.findById(userId);
         model.addAttribute("user", userResponse);
-        return "mypage";
+        return "profile";
     }
 
     @DeleteMapping("/{userId}")

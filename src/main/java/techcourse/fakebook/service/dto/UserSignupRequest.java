@@ -17,6 +17,14 @@ public class UserSignupRequest {
         this.coverUrl = coverUrl;
         this.birth = birth;
         this.introduction = introduction;
+
+        if (this.coverUrl == null) {
+            this.coverUrl = "";
+        }
+        if (this.introduction == null) {
+            this.introduction = "";
+        }
+        //가입 시가 아닌 프로필 수정 때에 설정하는 부분인데 nullable = false로 되어 있어서 가입이 불가능하여 임시로 처리하였으므로 적절한 정리 요청
     }
 
     public String getEmail() {
