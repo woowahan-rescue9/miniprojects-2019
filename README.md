@@ -5,7 +5,7 @@
 - [ ] UserApiController api uri 추가
 
 ## Domain
-- [ ] DateTime Entity rename
+- [x] DateTime Entity rename
 - [ ] Article
     - [ ] isPresent rename
     - [ ] equals, hashcode, toString
