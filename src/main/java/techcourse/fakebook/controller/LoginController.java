@@ -25,6 +25,8 @@ public class LoginController {
 
     @GetMapping("/")
     public String index() {
+        log.debug("begin");
+
         return "index";
     }
 
@@ -36,7 +38,7 @@ public class LoginController {
 
         session.setAttribute(SESSION_USER_KEY, userOutline);
 
-        return "redirect:/timeline";
+        return "redirect:/newsfeed";
     }
 
     @GetMapping("/logout")
