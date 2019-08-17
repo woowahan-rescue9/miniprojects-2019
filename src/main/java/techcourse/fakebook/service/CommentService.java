@@ -26,37 +26,40 @@ public class CommentService {
     private UserService userService;
     private CommentRepository commentRepository;
     private CommentLikeRepository commentLikeRepository;
+    private CommentAssembler commentAssembler;
 
-    public CommentService(ArticleService articleService, UserService userService, CommentRepository commentRepository, CommentLikeRepository commentLikeRepository) {
+    public CommentService(ArticleService articleService, UserService userService,
+                          CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentRepository = commentRepository;
         this.commentLikeRepository = commentLikeRepository;
+        this.commentAssembler = commentAssembler;
     }
 
     public CommentResponse findById(Long id) {
         Comment comment = getComment(id);
-        return CommentAssembler.toResponse(comment);
+        return commentAssembler.toResponse(comment);
     }
 
     public List<CommentResponse> findAllByArticleId(Long id) {
         return commentRepository.findAllByArticleId(id).stream()
-                .map(CommentAssembler::toResponse)
+                .map(commentAssembler::toResponse)
                 .collect(Collectors.toList());
     }
 
     public CommentResponse save(Long articleId, CommentRequest commentRequest, UserOutline userOutline) {
         User user = userService.getUser(userOutline.getId());
         Article article = articleService.getArticle(articleId);
-        Comment comment = commentRepository.save(CommentAssembler.toEntity(commentRequest, article, user));
-        return CommentAssembler.toResponse(comment);
+        Comment comment = commentRepository.save(commentAssembler.toEntity(commentRequest, article, user));
+        return commentAssembler.toResponse(comment);
     }
 
     public CommentResponse update(Long id, CommentRequest updatedRequest, UserOutline userOutline) {
         Comment comment = getComment(id);
         checkAuthor(userOutline, comment);
         comment.update(updatedRequest.getContent());
-        return CommentAssembler.toResponse(comment);
+        return commentAssembler.toResponse(comment);
     }
 
     public void deleteById(Long id, UserOutline userOutline) {
