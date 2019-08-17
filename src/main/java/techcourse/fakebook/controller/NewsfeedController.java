@@ -10,9 +10,7 @@ public class NewsfeedController {
     private static final Logger log = LoggerFactory.getLogger(NewsfeedController.class);
 
     @GetMapping("/newsfeed")
-    public String index() {
-        log.debug("begin");
-
+    public String newsfeed() {
         return "newsfeed";
     }
 }

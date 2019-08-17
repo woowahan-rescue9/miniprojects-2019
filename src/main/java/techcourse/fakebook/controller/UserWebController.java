@@ -26,7 +26,7 @@ public class UserWebController {
 
         userService.save(userSignupRequest);
 
-        return "redirect:/newsfeed";
+        return "redirect:/";
     }
 
     @GetMapping("/{userId}")

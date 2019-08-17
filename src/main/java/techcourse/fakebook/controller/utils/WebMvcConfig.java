@@ -30,6 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(notLoginedInterceptor)
                 .addPathPatterns("/users/**")
                 .addPathPatterns("/api/users/**")
+                .addPathPatterns("/newsfeed")
                 .addPathPatterns("/logout");
     }
 
