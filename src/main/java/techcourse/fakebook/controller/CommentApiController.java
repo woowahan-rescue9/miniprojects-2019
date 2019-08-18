@@ -4,11 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.CommentService;
-import techcourse.fakebook.service.dto.*;
+import techcourse.fakebook.service.dto.CommentLikeResponse;
+import techcourse.fakebook.service.dto.CommentRequest;
+import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.UserOutline;
 
-import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.util.List;
 
@@ -46,14 +47,19 @@ public class CommentApiController {
     }
 
     @GetMapping("/{commentId}/like")
-    public ResponseEntity<CommentLikeResponse> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
-        CommentLikeResponse commentLikeResponse = commentService.isLiked(commentId, userOutline);
-        return ResponseEntity.ok().body(commentLikeResponse);
+    public ResponseEntity<HttpStatus> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+        if (commentService.isLiked(commentId, userOutline)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{commentId}/like")
-    public ResponseEntity<CommentLikeResponse> like(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
-        CommentLikeResponse commentLikeResponse = commentService.like(commentId, userOutline);
-        return ResponseEntity.ok().body(commentLikeResponse);
+    public ResponseEntity<HttpStatus> like(@PathVariable Long articleId, @PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+        commentService.like(commentId, userOutline);
+        if (commentService.isLiked(commentId, userOutline)) {
+            return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments/" + commentId + "/like")).build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

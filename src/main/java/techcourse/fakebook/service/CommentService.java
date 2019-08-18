@@ -81,22 +81,19 @@ public class CommentService {
         }
     }
 
-    public CommentLikeResponse like(Long id, UserOutline userOutline) {
-        Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), id));
+    public boolean like(Long commentId, UserOutline userOutline) {
+        Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), commentId));
 
         if (commentLike.isPresent()) {
             commentLikeRepository.delete(commentLike.get());
-            return new CommentLikeResponse(id, false);
+            return false;
         }
 
-        commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(id)));
-        return new CommentLikeResponse(id, true);
+        commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(commentId)));
+        return true;
     }
 
-    public CommentLikeResponse isLiked(Long commentId, UserOutline userOutline) {
-        if (commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId)) {
-            return new CommentLikeResponse(commentId, true);
-        }
-        return new CommentLikeResponse(commentId, false);
+    public boolean isLiked(Long commentId, UserOutline userOutline) {
+        return commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId);
     }
 }
