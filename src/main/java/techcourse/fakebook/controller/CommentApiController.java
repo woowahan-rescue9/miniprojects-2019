@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/articles/{articleId}/comments")
+@RequestMapping("/api//articles/{articleId}/comments")
 public class CommentApiController {
     private CommentService commentService;
 

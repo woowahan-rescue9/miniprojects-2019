@@ -28,7 +28,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
         when().
-                get("/articles/1/comments").
+                get("/api/articles/1/comments").
         then().
                 statusCode(200).
                 body(containsString("댓글입니다."));
@@ -44,7 +44,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(commentRequest).
         when().
-                post("/articles/1/comments").
+                post("/api/articles/1/comments").
         then().
                 statusCode(201).
                 body("content", equalTo(commentRequest.getContent()));
@@ -56,7 +56,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                delete("/articles/1/comments/2").
+                delete("/api/articles/1/comments/2").
         then().
                 statusCode(204);
     }
@@ -71,7 +71,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(commentRequest).
         when().
-                put("/articles/1/comments/1").
+                put("/api/articles/1/comments/1").
         then().
                 statusCode(200).
                 body("content", equalTo(commentRequest.getContent()));
