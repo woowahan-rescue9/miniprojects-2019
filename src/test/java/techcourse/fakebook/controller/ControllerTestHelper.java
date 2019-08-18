@@ -29,9 +29,7 @@ public class ControllerTestHelper {
                 "Password!1",
                 "name",
                 "gender",
-                "coverUrl",
-                "birth",
-                "introduction");
+                "birth");
 
         log.debug("userSignupRequest: {}", userSignupRequest);
 
@@ -44,9 +42,7 @@ public class ControllerTestHelper {
                         .with("password", userSignupRequest.getPassword())
                         .with("name", userSignupRequest.getName())
                         .with("gender", userSignupRequest.getGender())
-                        .with("coverUrl", userSignupRequest.getCoverUrl())
                         .with("birth", userSignupRequest.getBirth())
-                        .with("introduction", userSignupRequest.getIntroduction())
                 )
                 .exchange();
     }

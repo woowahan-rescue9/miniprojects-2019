@@ -31,13 +31,10 @@ class UserWebControllerTest extends ControllerTestHelper {
                         .with("password", otherUserSignupRequest.getPassword())
                         .with("name", otherUserSignupRequest.getName())
                         .with("gender", otherUserSignupRequest.getGender())
-                        .with("coverUrl", otherUserSignupRequest.getCoverUrl())
                         .with("birth", otherUserSignupRequest.getBirth())
-                        .with("introduction", otherUserSignupRequest.getIntroduction())
                 )
                 .exchange().expectHeader().valueMatches("location", ".*/timeline");
     }
-
 
     @Test
     void 존재하는_유저조회() {
@@ -55,9 +52,7 @@ class UserWebControllerTest extends ControllerTestHelper {
                     assertThat(body.contains(userSignupRequest.getEmail())).isTrue();
                     assertThat(body.contains(userSignupRequest.getName())).isTrue();
                     assertThat(body.contains(userSignupRequest.getGender())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getCoverUrl())).isTrue();
                     assertThat(body.contains(userSignupRequest.getBirth())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getIntroduction())).isTrue();
                 });
     }
 
