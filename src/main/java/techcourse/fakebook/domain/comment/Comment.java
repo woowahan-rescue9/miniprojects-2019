@@ -45,6 +45,10 @@ public class Comment extends DateTime {
         return !isPresent;
     }
 
+    public boolean isNotAuthor(Long id) {
+        return user.isNotAuthor(id);
+    }
+
     public void delete() {
         isPresent = false;
     }

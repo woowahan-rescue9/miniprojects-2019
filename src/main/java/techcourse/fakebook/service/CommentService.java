@@ -74,7 +74,7 @@ public class CommentService {
     }
 
     private void checkAuthor(UserOutline userOutline, Comment comment) {
-        if (comment.getUser().isNotAuthor(userOutline.getId())) {
+        if (comment.isNotAuthor(userOutline.getId())) {
             throw new InvalidAuthorException();
         }
     }
