@@ -14,9 +14,11 @@ import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.utils.CommentAssembler;
+import techcourse.fakebook.service.utils.UserAssembler;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,12 +82,14 @@ public class CommentService {
     }
 
     public CommentLikeResponse like(Long id, UserOutline userOutline) {
-        CommentLike commentLike = new CommentLike(userService.getUser(userOutline.getId()), getComment(id));
-        if (commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), id)) {
-            commentLikeRepository.delete(commentLike);
+        Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), id));
+
+        if (commentLike.isPresent()) {
+            commentLikeRepository.delete(commentLike.get());
             return new CommentLikeResponse(id, false);
         }
-        commentLikeRepository.save(commentLike);
+
+        commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(id)));
         return new CommentLikeResponse(id, true);
     }
 

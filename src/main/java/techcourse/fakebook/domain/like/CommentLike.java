@@ -18,9 +18,15 @@ public class CommentLike {
     @ManyToOne
     private Comment comment;
 
+    private CommentLike() {}
+
     public CommentLike(User user, Comment comment) {
         this.user = user;
         this.comment = comment;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public User getUser() {
