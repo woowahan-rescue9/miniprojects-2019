@@ -5,6 +5,7 @@ import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Comment extends DateTime {
@@ -44,6 +45,10 @@ public class Comment extends DateTime {
         return !isPresent;
     }
 
+    public boolean isNotAuthor(Long id) {
+        return !user.isSameWith(id);
+    }
+
     public void delete() {
         isPresent = false;
     }
@@ -62,5 +67,18 @@ public class Comment extends DateTime {
 
     public User getUser() {
         return user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(id, comment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

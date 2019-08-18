@@ -3,6 +3,7 @@ package techcourse.fakebook.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.dto.CommentLikeResponse;
@@ -19,6 +20,9 @@ public class CommentServiceTest {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CommentLikeRepository commentLikeRepository;
 
     private UserOutline userOutline = new UserOutline(1L, "cony", "https");
 
@@ -62,20 +66,23 @@ public class CommentServiceTest {
 
     @Test
     void 좋아요가_잘_등록되는지_확인한다() {
-        CommentLikeResponse commentLikeResponse = commentService.like(1L, userOutline);
-        assertThat(commentLikeResponse.isLiked()).isTrue();
+        commentService.like(1L, userOutline);
+        assertThat(commentService.isLiked(1L, userOutline)).isTrue();
+
+        assertThat(commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), 1L)).isTrue();
     }
 
     @Test
     void 좋아요가_잘_취소되는지_확인한다() {
         commentService.like(3L, userOutline);
-        CommentLikeResponse commentLikeResponse = commentService.like(3L, userOutline);
-        assertThat(commentLikeResponse.isLiked()).isFalse();
+        commentService.like(3L, userOutline);
+        assertThat(commentService.isLiked(3L, userOutline)).isFalse();
+
+        assertThat(commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), 3L)).isFalse();
     }
 
     @Test
     void 좋아요_여부를_확인한다() {
-        CommentLikeResponse commentLikeResponse = commentService.isLiked(4L, userOutline);
-        assertThat(commentLikeResponse.isLiked()).isFalse();
+        assertThat(commentService.isLiked(4L, userOutline)).isFalse();
     }
 }

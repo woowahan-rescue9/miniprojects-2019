@@ -8,6 +8,8 @@ public class CommentResponse {
     private LocalDateTime createdDate;
     private UserOutline userOutline;
 
+    private CommentResponse() {}
+
     public CommentResponse(Long id, String content, LocalDateTime createdDate, UserOutline userOutline) {
         this.id = id;
         this.content = content;
@@ -29,5 +31,21 @@ public class CommentResponse {
 
     public UserOutline getUserOutline() {
         return userOutline;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setUserOutline(UserOutline userOutline) {
+        this.userOutline = userOutline;
     }
 }

@@ -7,6 +7,8 @@ public class UserOutline {
     private String name;
     private String coverUrl;
 
+    private UserOutline() { }
+
     public UserOutline(Long id, String name, String coverUrl) {
         this.id = id;
         this.name = name;

@@ -1,11 +1,15 @@
 package techcourse.fakebook.controller;
 
+import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.CommentRequest;
+import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
+
+import javax.xml.ws.Response;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
@@ -28,7 +32,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
         when().
-                get("/articles/1/comments").
+                get("/api/articles/1/comments").
         then().
                 statusCode(200).
                 body(containsString("댓글입니다."));
@@ -44,7 +48,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(commentRequest).
         when().
-                post("/articles/1/comments").
+                post("/api/articles/1/comments").
         then().
                 statusCode(201).
                 body("content", equalTo(commentRequest.getContent()));
@@ -56,7 +60,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                delete("/articles/1/comments/2").
+                delete("/api/articles/1/comments/2").
         then().
                 statusCode(204);
     }
@@ -71,9 +75,69 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(commentRequest).
         when().
-                put("/articles/1/comments/1").
+                put("/api/articles/1/comments/1").
         then().
                 statusCode(200).
                 body("content", equalTo(commentRequest.getContent()));
+    }
+
+    @Test
+    void 좋아요_확인_테스트() {
+        CommentResponse comment = writeComment();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                get("/api/articles/1/comments/" + comment.getId() +"/like").
+        then().
+                statusCode(204);
+    }
+
+    @Test
+    void 좋아요_등록_테스트() {
+        CommentResponse comment = writeComment();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/1/comments/" + comment.getId() +"/like").
+        then().
+                statusCode(201);
+    }
+
+    @Test
+    void 좋아요_삭제_테스트() {
+        CommentResponse comment = writeComment();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/1/comments/" + comment.getId() +"/like").
+        then().
+                statusCode(201);
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/1/comments/" + comment.getId() +"/like").
+        then().
+                statusCode(204);
+    }
+
+
+    private CommentResponse writeComment() {
+        CommentRequest commentRequest = new CommentRequest("hello");
+
+        return given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
+                body(commentRequest).
+        when().
+                post("/api/articles/1/comments").as(CommentResponse.class);
     }
 }
