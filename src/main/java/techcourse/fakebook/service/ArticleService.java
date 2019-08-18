@@ -79,7 +79,7 @@ public class ArticleService {
     }
 
     private void checkAuthor(UserOutline userOutline, Article article) {
-        if (article.getUser().isNotAuthor(userOutline.getId())) {
+        if (article.getUser().isSameWith(userOutline.getId())) {
             throw new InvalidAuthorException();
         }
     }

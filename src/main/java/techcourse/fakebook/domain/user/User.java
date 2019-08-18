@@ -81,8 +81,8 @@ public class User extends DateTime {
         this.introduction = introduction;
     }
 
-    public boolean isNotAuthor(Long id) {
-        return !this.id.equals(id);
+    public boolean isSameWith(Long id) {
+        return this.id.equals(id);
     }
 
     public boolean checkEncryptedPassword(String encryptedPassword) {

@@ -46,7 +46,7 @@ public class Comment extends DateTime {
     }
 
     public boolean isNotAuthor(Long id) {
-        return user.isNotAuthor(id);
+        return !user.isSameWith(id);
     }
 
     public void delete() {
