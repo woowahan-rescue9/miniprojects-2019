@@ -33,10 +33,6 @@ public class LoginService {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(NotFoundUserException::new);
 
-        if (!encryptor.matches(loginRequest.getPassword(), user.getEncryptedPassword())) {
-            throw new NotMatchPasswordException();
-        }
-
         String encryptedPassword = encryptor.encrypt(loginRequest.getPassword());
         if (user.checkEncryptedPassword(encryptedPassword)) {
             throw new NotMatchPasswordException();
