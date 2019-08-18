@@ -1,11 +1,11 @@
 package techcourse.fakebook.domain.user;
 
-import techcourse.fakebook.domain.DateTime;
+import techcourse.fakebook.domain.BaseEntity;
 
 import javax.persistence.*;
 
 @Entity
-public class User extends DateTime {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

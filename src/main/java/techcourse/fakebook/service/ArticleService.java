@@ -22,29 +22,31 @@ public class ArticleService {
     private ArticleRepository articleRepository;
     private ArticleLikeRepository articleLikeRepository;
     private UserService userService;
+    private ArticleAssembler articleAssembler;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
+        this.articleAssembler = articleAssembler;
     }
 
     public ArticleResponse findById(Long id) {
         Article article = getArticle(id);
-        return ArticleAssembler.toResponse(article);
+        return articleAssembler.toResponse(article);
     }
 
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
         User user = userService.getUser(userOutline.getId());
-        Article article = articleRepository.save(ArticleAssembler.toEntity(articleRequest, user));
-        return ArticleAssembler.toResponse(article);
+        Article article = articleRepository.save(articleAssembler.toEntity(articleRequest, user));
+        return articleAssembler.toResponse(article);
     }
 
     public ArticleResponse update(Long id, ArticleRequest updatedRequest, UserOutline userOutline) {
         Article article = getArticle(id);
         checkAuthor(userOutline, article);
         article.update(updatedRequest.getContent());
-        return ArticleAssembler.toResponse(article);
+        return articleAssembler.toResponse(article);
     }
 
     public void deleteById(Long id, UserOutline userOutline) {

@@ -5,7 +5,7 @@
 - [ ] UserApiController api uri 추가
 
 ## Domain
-- [ ] DateTime Entity rename
+- [x] DateTime Entity rename
 - [ ] Article
     - [ ] isPresent rename
     - [ ] equals, hashcode, toString
@@ -30,7 +30,7 @@
     - [ ] validation
 - [ ] CommentLikeResponse
     - [ ] isLiked 대신에 HttpStatus로 응답
-- [ ] Assembler 통일성 맞추기(빈으로 생성하던지, static method로 생성하던지)
+- [x] Assembler 통일성 맞추기(빈으로 생성하던지, static method로 생성하던지)
 
 
 ## Test
