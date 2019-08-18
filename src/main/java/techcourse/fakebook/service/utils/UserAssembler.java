@@ -25,7 +25,7 @@ public class UserAssembler {
         return new User(
                 userSignupRequest.getEmail(),
                 encryptor.encrypt(userSignupRequest.getPassword()),
-                userSignupRequest.getName(),
+                userSignupRequest.getLastName() + userSignupRequest.getFirstName(),
                 userSignupRequest.getGender(),
                 "default.png",
                 userSignupRequest.getBirth(),

@@ -15,6 +15,7 @@ import techcourse.fakebook.service.utils.UserAssembler;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -121,5 +122,26 @@ class UserServiceTest {
         // Act & Assert
         assertThrows(NotFoundUserException.class, () ->
                 userService.deleteById(notExistUserId));
+    }
+
+    @Test
+    void hasNotUserWithEmail_존재하지않는_이메일입력() {
+        // Arrange
+        String notExistsEmail = "new@test.com";
+        given(userRepository.findByEmail(notExistsEmail)).willReturn(Optional.empty());
+
+        // Act & Assert
+        assertThat(userService.hasNotUserWithEmail(notExistsEmail)).isTrue();
+    }
+
+    @Test
+    void hasNotUserWithEmail_존재했던_이메일입력() {
+        // Arrange
+        String existsEmail = "new@test.com";
+        User existsUser = mock(User.class);
+        given(userRepository.findByEmail(existsEmail)).willReturn(Optional.of(existsUser));
+
+        // Act & Assert
+        assertThat(userService.hasNotUserWithEmail(existsEmail)).isFalse();
     }
 }

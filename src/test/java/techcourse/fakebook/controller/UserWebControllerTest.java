@@ -29,7 +29,8 @@ class UserWebControllerTest extends ControllerTestHelper {
                 .header("Cookie", cookie)
                 .body(BodyInserters.fromFormData("email", otherUserSignupRequest.getEmail())
                         .with("password", otherUserSignupRequest.getPassword())
-                        .with("name", otherUserSignupRequest.getName())
+                        .with("lastName", otherUserSignupRequest.getLastName())
+                        .with("firstName", otherUserSignupRequest.getFirstName())
                         .with("gender", otherUserSignupRequest.getGender())
                         .with("birth", otherUserSignupRequest.getBirth())
                 )
@@ -50,7 +51,8 @@ class UserWebControllerTest extends ControllerTestHelper {
                 .consumeWith(response -> {
                     String body = new String(response.getResponseBody());
                     assertThat(body.contains(userSignupRequest.getEmail())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getName())).isTrue();
+                    assertThat(body.contains(userSignupRequest.getLastName())).isTrue();
+                    assertThat(body.contains(userSignupRequest.getFirstName())).isTrue();
                     assertThat(body.contains(userSignupRequest.getGender())).isTrue();
                     assertThat(body.contains(userSignupRequest.getBirth())).isTrue();
                 });

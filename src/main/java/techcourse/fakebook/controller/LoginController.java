@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import techcourse.fakebook.service.LoginService;
 import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.dto.UserOutline;
+import techcourse.fakebook.service.dto.UserSignupRequest;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +25,7 @@ public class LoginController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(UserSignupRequest userSignupRequest) {
         log.debug("begin");
 
         return "index";

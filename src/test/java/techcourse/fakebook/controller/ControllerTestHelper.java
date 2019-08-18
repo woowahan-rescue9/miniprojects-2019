@@ -26,8 +26,10 @@ public class ControllerTestHelper {
 
     protected UserSignupRequest newUserSignupRequest() {
         UserSignupRequest userSignupRequest = new UserSignupRequest(String.format("email%d@hello.com", newUserRequestId++),
+                "성",
+                "이름",
                 "Password!1",
-                "name",
+                "Password!1",
                 "gender",
                 "birth");
 
@@ -40,7 +42,9 @@ public class ControllerTestHelper {
         return webTestClient.post().uri("/users")
                 .body(BodyInserters.fromFormData("email", userSignupRequest.getEmail())
                         .with("password", userSignupRequest.getPassword())
-                        .with("name", userSignupRequest.getName())
+                        .with("reconfirmPassword", userSignupRequest.getReconfirmPassword())
+                        .with("lastName", userSignupRequest.getLastName())
+                        .with("firstName", userSignupRequest.getFirstName())
                         .with("gender", userSignupRequest.getGender())
                         .with("birth", userSignupRequest.getBirth())
                 )

@@ -74,4 +74,8 @@ public class UserService {
                 .map(UserAssembler::toUserOutline)
                 .orElseThrow(NotFoundUserException::new);
     }
+
+    public boolean hasNotUserWithEmail(String email) {
+        return !userRepository.findByEmail(email).isPresent();
+    }
 }
