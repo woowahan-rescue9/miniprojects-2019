@@ -39,7 +39,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 글을_잘_삭제하는지_확인() {
+    void 글을_잘_삭제하는지_확인한다() {
         given().
                 port(port).
                 cookie(cookie).
@@ -50,7 +50,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 글을_잘_수정하는지_확인() {
+    void 글을_잘_수정하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("수정된 글입니다.");
 
         given().

@@ -1,6 +1,5 @@
 package techcourse.fakebook.controller;
 
-import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -8,8 +7,6 @@ import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
-
-import javax.xml.ws.Response;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
@@ -66,7 +63,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 댓글을_잘_수정하는지_확인() {
+    void 댓글을_잘_수정하는지_확인한다() {
         CommentRequest commentRequest = new CommentRequest("수정된 댓글입니다.");
 
         given().
@@ -82,7 +79,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 좋아요_확인_테스트() {
+    void 좋아요_여부를_확인한다() {
         CommentResponse comment = writeComment();
 
         given().
@@ -95,7 +92,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 좋아요_등록_테스트() {
+    void 좋아요가_잘_등록되는지_확인한다() {
         CommentResponse comment = writeComment();
 
         given().
@@ -108,7 +105,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 좋아요_삭제_테스트() {
+    void 좋아요가_잘_삭제되는지_확인한다() {
         CommentResponse comment = writeComment();
 
         given().
@@ -127,7 +124,6 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         then().
                 statusCode(204);
     }
-
 
     private CommentResponse writeComment() {
         CommentRequest commentRequest = new CommentRequest("hello");
