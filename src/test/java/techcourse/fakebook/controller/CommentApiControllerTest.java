@@ -57,7 +57,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                delete("/api/articles/1/comments/2").
+                delete("/api/comments/2").
         then().
                 statusCode(204);
     }
@@ -72,7 +72,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(commentRequest).
         when().
-                put("/api/articles/1/comments/1").
+                put("/api/comments/1").
         then().
                 statusCode(200).
                 body("content", equalTo(commentRequest.getContent()));
@@ -86,7 +86,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                get("/api/articles/1/comments/" + comment.getId() +"/like").
+                get("/api/comments/" + comment.getId() +"/like").
         then().
                 statusCode(204);
     }
@@ -99,7 +99,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/articles/1/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() +"/like").
         then().
                 statusCode(201);
     }
@@ -112,7 +112,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/articles/1/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() +"/like").
         then().
                 statusCode(201);
 
@@ -120,7 +120,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/articles/1/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() +"/like").
         then().
                 statusCode(204);
     }
