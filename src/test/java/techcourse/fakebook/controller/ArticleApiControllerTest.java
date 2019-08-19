@@ -32,7 +32,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(articleRequest).
         when().
-                post("/articles").
+                post("/api/articles").
         then().
                 statusCode(201).
                 body("content", equalTo(articleRequest.getContent()));
@@ -44,7 +44,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                delete("/articles/2").
+                delete("/api/articles/2").
         then().
                 statusCode(204);
     }
@@ -59,7 +59,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 cookie(cookie).
                 body(articleRequest).
         when().
-                put("/articles/1").
+                put("/api/articles/1").
         then().
                 statusCode(200).
                 body("content", equalTo(articleRequest.getContent()));

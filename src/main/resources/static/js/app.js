@@ -158,7 +158,7 @@ const App = (() => {
       if (content.length != 0 && (event.keyCode === ENTER || event.which === ENTER || event.key === ENTER)) {
         try {
           textbox.value = ""
-          const article = (await axios.post(BASE_URL + "/articles", {
+          const article = (await axios.post(BASE_URL + "/api/articles", {
             "content": content
           })).data
           document.getElementById("articles").insertAdjacentHTML(
@@ -190,7 +190,7 @@ const App = (() => {
       if (editedContent.length != 0 && (event.keyCode === ENTER || event.which === ENTER || event.key === ENTER)) {
         const result = await (async () => {
           try {
-            return (await axios.put(BASE_URL + "/articles/" + id, {
+            return (await axios.put(BASE_URL + "/api/articles/" + id, {
               "content": editedContent
             })).data.content
           } catch (e) {
@@ -205,7 +205,7 @@ const App = (() => {
 
     const remove = async id => {
       try {
-        await axios.delete(BASE_URL + "/articles/" + id)
+        await axios.delete(BASE_URL + "/api/articles/" + id)
         document.getElementById("article-" + id).remove()
       } catch (e) {}
     }

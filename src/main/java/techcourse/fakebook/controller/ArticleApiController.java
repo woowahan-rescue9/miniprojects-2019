@@ -11,7 +11,7 @@ import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
 
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/api/articles")
 public class ArticleApiController {
     private ArticleService articleService;
 
