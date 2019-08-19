@@ -104,7 +104,7 @@ public class CommentService {
         return commentLikeRepository.countCommentLikeByCommentId(commentId);
     }
 
-    public Integer getCountOfArticleId(Long articleId) {
+    public Integer getCommentsCountOf(Long articleId) {
         return commentRepository.countCommentByArticleId(articleId);
     }
 }

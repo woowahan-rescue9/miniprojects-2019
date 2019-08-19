@@ -70,7 +70,7 @@ public class CommentApiController {
 
     @GetMapping("/count")
     public ResponseEntity<Integer> countCommentOfArticle(@PathVariable Long articleId) {
-        Integer numberOfComment = commentService.getCountOfArticleId(articleId);
+        Integer numberOfComment = commentService.getCommentsCountOf(articleId);
         return ResponseEntity.ok().body(numberOfComment);
     }
 }

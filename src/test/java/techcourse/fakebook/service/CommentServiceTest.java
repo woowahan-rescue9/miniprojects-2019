@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.exception.NotFoundCommentException;
-import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 
@@ -104,6 +103,6 @@ public class CommentServiceTest {
         CommentRequest commentRequest = new CommentRequest("댓글입니다.");
         commentService.save(1L, commentRequest, userOutline);
 
-        assertThat(commentService.getCountOfArticleId(1L)).isGreaterThanOrEqualTo(1);
+        assertThat(commentService.getCommentsCountOf(1L)).isGreaterThanOrEqualTo(1);
     }
 }
