@@ -1,7 +1,6 @@
 package techcourse.fakebook.service;
 
 import org.springframework.stereotype.Service;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.domain.like.ArticleLike;
@@ -9,9 +8,9 @@ import techcourse.fakebook.domain.like.ArticleLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundArticleException;
-import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
@@ -72,21 +71,18 @@ public class ArticleService {
         return article;
     }
 
-    public ArticleLikeResponse like(Long id, UserOutline userOutline) {
+    public boolean like(Long id, UserOutline userOutline) {
         Optional<ArticleLike> articleLike = Optional.ofNullable(articleLikeRepository.findByUserIdAndArticleId(userOutline.getId(), id));
         if (articleLike.isPresent()) {
             articleLikeRepository.delete(articleLike.get());
-            return new ArticleLikeResponse(id, false);
+            return false;
         }
         articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), getArticle(id)));
-        return new ArticleLikeResponse(id, true);
+        return true;
     }
 
-    public ArticleLikeResponse isLiked(Long id, UserOutline userOutline) {
-        if (articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), id)) {
-            return new ArticleLikeResponse(id, true);
-        }
-        return new ArticleLikeResponse(id, false);
+    public boolean isLiked(Long id, UserOutline userOutline) {
+        return articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), id);
     }
 
     private void checkAuthor(UserOutline userOutline, Article article) {

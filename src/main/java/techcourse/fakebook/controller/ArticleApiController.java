@@ -1,10 +1,10 @@
 package techcourse.fakebook.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.service.ArticleService;
-import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
@@ -46,15 +46,20 @@ public class ArticleApiController {
     }
 
     @GetMapping("/{id}/like")
-    public ResponseEntity<ArticleLikeResponse> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
-        ArticleLikeResponse articleLikeResponse = articleService.isLiked(id, userOutline);
-        return ResponseEntity.ok().body(articleLikeResponse);
+    public ResponseEntity<HttpStatus> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+        if (articleService.isLiked(id, userOutline)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<ArticleLikeResponse> like(@PathVariable Long id, @SessionUser UserOutline userOutline) {
-        ArticleLikeResponse articleLikeResponse = articleService.like(id, userOutline);
-        return ResponseEntity.ok().body(articleLikeResponse);
+    public ResponseEntity<HttpStatus> like(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+        articleService.like(id, userOutline);
+        if (articleService.isLiked(id, userOutline)) {
+            return ResponseEntity.created(URI.create("/api/articles/" + id + "/like")).build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/like/count")

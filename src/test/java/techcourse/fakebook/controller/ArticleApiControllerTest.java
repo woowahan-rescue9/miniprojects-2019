@@ -98,7 +98,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + articleResponse.getId() + "/like").
         then().
-                statusCode(200);
+                statusCode(201);
 
         given().
                 port(port).
