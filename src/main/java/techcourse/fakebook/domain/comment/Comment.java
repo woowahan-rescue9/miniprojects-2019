@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Entity
 public class Comment extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
