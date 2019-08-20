@@ -21,7 +21,7 @@ public class Article extends BaseEntity {
     private User user;
 
     @Column(nullable = false)
-    private boolean isPresent;
+    private boolean deleted;
 
     private Article() {
     }
@@ -29,11 +29,11 @@ public class Article extends BaseEntity {
     public Article(String content, User user) {
         this.content = content;
         this.user = user;
-        this.isPresent = true;
+        this.deleted = false;
     }
 
-    public boolean isNotPresent() {
-        return !isPresent;
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public void update(String content) {
@@ -41,7 +41,7 @@ public class Article extends BaseEntity {
     }
 
     public void delete() {
-        isPresent = false;
+        deleted = true;
     }
 
     public Long getId() {

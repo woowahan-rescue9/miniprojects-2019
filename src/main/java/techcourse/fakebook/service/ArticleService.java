@@ -65,7 +65,7 @@ public class ArticleService {
 
     Article getArticle(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
-        if (article.isNotPresent()) {
+        if (article.isDeleted()) {
             throw new NotFoundArticleException();
         }
         return article;
