@@ -88,17 +88,4 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 statusCode(200).
                 body(equalTo("1"));
     }
-
-    private ArticleResponse writeArticle() {
-        ArticleRequest articleRequest = new ArticleRequest("hello");
-
-        return given().
-                port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
-                body(articleRequest).
-        when().
-                post("/articles").
-                as(ArticleResponse.class);
-    }
 }

@@ -4,12 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class CommentApiControllerTest extends ControllerTestHelper {
@@ -149,7 +151,25 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 body(equalTo("1"));
     }
 
+    @Test
+    void 게시글에_따른_댓글_개수를_잘_불러오는지_확인한다() {
+        ArticleResponse articleResponse =  writeArticle();
+        writeComment(articleResponse.getId());
+
+        given().
+                port(port).
+        when().
+                get("/api/articles/" + articleResponse.getId() + "/comments/count").
+        then().
+                statusCode(200).
+                body(equalTo("1"));
+    }
+
     private CommentResponse writeComment() {
+        return writeComment(1L);
+    }
+
+    private CommentResponse writeComment(Long articleId) {
         CommentRequest commentRequest = new CommentRequest("hello");
 
         return given().
@@ -157,7 +177,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
                 body(commentRequest).
-        when().
-                post("/api/articles/1/comments").as(CommentResponse.class);
+                when().
+                post("/api/articles/" + articleId + "/comments").as(CommentResponse.class);
     }
 }

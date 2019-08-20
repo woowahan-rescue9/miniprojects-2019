@@ -4,13 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.web.reactive.function.BodyInserters;
 import techcourse.fakebook.domain.user.UserRepository;
+import techcourse.fakebook.service.ArticleService;
+import techcourse.fakebook.service.dto.ArticleRequest;
+import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.dto.UserSignupRequest;
+
+import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ControllerTestHelper {
@@ -23,6 +29,9 @@ public class ControllerTestHelper {
 
     @Autowired
     protected UserRepository userRepository;
+
+    @LocalServerPort
+    private int port;
 
     protected UserSignupRequest newUserSignupRequest() {
         UserSignupRequest userSignupRequest = new UserSignupRequest(String.format("email%d@hello.com", newUserRequestId++),
@@ -47,6 +56,21 @@ public class ControllerTestHelper {
                         .with("birth", userSignupRequest.getBirth())
                 )
                 .exchange();
+    }
+
+    protected ArticleResponse writeArticle() {
+        LoginRequest loginRequest = new LoginRequest("van@van.com", "Password!1");
+        String cookie = getCookie(login(loginRequest));
+        ArticleRequest articleRequest = new ArticleRequest("hello");
+
+        return given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
+        body(articleRequest).
+                when().
+                post("/articles").
+                as(ArticleResponse.class);
     }
 
     protected Long getId(String email) {

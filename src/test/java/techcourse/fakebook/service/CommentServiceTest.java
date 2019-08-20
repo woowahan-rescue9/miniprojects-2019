@@ -98,4 +98,12 @@ public class CommentServiceTest {
         commentService.like(commentId, userOutline);
         assertThat(commentService.getLikeCountOf(commentId)).isEqualTo(0);
     }
+
+    @Test
+    void 게시글에_대한_댓글_개수를_확인한다() {
+        CommentRequest commentRequest = new CommentRequest("댓글입니다.");
+        commentService.save(1L, commentRequest, userOutline);
+
+        assertThat(commentService.getCountOfArticleId(1L)).isGreaterThanOrEqualTo(1);
+    }
 }
