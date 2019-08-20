@@ -8,6 +8,7 @@ import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 public class ArticleAssembler {
@@ -24,9 +25,7 @@ public class ArticleAssembler {
     }
 
     private LocalDateTime getRecentDate(Article article) {
-        if (article.getModifiedDate() == null) {
-            return article.getCreatedDate();
-        }
-        return article.getModifiedDate();
+        Optional<LocalDateTime> recentDate = Optional.ofNullable(article.getModifiedDate());
+        return recentDate.orElse(article.getCreatedDate());
     }
 }
