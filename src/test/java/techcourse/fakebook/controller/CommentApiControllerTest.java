@@ -135,18 +135,18 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 cookie(cookie).
-                when().
+        when().
                 post("/api/articles/1/comments/" + commentResponse.getId() + "/like").
-                then().
+        then().
                 statusCode(201);
 
 
         given().
                 port(port).
                 cookie(cookie).
-                when().
+        when().
                 get("/api/articles/1/comments/" + commentResponse.getId() + "/like/count").
-                then().
+        then().
                 statusCode(200).
                 body(equalTo("1"));
     }
@@ -177,7 +177,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
                 body(commentRequest).
-                when().
+        when().
                 post("/api/articles/" + articleId + "/comments").as(CommentResponse.class);
     }
 }
