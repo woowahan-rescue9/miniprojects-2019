@@ -6,10 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import techcourse.fakebook.service.LoginService;
 import techcourse.fakebook.service.UserService;
+import techcourse.fakebook.service.dto.LoginRequest;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.dto.UserResponse;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -18,13 +22,15 @@ public class UserWebController {
     private static final Logger log = LoggerFactory.getLogger(UserWebController.class);
 
     private final UserService userService;
+    private final LoginService loginService;
 
-    public UserWebController(UserService userService) {
+    public UserWebController(UserService userService, LoginService loginService) {
         this.userService = userService;
+        this.loginService = loginService;
     }
 
     @PostMapping
-    public String create(@Valid UserSignupRequest userSignupRequest, BindingResult bindingResult) {
+    public String create(@Valid UserSignupRequest userSignupRequest, BindingResult bindingResult, HttpSession session) {
         log.debug("begin");
 
         if (bindingResult.hasErrors()) {
@@ -33,7 +39,11 @@ public class UserWebController {
 
         userService.save(userSignupRequest);
 
-        return "redirect:/";
+        LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
+        UserOutline userOutline = loginService.login(loginRequest);
+        session.setAttribute(LoginController.SESSION_USER_KEY, userOutline);
+
+        return "redirect:/newsfeed";
     }
 
     @GetMapping("/{userId}")

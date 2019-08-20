@@ -6,7 +6,6 @@ import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
 class UserWebControllerTest extends ControllerTestHelper {
     @Test
@@ -19,9 +18,8 @@ class UserWebControllerTest extends ControllerTestHelper {
     @Test
     void 로그인된_유저생성_올바른_입력() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest);
-        ResponseSpec rs = login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
-        String cookie = getCookie(rs);
+        String cookie = getCookie(signup(userSignupRequest));
+        login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
 
         UserSignupRequest otherUserSignupRequest = newUserSignupRequest();
 
@@ -61,11 +59,10 @@ class UserWebControllerTest extends ControllerTestHelper {
     @Test
     void 로그인된_존재하는_유저삭제() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest);
+        String cookie = getCookie(signup(userSignupRequest));
         Long userId = getId(userSignupRequest.getEmail());
 
-        ResponseSpec rs = login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
-        String cookie = getCookie(rs);
+        login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
 
         webTestClient.delete().uri("/users/" + userId)
                 .header("Cookie", cookie)

@@ -10,7 +10,6 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.web.reactive.function.BodyInserters;
 import techcourse.fakebook.domain.user.UserRepository;
-import techcourse.fakebook.service.ArticleService;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
@@ -48,6 +47,7 @@ public class ControllerTestHelper {
 
     protected ResponseSpec signup(UserSignupRequest userSignupRequest) {
         return webTestClient.post().uri("/users")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData("email", userSignupRequest.getEmail())
                         .with("password", userSignupRequest.getPassword())
                         .with("lastName", userSignupRequest.getLastName())

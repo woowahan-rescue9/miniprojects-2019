@@ -10,21 +10,18 @@ class LoginControllerTest extends ControllerTestHelper {
     @Test
     void 로그인_성공() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest);
 
-        LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
-
-        login(loginRequest)
-            .expectStatus().isFound();
+        signup(userSignupRequest)
+                .expectStatus()
+                .isFound().expectHeader().valueMatches("location", ".*/newsfeed.*");
     }
 
     @Test
     void 로그인_후_로그인_시도() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest);
+        String cookie = getCookie(signup(userSignupRequest));
 
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
-        String cookie = getCookie(login(loginRequest));
 
         webTestClient.post().uri("/login")
                 .header("Cookie", cookie)
@@ -39,10 +36,9 @@ class LoginControllerTest extends ControllerTestHelper {
     @Test
     void 로그아웃_성공() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest);
+        String cookie = getCookie(signup(userSignupRequest));
 
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
-        String cookie = getCookie(login(loginRequest));
 
         webTestClient.get().uri("/logout")
                 .header("Cookie", cookie)
