@@ -14,8 +14,8 @@ import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,11 +1,11 @@
 package techcourse.fakebook.service.utils;
 
 import org.springframework.stereotype.Component;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.dto.UserOutline;
 
 @Component
 public class ArticleAssembler {

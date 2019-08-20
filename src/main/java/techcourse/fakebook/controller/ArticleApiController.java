@@ -9,8 +9,8 @@ import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
 
-import java.util.List;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/articles")

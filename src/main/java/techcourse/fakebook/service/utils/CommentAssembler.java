@@ -1,12 +1,12 @@
 package techcourse.fakebook.service.utils;
 
 import org.springframework.stereotype.Component;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.UserOutline;
 
 @Component
 public class CommentAssembler {
