@@ -52,6 +52,6 @@ class LoginControllerTest extends ControllerTestHelper {
         webTestClient.get().uri("/logout")
                 .exchange()
                 .expectStatus()
-                .isFound().expectHeader().valueMatches("location", ".*/login");;
+                .isFound().expectHeader().valueMatches("location", ".*/");;
     }
 }

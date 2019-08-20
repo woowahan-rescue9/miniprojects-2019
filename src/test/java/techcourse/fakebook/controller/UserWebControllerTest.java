@@ -83,6 +83,6 @@ class UserWebControllerTest extends ControllerTestHelper {
         webTestClient.delete().uri("/users/" + userId)
                 .exchange()
                 .expectStatus()
-                .isFound().expectHeader().valueMatches("location", ".*/login");
+                .isFound().expectHeader().valueMatches("location", ".*/");
     }
 }
