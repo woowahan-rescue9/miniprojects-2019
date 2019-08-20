@@ -10,6 +10,8 @@ import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -19,6 +21,12 @@ class ArticleServiceTest {
     private ArticleService articleService;
 
     private UserOutline userDto = new UserOutline(1L, "cony", "https");
+
+    @Test
+    void 게시글들을_잘_불러오는지_확인한다() {
+        List<ArticleResponse> articles = articleService.findAll();
+        assertThat(articles.size()).isGreaterThanOrEqualTo(1);
+    }
 
     @Test
     void 없는_글을_찾을_때_예외를_잘_던지는지_확인한다() {

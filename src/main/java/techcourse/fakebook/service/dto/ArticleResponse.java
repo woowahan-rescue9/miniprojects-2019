@@ -5,7 +5,8 @@ public class ArticleResponse {
     private String content;
     private UserOutline userOutline;
 
-    private ArticleResponse() {}
+    private ArticleResponse() {
+    }
 
     public ArticleResponse(Long id, String content, UserOutline userOutline) {
         this.id = id;

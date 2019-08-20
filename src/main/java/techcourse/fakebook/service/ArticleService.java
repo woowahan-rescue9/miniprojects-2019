@@ -16,6 +16,8 @@ import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,6 +37,12 @@ public class ArticleService {
     public ArticleResponse findById(Long id) {
         Article article = getArticle(id);
         return articleAssembler.toResponse(article);
+    }
+
+    public List<ArticleResponse> findAll() {
+        return articleRepository.findAllByOrderByModifiedDateDescCreatedDateDesc().stream()
+                .map(articleAssembler::toResponse)
+                .collect(Collectors.toList());
     }
 
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {

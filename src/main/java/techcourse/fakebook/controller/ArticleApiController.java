@@ -10,6 +10,8 @@ import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleApiController {
@@ -17,6 +19,12 @@ public class ArticleApiController {
 
     public ArticleApiController(ArticleService articleService) {
         this.articleService = articleService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ArticleResponse>> findAll() {
+        List<ArticleResponse> articles = articleService.findAll();
+        return ResponseEntity.ok().body(articles);
     }
 
     @PostMapping
