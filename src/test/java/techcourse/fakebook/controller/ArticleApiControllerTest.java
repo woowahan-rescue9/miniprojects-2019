@@ -67,15 +67,16 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 좋아요_개수를_잘_리턴하는지_확인() {
+    void 좋아요_개수를_잘_리턴하는지_확인한다() {
         ArticleResponse articleResponse = writeArticle();
+
         //좋아요를 누른다.
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
         when().
-                post("/articles/" + articleResponse.getId() + "/like").
+                post("/api/articles/" + articleResponse.getId() + "/like").
         then().
                 statusCode(200);
 
@@ -83,7 +84,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                get("/articles/" + articleResponse.getId() + "/like/count").
+                get("/api/articles/" + articleResponse.getId() + "/like/count").
         then().
                 statusCode(200).
                 body(equalTo("1"));

@@ -136,7 +136,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/articles/1/comments/" + commentResponse.getId() + "/like").
+                post("/api/comments/" + commentResponse.getId() + "/like").
         then().
                 statusCode(201);
 
@@ -145,7 +145,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                get("/api/articles/1/comments/" + commentResponse.getId() + "/like/count").
+                get("/api/comments/" + commentResponse.getId() + "/like/count").
         then().
                 statusCode(200).
                 body(equalTo("1"));

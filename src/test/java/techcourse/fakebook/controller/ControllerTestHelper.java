@@ -69,7 +69,7 @@ public class ControllerTestHelper {
                 cookie(cookie).
         body(articleRequest).
                 when().
-                post("/articles").
+                post("/api/articles").
                 as(ArticleResponse.class);
     }
 
