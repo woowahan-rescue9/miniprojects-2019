@@ -3,7 +3,6 @@ package techcourse.fakebook.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import techcourse.fakebook.domain.like.ArticleLikeRepository;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
@@ -18,9 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ArticleServiceTest {
     @Autowired
     private ArticleService articleService;
-
-    @Autowired
-    private ArticleLikeRepository articleLikeRepository;
 
     private UserOutline userOutline = new UserOutline(1L, "cony", "https");
 

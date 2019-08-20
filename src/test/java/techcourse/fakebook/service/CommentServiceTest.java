@@ -3,7 +3,6 @@ package techcourse.fakebook.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
@@ -19,9 +18,6 @@ public class CommentServiceTest {
 
     @Autowired
     private CommentService commentService;
-
-    @Autowired
-    private CommentLikeRepository commentLikeRepository;
 
     private UserOutline userOutline = new UserOutline(1L, "cony", "https");
 
