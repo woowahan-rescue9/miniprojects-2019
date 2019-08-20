@@ -75,7 +75,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
         when().
-                post("/articles/" +articleResponse.getId() +"/like").
+                post("/articles/" + articleResponse.getId() + "/like").
         then().
                 statusCode(200);
 
@@ -83,7 +83,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                get("/articles/" +articleResponse.getId() +"/like/count").
+                get("/articles/" + articleResponse.getId() + "/like/count").
         then().
                 statusCode(200).
                 body(equalTo("1"));

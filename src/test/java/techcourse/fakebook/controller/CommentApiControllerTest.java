@@ -88,7 +88,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                get("/api/comments/" + comment.getId() +"/like").
+                get("/api/comments/" + comment.getId() + "/like").
         then().
                 statusCode(204);
     }
@@ -101,7 +101,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() + "/like").
         then().
                 statusCode(201);
     }
@@ -114,7 +114,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() + "/like").
         then().
                 statusCode(201);
 
@@ -122,7 +122,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
         when().
-                post("/api/comments/" + comment.getId() +"/like").
+                post("/api/comments/" + comment.getId() + "/like").
         then().
                 statusCode(204);
     }
@@ -135,25 +135,25 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 cookie(cookie).
-        when().
-                post("/api/articles/1/comments/" + commentResponse.getId() +"/like").
-        then().
+                when().
+                post("/api/articles/1/comments/" + commentResponse.getId() + "/like").
+                then().
                 statusCode(201);
 
 
         given().
                 port(port).
                 cookie(cookie).
-        when().
-                get("/api/articles/1/comments/" + commentResponse.getId() +"/like/count").
-        then().
+                when().
+                get("/api/articles/1/comments/" + commentResponse.getId() + "/like/count").
+                then().
                 statusCode(200).
                 body(equalTo("1"));
     }
 
     @Test
     void 게시글에_따른_댓글_개수를_잘_불러오는지_확인한다() {
-        ArticleResponse articleResponse =  writeArticle();
+        ArticleResponse articleResponse = writeArticle();
         writeComment(articleResponse.getId());
 
         given().
