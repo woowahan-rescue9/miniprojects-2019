@@ -17,6 +17,9 @@ public class ArticleLike {
     @ManyToOne
     private Article article;
 
+    private ArticleLike() {
+    }
+
     public ArticleLike(User user, Article article) {
         this.user = user;
         this.article = article;

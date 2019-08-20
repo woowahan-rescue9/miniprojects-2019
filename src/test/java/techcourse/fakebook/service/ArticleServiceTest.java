@@ -8,6 +8,7 @@ import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.dto.ArticleLikeResponse;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,5 +73,21 @@ class ArticleServiceTest {
     void 좋아요_여부를_확인한다() {
         ArticleLikeResponse articleLikeResponse = articleService.isLiked(4L, userDto);
         assertThat(articleLikeResponse.isLiked()).isFalse();
+    }
+
+    @Test
+    void 게시글의_좋아요_개수를_확인한다() {
+        ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
+        UserOutline userOutline = new UserOutline(1L, "name", "coverUrl");
+        ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
+        Long articleId = articleResponse.getId();
+
+        articleService.like(articleId, userOutline);
+
+        assertThat(articleService.getLikeCountOf(articleId)).isEqualTo(1);
+
+        articleService.like(articleId, userOutline);
+
+        assertThat(articleService.getLikeCountOf(articleId)).isEqualTo(0);
     }
 }

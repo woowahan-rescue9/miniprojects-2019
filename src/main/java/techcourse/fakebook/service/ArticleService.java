@@ -15,6 +15,7 @@ import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -64,12 +65,12 @@ public class ArticleService {
     }
 
     public ArticleLikeResponse like(Long id, UserOutline userOutline) {
-        ArticleLike articleLike = new ArticleLike(userService.getUser(userOutline.getId()), getArticle(id));
-        if (articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), id)) {
-            articleLikeRepository.delete(articleLike);
+        Optional<ArticleLike> articleLike = Optional.ofNullable(articleLikeRepository.findByUserIdAndArticleId(userOutline.getId(), id));
+        if (articleLike.isPresent()) {
+            articleLikeRepository.delete(articleLike.get());
             return new ArticleLikeResponse(id, false);
         }
-        articleLikeRepository.save(articleLike);
+        articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), getArticle(id)));
         return new ArticleLikeResponse(id, true);
     }
 
@@ -84,5 +85,9 @@ public class ArticleService {
         if (!article.getUser().isSameWith(userOutline.getId())) {
             throw new InvalidAuthorException();
         }
+    }
+
+    public Integer getLikeCountOf(Long articleId) {
+        return articleLikeRepository.countArticleLikeByArticleId(articleId);
     }
 }

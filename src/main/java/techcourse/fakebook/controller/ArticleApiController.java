@@ -48,4 +48,10 @@ public class ArticleApiController {
         ArticleLikeResponse articleLikeResponse = articleService.like(id, userOutline);
         return new ResponseEntity<>(articleLikeResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/like/count")
+    public ResponseEntity<Integer> countLikeOfArticle(@PathVariable Long id) {
+        Integer numberOfLike = articleService.getLikeCountOf(id);
+        return ResponseEntity.ok().body(numberOfLike);
+    }
 }
