@@ -31,6 +31,7 @@
 
         <link rel="stylesheet" href="css/app.css">
         <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/attachment.css">
     </head>
     <body>
     <div id="wootecobook-app">
@@ -130,8 +131,16 @@
                                 <li class="bg-lightgray border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
-                                        <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
+                                        <span id="attachment-open" class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
                                     </a>
+                                    <div id="attachment-modal">
+                                        <div id="modal-content">
+                                            <span id="attachment-close">&times;</span>
+                                            <p>
+                                                <input type="file" accept="file_extension|image/*|media_type">
+                                            </p>
+                                        </div>
+                                    </div>
                                 </li>
                                 <li class="bg-lightgray border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
@@ -143,6 +152,12 @@
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons feeling-activity"></div>
                                         <span class="icon-name font-size-13 text-bold"> 기분 / 활동</span>
+                                    </a>
+                                </li>
+                                <li class="bg-mint border-radius-round mrg-right-5">
+                                    <a class="pdd-vertical-5 pdd-horizon-10 pointer">
+                                        <div class="icons write-article"></div>
+                                        <span class="icon-name font-size-13 text-bold"> 글쓰기</span>
                                     </a>
                                 </li>
                             </ul>
@@ -291,5 +306,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/attachment.js"></script>
     </body>
 </html>
