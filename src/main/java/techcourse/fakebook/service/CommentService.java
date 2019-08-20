@@ -99,4 +99,8 @@ public class CommentService {
     public boolean isLiked(Long commentId, UserOutline userOutline) {
         return commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId);
     }
+
+    public Integer getLikeCountOf(Long commentId) {
+        return commentLikeRepository.countCommentLikeByCommentId(commentId);
+    }
 }

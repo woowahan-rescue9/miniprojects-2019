@@ -85,4 +85,17 @@ public class CommentServiceTest {
     void 좋아요_여부를_확인한다() {
         assertThat(commentService.isLiked(4L, userOutline)).isFalse();
     }
+
+    @Test
+    void 좋아요_개수를_확인한다() {
+        CommentRequest commentRequest = new CommentRequest("댓글입니다.");
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userOutline);
+        Long commentId = commentResponse.getId();
+
+        commentService.like(commentId, userOutline);
+        assertThat(commentService.getLikeCountOf(commentId)).isEqualTo(1);
+
+        commentService.like(commentId, userOutline);
+        assertThat(commentService.getLikeCountOf(commentId)).isEqualTo(0);
+    }
 }

@@ -125,6 +125,30 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 statusCode(204);
     }
 
+    @Test
+    void 좋아요_개수를_잘_불러오는지_확인한다() {
+        CommentResponse commentResponse = writeComment();
+
+        //좋아요 등록
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/1/comments/" + commentResponse.getId() +"/like").
+        then().
+                statusCode(201);
+
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                get("/api/articles/1/comments/" + commentResponse.getId() +"/like/count").
+        then().
+                statusCode(200).
+                body(equalTo("1"));
+    }
+
     private CommentResponse writeComment() {
         CommentRequest commentRequest = new CommentRequest("hello");
 
