@@ -39,7 +39,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 body().
                 jsonPath().getList(".", CommentResponse.class);
 
-        assertThat(comments.size()).isGreaterThanOrEqualTo(1);
+        assertThat(comments.size()).isGreaterThanOrEqualTo(2);
     }
 
     @Test

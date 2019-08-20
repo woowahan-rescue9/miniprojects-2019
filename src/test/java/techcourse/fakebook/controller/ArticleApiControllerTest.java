@@ -28,31 +28,19 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 글_목록을_잘_불러오는지_확인한다() {
-        ArticleRequest articleRequest = new ArticleRequest("hello");
-
-        given().
-                port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
-                body(articleRequest).
-        when().
-                post("/articles").
-        then().
-                statusCode(201).
-                body("content", equalTo(articleRequest.getContent()));
+        writeArticle();
 
         List<ArticleResponse> articles = given().
                 port(port).
         when().
-                get("/articles").
+                get("/api/articles").
         then().
                 statusCode(200).
                 extract().
                 body().
                 jsonPath().getList(".", ArticleResponse.class);
 
-        assertThat(articles.size()).isGreaterThanOrEqualTo(1);
-
+        assertThat(articles.size()).isGreaterThanOrEqualTo(2);
     }
 
     @Test
