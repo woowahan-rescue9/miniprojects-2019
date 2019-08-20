@@ -35,6 +35,9 @@ const App = (() => {
         '<p>' +
           '<span> {{content}} </span>' + 
         '</p>' +
+        '{{#each image}}' +
+      '<img src="{{this.imagePath}}">' +
+        '{{/each}}' +
       '</div>' +
       '<ul class="feed-action pdd-btm-5 border bottom">' +
         '<li>' +
@@ -166,9 +169,11 @@ const App = (() => {
             articleTemplate({
               "id": article.id,
               "content": article.content,
-              "user": article.userOutline
+              "user": article.userOutline,
+              "image": article.resources
             })
           )
+          console.log(article.resources)
         } catch (e) {}
       }
     }
