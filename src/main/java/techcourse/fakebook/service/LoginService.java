@@ -37,11 +37,6 @@ public class LoginService {
             throw new NotMatchPasswordException();
         }
 
-//        String encryptedPassword = encryptor.encrypt(loginRequest.getPassword());
-//        if (!user.checkEncryptedPassword(encryptedPassword)) {
-//            throw new NotMatchPasswordException();
-//        }
-
         return new UserOutline(user.getId(), user.getName(), user.getCoverUrl());
     }
 }
