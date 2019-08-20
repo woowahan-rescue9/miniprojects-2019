@@ -71,7 +71,6 @@ class ArticleServiceTest {
         articleService.like(1L, userOutline);
 
         assertThat(articleService.isLiked(1L, userOutline)).isTrue();
-        assertThat(articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), 1L)).isTrue();
     }
 
     @Test
@@ -80,7 +79,6 @@ class ArticleServiceTest {
         articleService.like(3L, userOutline);
 
         assertThat(articleService.isLiked(3L, userOutline)).isFalse();
-        assertThat(articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), 3L)).isFalse();
     }
 
     @Test
