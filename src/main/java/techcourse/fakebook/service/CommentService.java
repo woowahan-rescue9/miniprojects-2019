@@ -70,7 +70,7 @@ public class CommentService {
 
     private Comment getComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(NotFoundCommentException::new);
-        if (comment.isNotPresent()) {
+        if (comment.isDeleted()) {
             throw new NotFoundCommentException();
         }
         return comment;

@@ -26,23 +26,24 @@ public class Comment extends BaseEntity {
     private User user;
 
     @Column(nullable = false)
-    private boolean isPresent;
+    private boolean deleted;
 
-    private Comment() {}
+    private Comment() {
+    }
 
     public Comment(String content, Article article, User user) {
         this.content = content;
         this.article = article;
         this.user = user;
-        this.isPresent = true;
+        this.deleted = false;
     }
 
     public void update(String content) {
         this.content = content;
     }
 
-    public boolean isNotPresent() {
-        return !isPresent;
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public boolean isNotAuthor(Long id) {
@@ -50,7 +51,7 @@ public class Comment extends BaseEntity {
     }
 
     public void delete() {
-        isPresent = false;
+        deleted = true;
     }
 
     public Long getId() {

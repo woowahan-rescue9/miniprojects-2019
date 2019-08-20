@@ -6,7 +6,7 @@ INSERT into article(content, deleted, user_id) values('삭제될 내용입니다
 INSERT into article(content, deleted, user_id) values('내용입니다.', 0, 1);
 INSERT into article(content, deleted, user_id) values('좋아요 여부를 확인할 내용입니다.', 0, 1);
 
-INSERT into comment(content, article_id, is_present, user_id) values('수정될 댓글입니다.', 1, 1, 1);
-INSERT into comment(content, article_id, is_present, user_id) values('삭제될 댓글입니다.', 1, 1, 1);
-INSERT into comment(content, article_id, is_present, user_id) values('댓글입니다.', 1, 1, 1);
-INSERT into comment(content, article_id, is_present, user_id) values('좋아요 여부를 확인할 댓글입니다.', 1, 1, 1);
+INSERT into comment(content, article_id, deleted, user_id) values('수정될 댓글입니다.', 1, 0, 1);
+INSERT into comment(content, article_id, deleted, user_id) values('삭제될 댓글입니다.', 1, 0, 1);
+INSERT into comment(content, article_id, deleted, user_id) values('댓글입니다.', 1, 0, 1);
+INSERT into comment(content, article_id, deleted, user_id) values('좋아요 여부를 확인할 댓글입니다.', 1, 0, 1);
