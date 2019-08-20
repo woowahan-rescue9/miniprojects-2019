@@ -1,7 +1,6 @@
 package techcourse.fakebook.service;
 
 import org.springframework.stereotype.Service;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.comment.CommentRepository;
@@ -10,11 +9,10 @@ import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundCommentException;
-import techcourse.fakebook.service.dto.CommentLikeResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.CommentAssembler;
-import techcourse.fakebook.service.utils.UserAssembler;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -72,7 +70,7 @@ public class CommentService {
 
     private Comment getComment(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(NotFoundCommentException::new);
-        if (comment.isNotPresent()) {
+        if (comment.isDeleted()) {
             throw new NotFoundCommentException();
         }
         return comment;

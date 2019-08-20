@@ -1,6 +1,5 @@
 package techcourse.fakebook.service.dto;
 
-import techcourse.fakebook.utils.EqualFields;
 import techcourse.fakebook.utils.NotExistsEmail;
 
 import javax.validation.constraints.Email;

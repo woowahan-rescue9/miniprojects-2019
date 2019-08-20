@@ -5,18 +5,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.exception.NotMatchPasswordException;
 import techcourse.fakebook.service.dto.LoginRequest;
+import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.encryptor.Encryptor;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 

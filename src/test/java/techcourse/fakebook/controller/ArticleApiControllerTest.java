@@ -87,7 +87,54 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 좋아요_개수를_잘_리턴하는지_확인한다() {
+    void 좋아요_여부를_확인한다() {
+        ArticleResponse article = writeArticle();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                get("api/articles/" + article.getId() + "/like").
+        then().
+                statusCode(204);
+    }
+
+    @Test
+    void 좋아요가_잘_등록되는지_확인한다() {
+        ArticleResponse article = writeArticle();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/" + article.getId() + "/like").
+        then().
+                statusCode(201);
+    }
+
+    @Test
+    void 좋아요가_잘_삭제되는지_확인한다() {
+        ArticleResponse article = writeArticle();
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/" + article.getId() + "/like").
+        then().
+                statusCode(201);
+
+        given().
+                port(port).
+                cookie(cookie).
+        when().
+                post("/api/articles/" + article.getId() + "/like").
+        then().
+                statusCode(204);
+    }
+
+    @Test
+    void 좋아요_개수를_잘_불러오는지_확인한다() {
         ArticleResponse articleResponse = writeArticle();
 
         //좋아요를 누른다.
@@ -98,7 +145,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + articleResponse.getId() + "/like").
         then().
-                statusCode(200);
+                statusCode(201);
 
         given().
                 port(port).
