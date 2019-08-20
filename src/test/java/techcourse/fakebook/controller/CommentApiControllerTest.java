@@ -9,9 +9,10 @@ import techcourse.fakebook.service.dto.CommentRequest;
 import techcourse.fakebook.service.dto.CommentResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class CommentApiControllerTest extends ControllerTestHelper {
@@ -28,13 +29,17 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 댓글을_잘_불러오는지_확인한다() {
-        given().
+        List<CommentResponse> comments = given().
                 port(port).
         when().
                 get("/api/articles/1/comments").
         then().
                 statusCode(200).
-                body(containsString("댓글입니다."));
+                extract().
+                body().
+                jsonPath().getList(".", CommentResponse.class);
+
+        assertThat(comments.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
