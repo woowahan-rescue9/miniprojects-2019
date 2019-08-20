@@ -12,18 +12,23 @@ public class UserSignupRequest {
     @Email(message = "* 이메일 양식을 지켜주세요!")
     @NotExistsEmail
     private String email;
+
     @NotBlank(message = "* 성을 입력해주세요!")
     private String lastName;
+
     @NotBlank(message = "* 이름을 입력해주세요!")
     private String firstName;
+
     @NotBlank(message = "* 비밀번호를 작성해주세요!")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}",
             message = "* 비밀번호는 8자 이상의 소문자, 대문자, 숫자, 특수문자의 조합이어야 합니다!")
     private String password;
+
     private String gender;
     private String birth;
 
-    public UserSignupRequest() {}
+    public UserSignupRequest() {
+    }
 
     public UserSignupRequest(
             String email,

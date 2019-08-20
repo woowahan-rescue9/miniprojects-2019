@@ -21,4 +21,3 @@ public @interface EqualFields {
 
     String matchField();
 }
-

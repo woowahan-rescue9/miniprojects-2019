@@ -26,7 +26,8 @@ public class ArticleService {
     private UserService userService;
     private ArticleAssembler articleAssembler;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository,
+                          UserService userService, ArticleAssembler articleAssembler) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
@@ -63,14 +64,6 @@ public class ArticleService {
         article.delete();
     }
 
-    Article getArticle(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
-        if (article.isDeleted()) {
-            throw new NotFoundArticleException();
-        }
-        return article;
-    }
-
     public boolean like(Long id, UserOutline userOutline) {
         Optional<ArticleLike> articleLike = Optional.ofNullable(articleLikeRepository.findByUserIdAndArticleId(userOutline.getId(), id));
         if (articleLike.isPresent()) {
@@ -85,13 +78,21 @@ public class ArticleService {
         return articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), id);
     }
 
-    private void checkAuthor(UserOutline userOutline, Article article) {
-        if (!article.getUser().isSameWith(userOutline.getId())) {
-            throw new InvalidAuthorException();
-        }
-    }
-
     public Integer getLikeCountOf(Long articleId) {
         return articleLikeRepository.countArticleLikeByArticleId(articleId);
+    }
+
+    Article getArticle(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
+        if (article.isDeleted()) {
+            throw new NotFoundArticleException();
+        }
+        return article;
+    }
+
+    private void checkAuthor(UserOutline userOutline, Article article) {
+        if (article.isNotAuthor(userOutline.getId())) {
+            throw new InvalidAuthorException();
+        }
     }
 }

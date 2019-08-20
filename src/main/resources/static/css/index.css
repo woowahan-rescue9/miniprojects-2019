@@ -127,6 +127,10 @@ header ul.nav-right li, header ul.nav-left li {
     background-color: #f5f6f7
 }
 
+.bg-mint {
+    background-color: #daf5ec
+}
+
 .flex-grow-1 {
     flex-grow: 1
 }
@@ -255,6 +259,11 @@ header ul.nav-right li, header ul.nav-left li {
 
 .icons.feeling-activity {
     background-position: 0 -501px;
+    background-size: 37px 1608px
+}
+
+.icons.write-article {
+    background-position: 0 -438px;
     background-size: 37px 1608px
 }
 
