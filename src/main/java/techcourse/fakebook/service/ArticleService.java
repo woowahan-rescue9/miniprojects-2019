@@ -26,7 +26,8 @@ public class ArticleService {
     private UserService userService;
     private ArticleAssembler articleAssembler;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository,
+                          UserService userService, ArticleAssembler articleAssembler) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
@@ -86,7 +87,7 @@ public class ArticleService {
     }
 
     private void checkAuthor(UserOutline userOutline, Article article) {
-        if (!article.getUser().isSameWith(userOutline.getId())) {
+        if (article.isNotAuthor(userOutline.getId())) {
             throw new InvalidAuthorException();
         }
     }

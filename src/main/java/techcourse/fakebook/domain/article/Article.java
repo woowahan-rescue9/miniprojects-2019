@@ -32,16 +32,20 @@ public class Article extends BaseEntity {
         this.deleted = false;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
     public void update(String content) {
         this.content = content;
     }
 
     public void delete() {
         deleted = true;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public boolean isNotAuthor(Long id) {
+        return !user.isSameWith(id);
     }
 
     public Long getId() {
