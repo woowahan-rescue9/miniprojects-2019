@@ -1,6 +1,8 @@
 package techcourse.fakebook.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
@@ -36,7 +38,8 @@ public class ArticleApiController {
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponse> update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.update(id, articleRequest, userOutline);
-        return ResponseEntity.ok().body(articleResponse);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;")
+        .body(articleResponse);
     }
 
     @DeleteMapping("/{id}")
@@ -66,5 +69,11 @@ public class ArticleApiController {
     public ResponseEntity<Integer> countLikeOfArticle(@PathVariable Long id) {
         Integer numberOfLike = articleService.getLikeCountOf(id);
         return ResponseEntity.ok().body(numberOfLike);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<ArticleResponse> upload(ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
+        ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
+        return ResponseEntity.ok().body(articleResponse);
     }
 }

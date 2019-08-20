@@ -8,6 +8,7 @@ import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
 
+import java.io.File;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -155,5 +156,18 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         then().
                 statusCode(200).
                 body(equalTo("1"));
+    }
+
+    @Test
+    void 게시글_이미지_포함_업로드가_잘_되는지_확인한다() {
+        ArticleResponse articleResponse = given().
+                port(port).
+                cookie(cookie).
+                multiPart("files", new File("src/test/resources/static/images/logo/res9-logo.gif")).
+                formParam("content","hello").
+        when().
+                post("/api/articles/upload").as(ArticleResponse.class);
+
+        assertThat(articleResponse.getResources().size()).isEqualTo(1);
     }
 }

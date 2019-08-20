@@ -67,8 +67,8 @@ public class ControllerTestHelper {
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
-        body(articleRequest).
-                when().
+                body(articleRequest).
+        when().
                 post("/api/articles").
                 as(ArticleResponse.class);
     }
