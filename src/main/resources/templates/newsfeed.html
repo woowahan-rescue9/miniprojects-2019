@@ -125,7 +125,7 @@
                     <div class="social-feeds">
                         <div class="card widget-compose">
                             <p class="border bottom width-100 pdd-btm-5 text-bold">게시물 만들기</p>
-                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle()"></textarea>
+                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle(event)"></textarea>
                             <ul class="composor-tools pdd-top-15">
                                 <li class="bg-lightgray border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
@@ -282,6 +282,7 @@
             <a href="https://github.com/woowahan-rescue9" title="우아한9조대">
                 &copy; 2019 <img src="/images/logo/res9-logo.gif" alt="우아한9조대" width="20" height="20">
             </a>
+            <div class="mrg-top-20"> </div>
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
