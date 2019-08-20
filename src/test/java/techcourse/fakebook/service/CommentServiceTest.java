@@ -66,18 +66,16 @@ public class CommentServiceTest {
     @Test
     void 좋아요가_잘_등록되는지_확인한다() {
         commentService.like(1L, userOutline);
-        assertThat(commentService.isLiked(1L, userOutline)).isTrue();
 
-        assertThat(commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), 1L)).isTrue();
+        assertThat(commentService.isLiked(1L, userOutline)).isTrue();
     }
 
     @Test
     void 좋아요가_잘_취소되는지_확인한다() {
         commentService.like(3L, userOutline);
         commentService.like(3L, userOutline);
-        assertThat(commentService.isLiked(3L, userOutline)).isFalse();
 
-        assertThat(commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), 3L)).isFalse();
+        assertThat(commentService.isLiked(3L, userOutline)).isFalse();
     }
 
     @Test
