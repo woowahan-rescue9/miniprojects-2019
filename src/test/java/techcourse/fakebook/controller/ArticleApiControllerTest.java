@@ -50,9 +50,8 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
-                body(articleRequest).
+                formParam("content", "hello").
         when().
                 post("/api/articles").
         then().
@@ -166,7 +165,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 multiPart("files", new File("src/test/resources/static/images/logo/res9-logo.gif")).
                 formParam("content","hello").
         when().
-                post("/api/articles/upload").as(ArticleResponse.class);
+                post("/api/articles").as(ArticleResponse.class);
 
         assertThat(articleResponse.getResources().size()).isEqualTo(1);
     }

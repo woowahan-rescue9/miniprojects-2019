@@ -71,7 +71,7 @@ const App = (() => {
           '<span> {{content}} </span>' + 
         '</p>' +
         '{{#each image}}' +
-      '<img src="{{this.imagePath}}">' +
+      '<img src="{{this.path}}">' +
         '{{/each}}' +
       '</div>' +
       '<ul class="feed-action pdd-btm-5 border bottom">' +
@@ -115,7 +115,10 @@ const App = (() => {
         try {
           const req = new FormData()
           req.append("content", content)
-          req.append("attachment", document.getElementById("attachment").files[0])
+          const files = document.getElementById("attachment").files;
+          if(files.length > 0) {
+            req.append("files", files[0])
+          }
           const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
@@ -128,7 +131,7 @@ const App = (() => {
               "image": article.resources
             })
           )
-          console.log(article.resources)
+          document.getElementById("attachment").value=""
         } catch (e) {}
       }
     }

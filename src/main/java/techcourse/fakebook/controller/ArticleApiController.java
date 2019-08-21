@@ -30,7 +30,7 @@ public class ArticleApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ArticleResponse> create(@RequestBody ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<ArticleResponse> create(ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
         return ResponseEntity.created(URI.create("/api/articles")).body(articleResponse);
     }
