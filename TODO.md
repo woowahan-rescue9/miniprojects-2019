@@ -2,8 +2,8 @@
 
 친구 관련 기능
 - [x] ids 를 이용해서 여러유저 가져오기
-- [ ] 친구 어떤식으로 할지 정해놓기
-- [ ]실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
+- [x] 친구 어떤식으로 할지 정해놓기
+- [x]실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
 - [ ] 내가 진행한 사항에 대해서... 위키에 정리하기 (왜 이런 결정을 했는지, 어떤 부분이 문제였는지, 다른 사람들은 어떻게 했는지)
 
 
@@ -13,6 +13,18 @@
 http://tech.kakao.com/2016/01/29/opensource-1-s2graph/
 
 
+`
+show tables;
+
+select * from user;
+insert into user values (null, '2019-09-20', '2019-09-20', '20190727', 'coverUrl', 'hello1@hello.com', 'asdfsdafsafaasdf', 'man', 'hello world', 'eunsukko');
+insert into user values (null, '2019-09-20', '2019-09-20', '20190727', 'coverUrl',  'hello2@hello.com', 'asdfsdafsafaasdf', 'man', 'hello world', 'friend');
+
+select * from friendship;
+insert into friendship values (1, 1, 2);
+
+select * from friendship;
+`
 
 ## 친구라는 것이 문제가 되는 것??
 
