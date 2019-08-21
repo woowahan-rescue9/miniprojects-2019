@@ -1,5 +1,7 @@
 package techcourse.fakebook.domain.friendship;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.FriendshipNotRelatedUserIdException;
 import techcourse.fakebook.exception.InvalidFriendshipUserIdException;
@@ -15,10 +17,12 @@ public class Friendship {
 
     @ManyToOne
     @JoinColumn(name = "precedent_user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User precedentUser;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public Friendship() {

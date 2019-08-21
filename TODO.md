@@ -5,6 +5,7 @@
 - [x] 친구 어떤식으로 할지 정해놓기
 - [x]실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
 - [ ] 내가 진행한 사항에 대해서... 위키에 정리하기 (왜 이런 결정을 했는지, 어떤 부분이 문제였는지, 다른 사람들은 어떻게 했는지)
+- [ ] user 를 삭제할 경우에 관한 처리 (관련된 user가 삭제되면 어떻게 되려나?)
 
 
 
@@ -37,8 +38,7 @@ ex. 나의 뉴스피드에… 친구들의 글을 가져오기… (글에서 해
 
 
 
-
-
 참고
 1. in clause [https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_in]
 2. JPA repository [https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords] - repository 에서 어떻게 in 을 적용할지 (여러 id들로 해당하는 user 검색)
+3. OnDelete [https://stackoverflow.com/questions/7197181/jpa-unidirectional-many-to-one-and-cascading-delete]
