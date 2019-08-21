@@ -256,7 +256,6 @@ const App = (() => {
       this.articleService.remove(id)
     }
 
-
     likeArticle(id) {
       this.articleService.like(id)
     }
