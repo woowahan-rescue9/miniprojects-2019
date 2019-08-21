@@ -80,16 +80,6 @@
                             </div>
                         </a>
                     </li>
-                    <!-- <li class="">
-                        <a class="pointer">
-                            <span class="text-white text-bold font-size-12">홈</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a class="pointer">
-                            <span class="text-white text-bold font-size-12">만들기</span>
-                        </a>
-                    </li> -->
                     <li>
                         <div class="friend-btn pointer mrg-vertical-10 mrg-horizon-5"></div>
                     </li>
@@ -189,7 +179,7 @@
                                         <div class="info">
                                             <a th:href="'/users/' + ${article.articleResponse.userOutline.id}" class="title no-pdd-vertical text-semibold inline-block" th:text="${article.articleResponse.userOutline.name}"></a>
                                             <span>님이 게시물을 작성하였습니다.</span>
-                                            <span class="sub-title" th:text="${article.articleResponse.recentDate}"></span>
+                                            <span th:text="${article.articleResponse.recentDate}" class="sub-title">방금 전 (임시)</span>
                                             <a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
                                                 <span class="btn-icon text-dark">
                                                   <i class="ti-more font-size-16"></i>
@@ -219,15 +209,15 @@
                             <ul class="feed-action pdd-btm-5 border bottom">
                                 <li>
                                     <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
-                                    <span class="font-size-14 lh-2-1" th:text="${article.countOfLike}"> 0</span>
+                                    <span th:id="'count-of-like-' + ${article.articleResponse.id}" class="font-size-14 lh-2-1" th:text="${article.countOfLike}"> 0</span>
                                 </li>
                                 <li class="float-right mrg-right-15">
-                                    <span class="font-size-13">댓글 <span th:text="${article.countOfComment}">0</span>개</span>
+                                    <span class="font-size-13">댓글 <span th:id="'count-of-comment-' + ${article.articleResponse.id}" th:text="${article.countOfComment}">0</span>개</span>
                                 </li>
                             </ul>
                             <ul class="feed-action border bottom d-flex">
                                 <li class="text-center flex-grow-1">
-                                    <button class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">
+                                    <button th:id="'article-like-' + ${article.articleResponse.id}" th:onclick="|javascript:App.likeArticle('${article.articleResponse.id}')|" class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">
                                         <i class="fa fa-thumbs-o-up font-size-16"></i>
                                         <span class="font-size-13">좋아요</span>
                                     </button>
@@ -250,41 +240,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 pdd-right-0">
-                    <div class="card">
-                        <h5 class="card-title mrg-top-15 mrg-btm-0 mrg-horizon-15">스토리</h5>
-                        <div class="card-body">
-                            <ul class="list-unstyled list-info">
-                                <li class="story-user-list mrg-btm-10">
-                                    <img class="thumb-img img-circle img-circle-blue border" src="images/default/plus_btn.png" alt="">
-                                    <div class="info mrg-left-5">
-                                        <a href="" class="title no-pdd-vertical text-semibold inline-block text-bold text-link-color">스토리에 추가</a>
-                                        <span class="sub-title">사진, 동영상을 공유하거나 글을 남겨보세요</span>
-                                    </div>
-                                </li>
-                                <li class="story-user-list mrg-btm-10">
-                                    <img class="thumb-img img-circle img-circle-blue" src="https://avatars2.githubusercontent.com/u/46308585?s=460&v=4" alt="">
-                                    <div class="info mrg-left-5 pdd-top-5">
-                                        <a href="" class="title no-pdd-vertical text-semibold inline-block text-bold">CU</a>
-                                        <span class="sub-title">18시간전</span>
-                                    </div>
-                                </li>
-                                <li class="story-user-list mrg-btm-10">
-                                    <img class="thumb-img img-circle img-circle-blue" src="images/default/eastjun_profile.jpg" alt="">
-                                    <div class="info mrg-left-5 pdd-top-5">
-                                        <a href="" class="title no-pdd-vertical text-semibold inline-block text-bold">Eastjun</a>
-                                        <span class="sub-title">18시간전</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="border top">
-                            <div class="pdd-vertical-15 pdd-horizon-20 text-center">
-                                <a href="" class="text-semibold text-dark">More...</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </main>
         <footer class="footer mrg-top-65">
