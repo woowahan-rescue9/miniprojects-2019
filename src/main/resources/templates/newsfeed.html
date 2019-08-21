@@ -46,7 +46,8 @@
                     <li class="search-container">
                     <span class="search">
                         <form action="" method="get">
-                            <input type="text" class="searchbox" placeholder="검색">
+                            <input class="searchbox" id="search" list="autocomplete" placeholder="검색" type="text" >
+                            <datalist id="autocomplete"></datalist>
                             <button type="submit" class="search-btn">
                                 <i class="ti-search"></i>
                             </button>
@@ -299,6 +300,61 @@
             </a>
             <div class="mrg-top-20"> </div>
         </footer>
+        <script type="text/javascript">
+        window.onload = function(){
+            const SPACE_PATTERN = /\s/g;
+
+            let search = document.getElementById("search");
+            let autocomplete = document.getElementById("autocomplete");
+            let keyword = "";
+
+            search.onkeyup = function(e){
+               keyword = search.value;
+
+               if ( keyword.match(SPACE_PATTERN) || keyword == "" ) {
+                  autocomplete.style.display = "none";
+                  autocomplete.innerHTML = "";
+               }
+               else {
+                  console.log(keyword);
+                  autocomplete.style.display = "block";
+                  findUserNamesByKeyword(autocomplete, keyword);
+               }
+            };
+         };
+
+         function findUserNamesByKeyword(autocomplete, keyword) {
+            const BASE_URL = `http://${window.location.host}`
+
+            fetch(BASE_URL + "/api/users/" + keyword, {
+                method : "GET",
+                headers: {
+                   "Accept": "application/json"
+                }
+            })
+            .then(res => {
+                console.log(res);
+                return res.json()})
+            .then(json => {
+                autocomplete.innerHTML = "";
+                console.log(json);
+                for (var i=0; i < json.length; i++) {
+                    if(json[i].includes(search.value)) {
+                        autocomplete.innerHTML += "<option onclick='selectData(this);' value=" + json[i] + ">";
+                    }
+                }
+            })
+            .catch(err => console.log(err));
+         }
+
+         function selectData(that) {
+             var search = document.getElementById("search");
+             search.value = that.innerText;
+
+             var autocomplete = document.getElementById("autocomplete");
+             autocomplete.style.display="none";
+         }
+    </script>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>

@@ -10,6 +10,7 @@ import techcourse.fakebook.service.dto.UserResponse;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,5 +36,15 @@ public class UserApiController {
         session.setAttribute(LoginController.SESSION_USER_KEY, userOutline);
 
         return ResponseEntity.ok(userResponse);
+    }
+
+    @GetMapping("/{keyword}")
+    public ResponseEntity<List<String>> update(@PathVariable String keyword) {
+        log.debug("begin");
+        log.debug("keyword : {}", keyword);
+
+        List<String> userNames = userService.findUserNamesByKeyword(keyword);
+
+        return ResponseEntity.ok(userNames);
     }
 }
