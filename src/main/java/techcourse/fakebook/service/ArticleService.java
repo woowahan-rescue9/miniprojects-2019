@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,12 +55,6 @@ public class ArticleService {
                 .map(articleAssembler::toResponse)
                 .collect(Collectors.toList());
     }
-
-//    public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
-//        User user = userService.getUser(userOutline.getId());
-//        Article article = articleRepository.save(articleAssembler.toEntity(articleRequest, user));
-//        return articleAssembler.toResponse(article);
-//    }
 
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
         User user = userService.getUser(userOutline.getId());
@@ -121,15 +112,11 @@ public class ArticleService {
 
     private ArticleMultipart saveMultipart(MultipartFile file, Article article) {
         try {
-            byte[] bytes = file.getBytes();
-
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path staticFilePath = Paths.get(ARTICLE_STATIC_FILE_PATH + hashingName);
-            Files.write(staticFilePath, bytes);
+            Path filePath = writeFile(file, hashingName);
 
-            String databasePath = staticFilePath.toString();
-            ArticleMultipart articleMultipart = new ArticleMultipart(file.getOriginalFilename(), databasePath, article);
+            ArticleMultipart articleMultipart = new ArticleMultipart(file.getOriginalFilename(), filePath.toString(), article);
 
             return articleMultipartRepository.save(articleMultipart);
         } catch (IOException e) {
@@ -137,12 +124,18 @@ public class ArticleService {
         }
     }
 
+    private Path writeFile(MultipartFile file, String hashingName) throws IOException {
+        byte[] bytes = file.getBytes();
+        Path staticFilePath = Paths.get(ARTICLE_STATIC_FILE_PATH + hashingName);
+        return Files.write(staticFilePath, bytes);
+    }
+
     private String getHashedName(String originalFileName) {
-        String hashCodeOfFile = String.valueOf(System.currentTimeMillis());
+        String hashCodeOfFile = UUID.randomUUID().toString();
 
         List<String> splits = Arrays.asList(originalFileName.split("\\."));
         if (splits.size() < 1) {
-            throw new FileSaveException("파일명이 올바르지 않습니다.");
+            throw new FileSaveException("파일형식이 올바르지 않습니다.");
         }
         String extension = splits.get(splits.size() - 1);
 
