@@ -77,23 +77,23 @@ const App = (() => {
       '<ul class="feed-action pdd-btm-5 border bottom">' +
         '<li>' +
           '<i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>' +
-          '<span class="font-size-14 lh-2-1"> 0</span>' +
+          '<span id="count-of-like-{{id}}" class="font-size-14 lh-2-1"> 0</span>' +
         '</li>' +
         '<li class="float-right mrg-right-15">' +
-          '<span class="font-size-13">댓글 0개</span>' +
+          '<span class="font-size-13">댓글 <span id="count-of-comment-{{id}}">0</span>개</span>' +
         '</li>' +
       '</ul>' +
       '<ul class="feed-action border bottom d-flex">' +
         '<li class="text-center flex-grow-1">' +
-          '<button class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">' +
+          '<button id="article-like-{{id}}" onclick="App.likeArticle({{id}})" class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">' +
             '<i class="fa fa-thumbs-o-up font-size-16"></i>' +
-            '<span class="font-size-13">좋아요</span>' +
+            '<span class="font-size-13"> 좋아요</span>' +
           '</button>' +
         '</li>' +
         '<li class="text-center flex-grow-1">' +
           '<button class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">' +
             '<i class="fa fa-comment-o font-size-16"></i>' +
-            '<span class="font-size-13">댓글</span>' +
+            '<span class="font-size-13"> 댓글</span>' +
           '</button>' +
         '</li>' +
       '</ul>' +
@@ -173,6 +173,17 @@ const App = (() => {
         document.getElementById("article-" + id).remove()
       } catch (e) {}
     }
+
+    async like(id) {
+      try {
+        await axios.post(BASE_URL + "/api/articles/" + id + "/like")
+        const likeButton = document.getElementById("article-like-" + id)
+        likeButton.classList.toggle('text-info')
+
+        const countOfLike = (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
+        document.getElementById("count-of-like-" + id).innerText = " " + countOfLike
+      } catch (e) {}
+    }
   }
   
   const COMMENT_TEMPLATE_HTML =
@@ -243,6 +254,10 @@ const App = (() => {
 
     removeArticle(id) {
       this.articleService.remove(id)
+    }
+
+    likeArticle(id) {
+      this.articleService.like(id)
     }
 
     writeComment(event, id) {
