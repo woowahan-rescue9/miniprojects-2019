@@ -6,11 +6,9 @@ import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
 
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 class UserApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
@@ -63,7 +61,6 @@ class UserApiControllerTest extends ControllerTestHelper {
                 new UserSignupRequest("aa@bb.cc", "keyword", "123", "1q2w3e$R", "M", "123456");
         String cookie = getCookie(signup(userSignupRequest));
 
-        List<String> userNames =
                 given().
                         port(port).
                         cookie(cookie).
@@ -72,10 +69,6 @@ class UserApiControllerTest extends ControllerTestHelper {
                         get("/api/users/" + "keyword").
                 then().
                         statusCode(200).
-                        extract().
-                        body().
-                        jsonPath().getList(".", String.class);
-
-        assertThat(userNames.size()).isGreaterThanOrEqualTo(1);
+                        body(".", hasItem("keyword123"));
     }
 }
