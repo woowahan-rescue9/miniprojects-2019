@@ -6,6 +6,7 @@ import techcourse.fakebook.domain.article.ArticleMultipart;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.dto.TotalArticleResponse;
 import techcourse.fakebook.service.dto.UserOutline;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,10 @@ public class ArticleAssembler {
     public ArticleResponse toResponse(Article article, List<ArticleMultipart> resources) {
         UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, resources);
+    }
+
+    public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment, Integer countOfLike) {
+        return new TotalArticleResponse(articleResponse, countOfComment, countOfLike);
     }
 
     private LocalDateTime getRecentDate(Article article) {
