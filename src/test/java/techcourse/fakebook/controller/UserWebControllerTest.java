@@ -48,11 +48,7 @@ class UserWebControllerTest extends ControllerTestHelper {
                 .expectBody()
                 .consumeWith(response -> {
                     String body = new String(response.getResponseBody());
-                    assertThat(body.contains(userSignupRequest.getEmail())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getLastName())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getFirstName())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getGender())).isTrue();
-                    assertThat(body.contains(userSignupRequest.getBirth())).isTrue();
+                    assertThat(body.contains("/users/" + userId)).isTrue();
                 });
     }
 

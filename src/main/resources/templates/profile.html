@@ -54,11 +54,11 @@
                     </li>
                 </ul>
                 <ul class="nav-right">
-                    <li class="user-profile" th:object="${session.user}">
-                        <a th:href="'/users/' + *{id}">
-                            <img class="profile-img img-fluid" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
+                    <li class="user-profile" >
+                        <a th:href="'/users/' + ${user.id}">
+                            <img class="profile-img img-fluid" th:src="'/images/profile/' + ${user.coverUrl}" alt="프로필 사진">
                             <div class="user-info mrg-left-5">
-                                <span class="name pdd-right-5 text-white text-bold" th:text="*{name}"></span>
+                                <span class="name pdd-right-5 text-white text-bold" th:text="${user.name}"></span>
                             </div>
                         </a>
                     </li>
@@ -140,7 +140,7 @@
                     <div class="timeline">
                         <div class="card widget-compose">
                             <p class="border bottom width-100 pdd-btm-5 text-bold">게시물 만들기</p>
-                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle(event)"></textarea>
+                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle(event)"></textarea>
                             <ul class="composor-tools pdd-top-15">
                                 <li class="bg-lightgray border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">

@@ -65,10 +65,9 @@ public class ControllerTestHelper {
 
         return given().
                 port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 cookie(cookie).
-        body(articleRequest).
-                when().
+                formParam("content", "hello").
+        when().
                 post("/api/articles").
                 as(ArticleResponse.class);
     }
