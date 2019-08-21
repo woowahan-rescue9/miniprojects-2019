@@ -112,7 +112,10 @@ const App = (() => {
         try {
           const req = new FormData()
           req.append("content", content)
-          req.append("attachment", document.getElementById("attachment").files[0])
+          const attachment = document.getElementById("attachment").files[0]
+          if (attachment != null) {
+            req.append("attachment", attachment)
+          }
           const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
