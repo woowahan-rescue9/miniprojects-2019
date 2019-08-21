@@ -15,7 +15,6 @@ public class NotExistsEmailValidator implements ConstraintValidator<NotExistsEma
 
     @Override
     public void initialize(NotExistsEmail constraintAnnotation) {
-
     }
 
     @Override

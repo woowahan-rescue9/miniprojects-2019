@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Entity
 public class Comment extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,16 +41,16 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
+    public void delete() {
+        deleted = true;
+    }
+
     public boolean isDeleted() {
         return deleted;
     }
 
     public boolean isNotAuthor(Long id) {
         return !user.isSameWith(id);
-    }
-
-    public void delete() {
-        deleted = true;
     }
 
     public Long getId() {

@@ -4,7 +4,7 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     properties:
-      hiberante:
+      hibernate:
         format-sql: true
   datasource:
     initialization-mode: always
@@ -16,6 +16,11 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
 
 
 logging:

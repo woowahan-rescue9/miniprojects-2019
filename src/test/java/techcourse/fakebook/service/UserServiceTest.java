@@ -13,6 +13,8 @@ import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
 import techcourse.fakebook.service.utils.UserAssembler;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -143,5 +145,20 @@ class UserServiceTest {
 
         // Act & Assert
         assertThat(userService.hasNotUserWithEmail(existsEmail)).isFalse();
+    }
+
+    @Test
+    void findUserNamesByKeyword_키워드를_통한_유저_이름_조회() {
+        //Arrange
+        String keyword = "abc";
+        User user = mock(User.class);
+        List<User> usersConstainingKeyword = Arrays.asList(user);
+        given(userRepository.findByNameContaining(keyword)).willReturn(usersConstainingKeyword);
+
+        //Act
+        userService.findUserNamesByKeyword(keyword);
+
+        //Assert
+        verify(user).getName();
     }
 }

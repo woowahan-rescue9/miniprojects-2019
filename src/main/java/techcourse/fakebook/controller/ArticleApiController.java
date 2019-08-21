@@ -1,5 +1,6 @@
 package techcourse.fakebook.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class ArticleApiController {
     }
 
     @PostMapping
-    public ResponseEntity<ArticleResponse> create(@RequestBody ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<ArticleResponse> create(ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
         return ResponseEntity.created(URI.create("/api/articles")).body(articleResponse);
     }
@@ -36,7 +37,8 @@ public class ArticleApiController {
     @PutMapping("/{id}")
     public ResponseEntity<ArticleResponse> update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.update(id, articleRequest, userOutline);
-        return ResponseEntity.ok().body(articleResponse);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;")
+                .body(articleResponse);
     }
 
     @DeleteMapping("/{id}")

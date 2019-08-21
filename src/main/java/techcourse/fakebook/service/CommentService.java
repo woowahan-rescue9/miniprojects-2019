@@ -68,28 +68,12 @@ public class CommentService {
         comment.delete();
     }
 
-    private Comment getComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(NotFoundCommentException::new);
-        if (comment.isDeleted()) {
-            throw new NotFoundCommentException();
-        }
-        return comment;
-    }
-
-    private void checkAuthor(UserOutline userOutline, Comment comment) {
-        if (comment.isNotAuthor(userOutline.getId())) {
-            throw new InvalidAuthorException();
-        }
-    }
-
     public boolean like(Long commentId, UserOutline userOutline) {
         Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), commentId));
-
         if (commentLike.isPresent()) {
             commentLikeRepository.delete(commentLike.get());
             return false;
         }
-
         commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(commentId)));
         return true;
     }
@@ -104,5 +88,19 @@ public class CommentService {
 
     public Integer getCommentsCountOf(Long articleId) {
         return commentRepository.countCommentByArticleId(articleId);
+    }
+
+    private Comment getComment(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(NotFoundCommentException::new);
+        if (comment.isDeleted()) {
+            throw new NotFoundCommentException();
+        }
+        return comment;
+    }
+
+    private void checkAuthor(UserOutline userOutline, Comment comment) {
+        if (comment.isNotAuthor(userOutline.getId())) {
+            throw new InvalidAuthorException();
+        }
     }
 }
