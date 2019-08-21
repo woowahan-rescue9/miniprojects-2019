@@ -1,6 +1,6 @@
 package techcourse.fakebook.exception;
 
-public class FileSaveException extends RuntimeException{
+public class FileSaveException extends RuntimeException {
     public FileSaveException() {
         super();
     }

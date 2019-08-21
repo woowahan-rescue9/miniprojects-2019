@@ -47,7 +47,7 @@ public class UserWebController {
     }
 
     @GetMapping("/{userId}")
-    public String show(@PathVariable Long userId, Model model){
+    public String show(@PathVariable Long userId, Model model) {
         log.debug("begin");
 
         UserResponse userResponse = userService.findById(userId);

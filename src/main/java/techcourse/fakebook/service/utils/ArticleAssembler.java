@@ -28,7 +28,6 @@ public class ArticleAssembler {
 
     public ArticleResponse toResponse(Article article, List<ArticleMultipart> resources) {
         UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
-//        resources.add(new ArticleMultipart("res9-logo.gif","/file/article/res9-logo.gif", article));
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, resources);
     }
 
