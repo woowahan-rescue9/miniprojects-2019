@@ -44,6 +44,7 @@ const App = (() => {
             '<div class="info">' +
               '<a href="/users/{{user.id}}" class="title no-pdd-vertical text-semibold inline-block">{{user.name}}</a>' +
               '<span>님이 게시물을 작성하였습니다.</span>' +
+              '<span class="sub-title">{{date}}</span>' +
               '<a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">' +
                 '<span class="btn-icon text-dark">' +
                   '<i class="ti-more font-size-16"></i>' +
@@ -104,21 +105,22 @@ const App = (() => {
     '</div>'
   const articleTemplate = Handlebars.compile(ARTICLE_TEMPLATE_HTML)
   class ArticleService extends Service {
-    async write(event) {
-      event = event || window.event
+    async write() {
       const textbox = document.getElementById("new-article")
       const content = textbox.value.trim()
-      if (content.length != 0 && super.isEnterKey(event)) {
+      if (content.length != 0) {
         try {
-          const article = (await axios.post(BASE_URL + "/articles", {
-            "content": content
-          })).data
+          const req = new FormData()
+          req.append("content", content)
+          req.append("attachment", document.getElementById("attachment").files[0])
+          const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
             "afterbegin",
             articleTemplate({
               "id": article.id,
               "content": article.content,
+              "date": super.formatDate(article.recentDate),
               "user": article.userOutline
             })
           )
@@ -144,7 +146,7 @@ const App = (() => {
       if (editedContent.length != 0 && super.isEnterKey(event)) {
         const result = await (async () => {
           try {
-            return (await axios.put(BASE_URL + "/articles/" + id, {
+            return (await axios.put(BASE_URL + "/api/articles/" + id, {
               "content": editedContent
             })).data.content
           } catch (e) {
@@ -159,7 +161,7 @@ const App = (() => {
 
     async remove(id) {
       try {
-        await axios.delete(BASE_URL + "/articles/" + id)
+        await axios.delete(BASE_URL + "/api/articles/" + id)
         document.getElementById("article-" + id).remove()
       } catch (e) {}
     }
@@ -176,7 +178,7 @@ const App = (() => {
         '<div class="font-size-12 pdd-left-10 pdd-top-5">' +
           '<span class="pointer text-link-color">좋아요</span>' +
           '<span> · </span>' +
-          '<span>{{createdDate}}</span>' +
+          '<span>{{date}}</span>' +
         '</div>' +
       '</div>' +
     '</li>'
@@ -197,7 +199,7 @@ const App = (() => {
             commentTemplate({
               "id": comment.id,
               "content": comment.content,
-              "createdDate": super.formatDate(comment.createdDate),
+              "date": super.formatDate(comment.createdDate),
               "user": comment.userOutline
             })
           )
