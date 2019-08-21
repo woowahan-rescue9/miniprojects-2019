@@ -9,7 +9,8 @@ public class ArticleRequest {
 
     private List<MultipartFile> files;
 
-    public ArticleRequest() {}
+    public ArticleRequest() {
+    }
 
     public ArticleRequest(String content) {
         this.content = content;

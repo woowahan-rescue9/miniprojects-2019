@@ -75,5 +75,4 @@ class LoginServiceTest {
         // Assert
         assertThat(userOutline).isEqualTo(expectedUserOutline);
     }
-
 }

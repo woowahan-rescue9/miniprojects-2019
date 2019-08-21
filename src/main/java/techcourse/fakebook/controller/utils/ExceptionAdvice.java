@@ -8,5 +8,4 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 @ControllerAdvice(annotations = Controller.class)
 public class ExceptionAdvice {
     private static final Logger log = LoggerFactory.getLogger(ExceptionAdvice.class);
-
 }

@@ -8,7 +8,8 @@ public class CommentResponse {
     private LocalDateTime createdDate;
     private UserOutline userOutline;
 
-    private CommentResponse() {}
+    private CommentResponse() {
+    }
 
     public CommentResponse(Long id, String content, LocalDateTime createdDate, UserOutline userOutline) {
         this.id = id;

@@ -11,16 +11,16 @@
         <meta property="og:type" content="website">
         <meta property="og:title" content="우아한테크코스">
         <meta property="og:description" id="metaOgDesc" content="우테코북">
-        <meta property="og:image" content="images/logo/logo-thumnail-bg.jpg">
+        <meta property="og:image" content="/images/logo/logo-thumnail-bg.jpg">
         <meta property="og:url" content="https://woowacourse.github.io/">
 
         <meta name="twitter:card" content="website">
         <meta name="twitter:title" content="우아한테크코스">
         <meta name="twitter:description" id="metaTwitterDesc" content="우테코북">
-        <meta name="twitter:image" content="images/logo/logo-thumnail-bg.jpg">
+        <meta name="twitter:image" content="/images/logo/logo-thumnail-bg.jpg">
         <meta name="twitter:domain" content="https://woowacourse.github.io/">
 
-        <link rel="shortcut icon" href="images/logo/favicon.ico">
+        <link rel="shortcut icon" href="/images/logo/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -29,9 +29,9 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amiri:400,400i|Source+Sans+Pro:400,400i,600,700'">
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="css/attachment.css">
+        <link rel="stylesheet" href="/css/app.css">
+        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/attachment.css">
     </head>
     <body>
     <div id="wootecobook-app">
@@ -40,7 +40,7 @@
                 <ul class="nav-left mrg-left-0">
                     <li>
                         <a href="/newsfeed">
-                            <div class="logo logo-small" style="background-image: url('images/default/icons.png')"></div>
+                            <div class="logo logo-small" style="background-image: url('/images/default/icons.png')"></div>
                         </a>
                     </li>
                     <li class="search-container">
@@ -56,8 +56,8 @@
                 </ul>
                 <ul class="nav-right">
                     <li class="user-profile" th:object="${session.user}">
-                        <a>
-                            <img class="profile-img img-fluid" th:src="'images/profile/' + *{coverUrl}" alt="프로필 사진">
+                        <a th:href="'/users/' + *{id}">
+                            <img class="profile-img img-fluid" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
                             <div class="user-info mrg-left-5">
                                 <span class="name pdd-right-5 text-white text-bold" th:text="*{name}"></span>
                             </div>
@@ -90,8 +90,8 @@
                 <div id="left-profile-container" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <div class="left">
                         <div class="left-profile" th:object="${session.user}">
-                            <a class="pointer">
-                                <img class="img-circle width-25px" th:src="'images/profile/' + *{coverUrl}" alt="프로필 사진">
+                            <a th:href="'/users/' + *{id}" class="pointer">
+                                <img class="img-circle width-25px" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
                                 <div class="left-name-edit pointer">
                                     <a class="left-name" th:text="*{name}"></a>
                                 </div>
@@ -126,7 +126,7 @@
                     <div class="social-feeds">
                         <div class="card widget-compose">
                             <p class="border bottom width-100 pdd-btm-5 text-bold">게시물 만들기</p>
-                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle()"></textarea>
+                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
                             <ul class="composor-tools pdd-top-15">
                                 <li class="bg-lightgray border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
@@ -137,7 +137,7 @@
                                         <div id="modal-content">
                                             <span id="attachment-close">&times;</span>
                                             <p>
-                                                <input type="file" accept="file_extension|image/*|media_type">
+                                                <input id="attachment" type="file" accept="file_extension|image/*|media_type">
                                             </p>
                                         </div>
                                     </div>
@@ -157,7 +157,7 @@
                                 <li class="bg-mint border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons write-article"></div>
-                                        <span class="icon-name font-size-13 text-bold"> 글쓰기</span>
+                                        <span class="icon-name font-size-13 text-bold" onclick="App.writeArticle()"> 글쓰기</span>
                                     </a>
                                 </li>
                             </ul>
@@ -168,7 +168,7 @@
                             <div class="feed-header">
                                 <ul class="list-unstyled list-info">
                                     <li>
-                                        <img class="thumb-img img-circle" src="images/default/eastjun_profile.jpg" alt="프로필 사진">
+                                        <img class="thumb-img img-circle" src="/images/default/eastjun_profile.jpg" alt="프로필 사진">
                                         <div class="info">
                                             <a href="" class="title no-pdd-vertical text-semibold inline-block">eastjun</a>
                                             <span>님이 그룹에 링크를 공유했습니다.</span>
@@ -297,6 +297,7 @@
             <a href="https://github.com/woowahan-rescue9" title="우아한9조대">
                 &copy; 2019 <img src="/images/logo/res9-logo.gif" alt="우아한9조대" width="20" height="20">
             </a>
+            <div class="mrg-top-20"> </div>
         </footer>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
