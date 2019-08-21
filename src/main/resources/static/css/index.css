@@ -118,6 +118,23 @@ header ul.nav-right li, header ul.nav-left li {
     background-position: -175px -329px
 }
 
+.friend-icon, .introduction-icon {
+    background-image: url('../images/default/icons.png');
+    background-repeat: no-repeat;
+    height: 24px;
+    width: 24px
+}
+
+.friend-icon {
+    background-size: 283px 396px;
+    background-position: 0 -354px
+}
+
+.introduction-icon {
+    background-size: 283px 396px;
+    background-position: -252px -306px
+}
+
 .story-user-list {
     height: 55px;
     width: 100%
@@ -125,10 +142,6 @@ header ul.nav-right li, header ul.nav-left li {
 
 .bg-lightgray {
     background-color: #f5f6f7
-}
-
-.bg-mint {
-    background-color: #daf5ec
 }
 
 .flex-grow-1 {
@@ -259,11 +272,6 @@ header ul.nav-right li, header ul.nav-left li {
 
 .icons.feeling-activity {
     background-position: 0 -501px;
-    background-size: 37px 1608px
-}
-
-.icons.write-article {
-    background-position: 0 -438px;
     background-size: 37px 1608px
 }
 
@@ -508,6 +516,32 @@ header ul.nav-right li, header ul.nav-left li {
     height: 50px
 }
 
+#profile-photo-container {
+    font-size: 24px;
+    font-weight: bolder;
+    text-align: center
+}
+
+#profile-photo-container > img {
+    display: inline-block;
+    border: 5px;
+    border-radius: 50%;
+    width: 144px;
+    height: 144px
+}
+
+.friend {
+    display: inline-block;
+    text-align: center;
+}
+
+.friend > img {
+    border: 1px;
+    width: 88px;
+    height: 88px
+
+}
+
 footer {
     text-align: center
 }
@@ -555,7 +589,7 @@ html {
 }
 
 body {
-    background: #fff;
+    background: rgb(247, 247, 247);
     color: #1c1e21;
     direction: ltr;
     line-height: 1.34;

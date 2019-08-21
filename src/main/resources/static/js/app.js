@@ -1,6 +1,40 @@
 const App = (() => {
   "use strict"
-  const BASE_URL = `http://${window.location.host}`
+
+  const BASE_URL = "http://" + window.location.host
+  const ENTER = 13
+  const MINUTE = 1000 * 60
+  const HOUR = 60 * MINUTE
+  const DAY = 24 * HOUR
+  const WEEK = 7 * DAY
+  class Service {
+    constructor() {
+      this.editBackup = {}
+    }
+
+    isEnterKey(e) {
+      return e.keyCode === ENTER || e.which === ENTER || e.key === ENTER
+    }
+
+    formatDate(dateString) {
+      const date = new Date(dateString)
+      const difference = (new Date()).getTime() - date.getTime()
+      if (difference < 10 * MINUTE) {
+        return "방금 전"
+      }
+      if (difference < HOUR) {
+        return Math.floor(difference / MINUTE) + "분 전"
+      }
+      if (difference < DAY) {
+        return Math.floor(difference / HOUR) + "시간 전"
+      }
+      if (difference < WEEK) {
+        return Math.floor(difference / DAY) + "일 전"
+      }
+      return date.format("yyyy-MM-dd hh:mm")
+    }
+  }
+
   const ARTICLE_TEMPLATE_HTML =
     '<div id="article-{{id}}" class="card widget-feed padding-15">' +
       '<div class="feed-header">' +
@@ -10,6 +44,7 @@ const App = (() => {
             '<div class="info">' +
               '<a href="/users/{{user.id}}" class="title no-pdd-vertical text-semibold inline-block">{{user.name}}</a>' +
               '<span>님이 게시물을 작성하였습니다.</span>' +
+              '<span class="sub-title">{{date}}</span>' +
               '<a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">' +
                 '<span class="btn-icon text-dark">' +
                   '<i class="ti-more font-size-16"></i>' +
@@ -63,11 +98,75 @@ const App = (() => {
         '<div class="comment">' +
         '<ul id="comments-{{id}}" class="list-unstyled list-info"></ul>' +
           '<div class="add-comment">' +
-            '<textarea id="new-comment-{{id}}" rows="1" class="form-control" placeholder="댓글을 입력하세요." onkeydown="App.writeComment({{id}})"></textarea>' +
+            '<textarea id="new-comment-{{id}}" rows="1" class="form-control" placeholder="댓글을 입력하세요." onkeydown="App.writeComment(event, {{id}})"></textarea>' +
           '</div>' +
         '</div>' +
       '</div>' +
     '</div>'
+  const articleTemplate = Handlebars.compile(ARTICLE_TEMPLATE_HTML)
+  class ArticleService extends Service {
+    async write() {
+      const textbox = document.getElementById("new-article")
+      const content = textbox.value.trim()
+      if (content.length != 0) {
+        try {
+          const req = new FormData()
+          req.append("content", content)
+          req.append("attachment", document.getElementById("attachment").files[0])
+          const article = (await axios.post(BASE_URL + "/api/articles", req)).data
+          textbox.value = ""
+          document.getElementById("articles").insertAdjacentHTML(
+            "afterbegin",
+            articleTemplate({
+              "id": article.id,
+              "content": article.content,
+              "date": super.formatDate(article.recentDate),
+              "user": article.userOutline
+            })
+          )
+        } catch (e) {}
+      }
+    }
+
+    edit(id) {
+      const contentArea = document.getElementById("article-" + id + "-content")
+      const originalContent = contentArea.firstChild.firstChild.innerHTML.trim()
+      contentArea.innerHTML = ""
+      contentArea.insertAdjacentHTML(
+        "afterbegin",
+        '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
+      )
+      super.editBackup[id] = originalContent
+    }
+
+    async confirmEdit(event, id) {
+      event = event || window.event
+      const contentArea = document.getElementById("article-" + id + "-content")
+      const editedContent = contentArea.firstChild.value.trim()
+      if (editedContent.length != 0 && super.isEnterKey(event)) {
+        const result = await (async () => {
+          try {
+            return (await axios.put(BASE_URL + "/api/articles/" + id, {
+              "content": editedContent
+            })).data.content
+          } catch (e) {
+            return super.editBackup[id]
+          }
+        })()
+        contentArea.innerHTML = ""
+        contentArea.insertAdjacentHTML("afterbegin", "<p><span> " + result + " </span></p>")
+        super.editBackup[id] = undefined
+      }
+    }
+
+    async remove(id) {
+      try {
+        await axios.delete(BASE_URL + "/api/articles/" + id)
+        document.getElementById("article-" + id).remove()
+      } catch (e) {}
+    }
+  }
+  
   const COMMENT_TEMPLATE_HTML =
     '<li class="comment-item">' +
       '<img class="thumb-img img-circle" src="images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
@@ -79,163 +178,28 @@ const App = (() => {
         '<div class="font-size-12 pdd-left-10 pdd-top-5">' +
           '<span class="pointer text-link-color">좋아요</span>' +
           '<span> · </span>' +
-          '<span>{{createdDate}}</span>' +
+          '<span>{{date}}</span>' +
         '</div>' +
       '</div>' +
     '</li>'
-  const articleTemplate = Handlebars.compile(ARTICLE_TEMPLATE_HTML)
   const commentTemplate = Handlebars.compile(COMMENT_TEMPLATE_HTML)
-
-  const Controller = function() {
-    const articleService = new ArticleService()
-    const commentService = new CommentService()
-
-    const writeArticle = () => {
-      articleService.write()
-    }
-
-    const editArticle = id => {
-      articleService.edit(id)
-    }
-
-    const confirmEditArticle = id => {
-      articleService.confirmEdit(id)
-    }
-
-    const removeArticle = id => {
-      articleService.remove(id)
-    }
-
-    const writeComment = id => {
-      commentService.write(id)
-    }
-
-    const removeComment = id => {
-      commentService.remove(id)
-    }
-
-    return {
-      "writeArticle": writeArticle,
-      "editArticle": editArticle,
-      "confirmEditArticle": confirmEditArticle,
-      "removeArticle": removeArticle,
-      "writeComment": writeComment,
-      "removeComment": removeComment
-    }
-  }
-
-  const formatDate = dateString => {
-    const MINUTE = 1000 * 60
-    const HOUR = 60 * MINUTE
-    const DAY = 24 * HOUR
-    const WEEK = 7 * DAY
-    const TIME_ZONE_ADJUSTMENT = 9 * HOUR
-
-    const date = new Date(dateString)
-    const difference = (new Date()).getTime() + TIME_ZONE_ADJUSTMENT - date.getTime()
-    if (difference < 10 * MINUTE) {
-      return "방금 전"
-    }
-    if (difference < HOUR) {
-      return Math.floor(difference / MINUTE) + "분 전"
-    }
-    if (difference < DAY) {
-      return Math.floor(difference / HOUR) + "시간 전"
-    }
-    if (difference < WEEK) {
-      return Math.floor(difference / DAY) + "일 전"
-    }
-    return date.format("yyyy-MM-dd hh:mm")
-  }
-
-  const ArticleService = function() {
-    const ENTER = 13
-    const EDIT_BACKUP = {}
-
-    const write = async () => {
-      const textbox = document.getElementById("new-article")
-      const content = textbox.value.trim()
-      if (content.length != 0 && (event.keyCode === ENTER || event.which === ENTER || event.key === ENTER)) {
-        try {
-          textbox.value = ""
-          const article = (await axios.post(BASE_URL + "/api/articles", {
-            "content": content
-          })).data
-          document.getElementById("articles").insertAdjacentHTML(
-            "afterbegin",
-            articleTemplate({
-              "id": article.id,
-              "content": article.content,
-              "user": article.userOutline
-            })
-          )
-        } catch (e) {}
-      }
-    }
-
-    const edit = id => {
-      const contentArea = document.getElementById("article-" + id + "-content")
-      const originalContent = contentArea.firstChild.firstChild.innerHTML.trim()
-      contentArea.innerHTML = ""
-      contentArea.insertAdjacentHTML(
-        "afterbegin",
-        '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(' + id + ')">' + originalContent + '</textarea>'
-      )
-      EDIT_BACKUP[id] = originalContent
-    }
-
-    const confirmEdit = async id => {
-      const contentArea = document.getElementById("article-" + id + "-content")
-      const editedContent = contentArea.firstChild.value.trim()
-      if (editedContent.length != 0 && (event.keyCode === ENTER || event.which === ENTER || event.key === ENTER)) {
-        const result = await (async () => {
-          try {
-            return (await axios.put(BASE_URL + "/api/articles/" + id, {
-              "content": editedContent
-            })).data.content
-          } catch (e) {
-            return EDIT_BACKUP[id]
-          }
-        })()
-        contentArea.innerHTML = ""
-        contentArea.insertAdjacentHTML("afterbegin", '<p><span> ' + result + ' </span></p>')
-        EDIT_BACKUP[id] = undefined
-      }
-    }
-
-    const remove = async id => {
-      try {
-        await axios.delete(BASE_URL + "/api/articles/" + id)
-        document.getElementById("article-" + id).remove()
-      } catch (e) {}
-    }
-
-    return {
-      "write": write,
-      "edit": edit,
-      "confirmEdit": confirmEdit,
-      "remove": remove
-    }
-  }
-
-  const CommentService = function() {
-    const ENTER = 13
-
-    const write = async id => {
+  class CommentService extends Service {
+    async write(event, id) {
+      event = event || window.event
       const textbox = document.getElementById("new-comment-" + id)
       const content = textbox.value.trim()
-      if (content.length != 0 && (event.keyCode === ENTER || event.which === ENTER || event.key === ENTER)) {
+      if (content.length != 0 && super.isEnterKey(event)) {
         try {
-          textbox.value = ""
           const comment = (await axios.post(BASE_URL + "/api/articles/" + id + "/comments", {
             "content": content
           })).data
+          textbox.value = ""
           document.getElementById("comments-" + id).insertAdjacentHTML(
             "beforeend",
             commentTemplate({
               "id": comment.id,
               "content": comment.content,
-              "createdDate": formatDate(comment.createdDate),
+              "date": super.formatDate(comment.createdDate),
               "user": comment.userOutline
             })
           )
@@ -243,27 +207,44 @@ const App = (() => {
       }
     }
 
-    const remove = async id => {
+    async remove(id) {
       try {
         await axios.delete(BASE_URL + "/api/comments/" + id)
         document.getElementById("comments-" + id).remove()
       } catch (e) {}
     }
+  }
 
-    return {
-      "write": write,
-      "remove": remove
+  class Controller {
+    constructor(articleService, commentService) {
+      this.articleService = articleService
+      this.commentService = commentService
+    }
+
+    writeArticle(event) {
+      this.articleService.write(event)
+    }
+
+    editArticle(id) {
+      this.articleService.edit(id)
+    }
+
+    confirmEditArticle(event, id) {
+      this.articleService.confirmEdit(event, id)
+    }
+
+    removeArticle(id) {
+      this.articleService.remove(id)
+    }
+
+    writeComment(event, id) {
+      this.commentService.write(event, id)
+    }
+
+    removeComment(id) {
+      this.commentService.remove(id)
     }
   }
 
-  const controller = new Controller()
-
-  return {
-    "writeArticle": controller.writeArticle,
-    "editArticle": controller.editArticle,
-    "confirmEditArticle": controller.confirmEditArticle,
-    "removeArticle": controller.removeArticle,
-    "writeComment": controller.writeComment,
-    "removeComment": controller.removeComment
-  }
+  return new Controller(new ArticleService(), new CommentService())
 })()
