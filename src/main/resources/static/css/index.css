@@ -144,6 +144,22 @@ header ul.nav-right li, header ul.nav-left li {
     background-color: #f5f6f7
 }
 
+.bg-lightgray-button {
+    background-color: #f5f6f7
+}
+
+.bg-lightgray-button:hover {
+    background-color: #e6e7e8
+}
+
+.bg-mint-button {
+    background-color: #daf5ec
+}
+
+.bg-mint-button:hover {
+    background-color: #d1ebe2
+}
+
 .flex-grow-1 {
     flex-grow: 1
 }
@@ -272,6 +288,11 @@ header ul.nav-right li, header ul.nav-left li {
 
 .icons.feeling-activity {
     background-position: 0 -501px;
+    background-size: 37px 1608px
+}
+
+.icons.write-article {
+    background-position: 0 -438px;
     background-size: 37px 1608px
 }
 
