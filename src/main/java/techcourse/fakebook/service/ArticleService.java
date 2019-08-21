@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class ArticleService {
     private static final String DEFAULT_PATH = "src/main/resources/static";
-    private static final String ARTICLE_STATIC_FILE_PATH = "/file/article/";
+    private static final String ARTICLE_STATIC_FILE_PATH = "file/article/";
 
     private ArticleRepository articleRepository;
     private ArticleLikeRepository articleLikeRepository;
@@ -125,10 +125,10 @@ public class ArticleService {
 
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path staticFilePath = Paths.get(DEFAULT_PATH + ARTICLE_STATIC_FILE_PATH + hashingName);
+            Path staticFilePath = Paths.get(ARTICLE_STATIC_FILE_PATH + hashingName);
             Files.write(staticFilePath, bytes);
 
-            String databasePath = ARTICLE_STATIC_FILE_PATH + hashingName;
+            String databasePath = staticFilePath.toString();
             ArticleMultipart articleMultipart = new ArticleMultipart(file.getOriginalFilename(), databasePath, article);
 
             return articleMultipartRepository.save(articleMultipart);

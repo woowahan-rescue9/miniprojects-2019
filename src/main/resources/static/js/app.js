@@ -71,7 +71,7 @@ const App = (() => {
           '<span> {{content}} </span>' + 
         '</p>' +
         '{{#each image}}' +
-      '<img src="{{this.path}}">' +
+      '<img class="vertical-align" src="{{this.path}}">' +
         '{{/each}}' +
       '</div>' +
       '<ul class="feed-action pdd-btm-5 border bottom">' +
