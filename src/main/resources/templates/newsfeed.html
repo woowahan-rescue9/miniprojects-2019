@@ -32,6 +32,21 @@
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/index.css">
         <link rel="stylesheet" href="/css/attachment.css">
+        <style>
+            .dropdown {
+                font-size: 15px;
+                top: 34px;
+                left: 12px;
+                background: white;
+                height: 200px;
+                overflow-y: auto;
+            }
+            .dropdown-item {
+                padding-left: 10px;
+                padding-top: 3px;
+                width: 400px;
+            }
+        </style>
     </head>
     <body>
     <div id="wootecobook-app">
@@ -46,8 +61,9 @@
                     <li class="search-container">
                     <span class="search">
                         <form action="" method="get">
-                            <input class="searchbox" id="search" list="autocomplete" placeholder="검색" type="text" >
-                            <datalist id="autocomplete"></datalist>
+                            <input class="searchbox" id="search" placeholder="검색" type="text">
+                            <div class="dropdown" id="autocomplete">
+                            </div>
                             <button type="submit" class="search-btn">
                                 <i class="ti-search"></i>
                             </button>
@@ -340,7 +356,7 @@
                 console.log(json);
                 for (var i=0; i < json.length; i++) {
                     if(json[i].includes(search.value)) {
-                        autocomplete.innerHTML += "<option onclick='selectData(this);' value=" + json[i] + ">";
+                        autocomplete.innerHTML += "<span class='dropdown-item' onclick='selectData(this);'>" + json[i] + "</span>";
                     }
                 }
             })
