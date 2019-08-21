@@ -3,9 +3,20 @@
 친구 관련 기능
 - [x] ids 를 이용해서 여러유저 가져오기
 - [x] 친구 어떤식으로 할지 정해놓기
-- [x]실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
+- [x] 실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
 - [ ] 내가 진행한 사항에 대해서... 위키에 정리하기 (왜 이런 결정을 했는지, 어떤 부분이 문제였는지, 다른 사람들은 어떻게 했는지)
-- [ ] user 를 삭제할 경우에 관한 처리 (관련된 user가 삭제되면 어떻게 되려나?)
+- [x] user 를 삭제할 경우에 관한 처리 (관련된 user가 삭제되면 어떻게 되려나?)
+- [ ] 컨트롤러 구현  
+    - [ ] 친구추가(외부에서 어떤 식으로 요청을 보낼까?)  
+        - 추가할 userId 를 사용 /friends [POST] {friend_id=10}  
+            - 성공: CREATED 201  
+            - 실패: FORBIDDEN 403  
+        - 친구추가 버튼 (친구인 상태이면 비활성화, 친구아니면 친구기능 동작하도록)
+            - 로그인 user + friendId 로... 해당 버튼을 처리해야함
+
+        - /friendships {friendId: id}
+        - 결과적으로는 .... loginedUserId, friendId 가 필요
+    - [ ] 친구조회? (UserOutline)
 
 
 
@@ -25,7 +36,12 @@ select * from friendship;
 insert into friendship values (1, 1, 2);
 
 select * from friendship;
-`
+
+
+## 테스트 command
+$ curl -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"friendId":"5"}' localhost:8080/api/friendship
+
+// 위에서 friendId 임에 주의 (friend_id 인줄 알았는데... ㅠㅠ)
 
 ## 친구라는 것이 문제가 되는 것??
 

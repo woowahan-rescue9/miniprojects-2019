@@ -2,6 +2,8 @@ package techcourse.fakebook.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.domain.user.User;
@@ -10,12 +12,16 @@ import techcourse.fakebook.domain.user.UserRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FriendshipServiceTest {
+    private static final Logger log = LoggerFactory.getLogger(FriendshipServiceTest.class);
+
+    private static int newUserId = 1000;
+
     @Autowired
     private FriendshipService friendshipService;
 
@@ -34,7 +40,6 @@ class FriendshipServiceTest {
     @BeforeEach
     void Setup() {
         유저_10명_추가();
-
     }
 
     private void 유저_10명_추가() {
@@ -60,6 +65,7 @@ class FriendshipServiceTest {
         유저_친구_초기화(userIndex, friendIndexes);
 
         // Act
+        log.debug("userId: {}", userId);
         List<Long> foundFriendIds = friendshipService.findFriendIds(userId);
 
         // Assert
@@ -82,6 +88,7 @@ class FriendshipServiceTest {
         유저_친구_초기화(userIndex, friendIndexes);
 
         // Act
+        log.debug("userId: {}", userId);
         userService.deleteById(userId);
 
         // Assert
@@ -108,16 +115,16 @@ class FriendshipServiceTest {
     }
 
     private List<User> generatesUsers(int numUsers) {
-        return IntStream.range(0, numUsers)
-                .mapToObj(FriendshipServiceTest::newUser)
+        return Stream.generate(FriendshipServiceTest::newUser)
+                .limit(numUsers)
                 .collect(Collectors.toList());
     }
 
-    private static User newUser(int number) {
+    private static User newUser() {
         String anyString = "xxx";
 
         return new User(
-                String.format("email%d@hello.com", number),
+                String.format("email%d@hello.com", newUserId++),
                 anyString,
                 anyString,
                 anyString,

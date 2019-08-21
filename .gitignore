@@ -36,3 +36,6 @@ out/
 
 ### 임시 저장소 ###
 file/
+
+### MY RUNNER FOR ADD TEST DATA ###
+src/main/java/techcourse/fakebook/Runner.java

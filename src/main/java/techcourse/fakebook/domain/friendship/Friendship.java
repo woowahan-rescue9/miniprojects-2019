@@ -43,7 +43,6 @@ public class Friendship {
 
     public static Friendship from(User precedentUser, User user) {
         if (precedentUser.getId() >= user.getId()) {
-            // swap
             User tmp = precedentUser;
             precedentUser = user;
             user = tmp;

@@ -35,12 +35,10 @@ class UserRepositoryTest {
         assertThat(userRepository).isNotNull();
         int numUsers = 10;
         List<User> users = generatesUsers(numUsers);
-//        printList(users);
 
         savedUsers = users.stream()
                 .map(userRepository::save)
                 .collect(Collectors.toList());
-//        printList(savedUsers);
 
         savedUserIds = savedUsers.stream()
                 .mapToLong(User::getId)
@@ -58,7 +56,6 @@ class UserRepositoryTest {
 
         // 특정 id 로 조회해서 내용이랑 비교
         List<User> foundUsersByWantedIds = userRepository.findByIdIn(wantedIds);
-        System.out.println("foundUsersByWantedIds: +++++++++++++");
         printList(foundUsersByWantedIds);
 
         assertThat(foundUsersByWantedIds.size()).isEqualTo(wantedIds.size());

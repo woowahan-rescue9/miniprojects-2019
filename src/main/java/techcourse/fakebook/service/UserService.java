@@ -68,6 +68,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public User getUser(Long userId) {
+        log.debug("begin");
+
         return userRepository.findById(userId).orElseThrow(NotFoundUserException::new);
     }
 
