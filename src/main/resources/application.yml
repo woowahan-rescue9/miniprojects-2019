@@ -16,6 +16,11 @@ spring:
     console:
       enabled: true
       path: /h2-console
+  devtools:
+    livereload:
+      enabled: true
+  freemarker:
+    cache: false
 
 
 logging:
