@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CommentApiController {
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentApiController(CommentService commentService) {
         this.commentService = commentService;

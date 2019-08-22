@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleApiController {
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     public ArticleApiController(ArticleService articleService) {
         this.articleService = articleService;
