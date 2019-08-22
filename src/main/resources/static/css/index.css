@@ -140,6 +140,11 @@ header ul.nav-right li, header ul.nav-left li {
     width: 100%
 }
 
+.write-article-text {
+    font-size: 14px;
+    margin: 0
+}
+
 .bg-lightgray {
     background-color: #f5f6f7
 }
@@ -574,12 +579,23 @@ header ul.nav-right li, header ul.nav-left li {
 .friend {
     display: inline-block;
     text-align: center;
+    position: relative
 }
 
 .friend > img {
     border: 1px;
     width: 88px;
-    height: 88px
+    height: 88px;
+    margin-bottom: 5px
+}
+
+.friend-name {
+    color: #fff;
+    z-index: 2;
+    position: absolute;
+    top: 70%;
+    left: 10%;
+    text-shadow: 2px 2px 2px gray
 }
 
 footer {
