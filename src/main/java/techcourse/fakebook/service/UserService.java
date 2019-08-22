@@ -80,9 +80,9 @@ public class UserService {
                 .orElseThrow(NotFoundUserException::new);
     }
 
-    public List<String> findUserNamesByKeyword(String keyword) {
+    public List<UserResponse> findUserNamesByKeyword(String keyword) {
         return userRepository.findByNameContaining(keyword).stream()
-                .map(user -> user.getName())
+                .map(user -> userAssembler.toResponse(user))
                 .collect(Collectors.toList());
     }
 

@@ -159,6 +159,6 @@ class UserServiceTest {
         userService.findUserNamesByKeyword(keyword);
 
         //Assert
-        verify(user).getName();
+        verify(userAssembler).toResponse(user);
     }
 }

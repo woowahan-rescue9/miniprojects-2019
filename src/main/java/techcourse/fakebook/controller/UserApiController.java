@@ -39,12 +39,12 @@ public class UserApiController {
     }
 
     @GetMapping("/{keyword}")
-    public ResponseEntity<List<String>> update(@PathVariable String keyword) {
+    public ResponseEntity<List<UserResponse>> update(@PathVariable String keyword) {
         log.debug("begin");
         log.debug("keyword : {}", keyword);
 
-        List<String> userNames = userService.findUserNamesByKeyword(keyword);
+        List<UserResponse> userResponses = userService.findUserNamesByKeyword(keyword);
 
-        return ResponseEntity.ok(userNames);
+        return ResponseEntity.ok(userResponses);
     }
 }

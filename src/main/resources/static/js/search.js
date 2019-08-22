@@ -36,19 +36,21 @@ const search = function(){
         autocomplete.innerHTML = "";
         console.log(json);
         for (var i=0; i < json.length; i++) {
-            if(json[i].includes(search.value)) {
-                autocomplete.innerHTML += "<span class='dropdown-item' onclick='selectData(this);'>" + json[i] + "</span>";
-            }
+            autocomplete.innerHTML += "<span class='dropdown-item' onclick='selectData(" + JSON.stringify(json[i]) +");'>" + json[i].name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                                        + "<span style='color:grey;'>" + json[i].email + "</span>" + "</span>";
         }
     })
     .catch(err => console.log(err));
  }
 
- function selectData(that) {
-     var search = document.getElementById("search");
-     search.value = that.innerText;
+ function selectData(json) {
+     console.log(json);
+     let search = document.getElementById("search");
+     search.value = json.name;
 
-     var autocomplete = document.getElementById("autocomplete");
+     let autocomplete = document.getElementById("autocomplete");
      autocomplete.style.display="none";
+     let searchform = document.getElementById('searchform');
+     searchform.setAttribute("action", "/users/" + json.id);
 }
 

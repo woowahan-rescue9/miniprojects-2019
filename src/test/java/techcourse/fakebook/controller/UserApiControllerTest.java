@@ -6,9 +6,12 @@ import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
 
+import java.util.HashMap;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
 
 class UserApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
@@ -59,8 +62,11 @@ class UserApiControllerTest extends ControllerTestHelper {
     void 로그인_키워드로_유저이름_조회() {
         UserSignupRequest userSignupRequest =
                 new UserSignupRequest("aa@bb.cc", "keyword", "qwe", "1q2w3e$R", "M", "123456");
+
+
         String cookie = getCookie(signup(userSignupRequest));
 
+        List<HashMap> userResponses =
                 given().
                         port(port).
                         cookie(cookie).
@@ -69,6 +75,11 @@ class UserApiControllerTest extends ControllerTestHelper {
                         get("/api/users/" + "keyword").
                 then().
                         statusCode(200).
-                        body(".", hasItem("keywordqwe"));
+                        extract().
+                        body().
+                        jsonPath().
+                        getList(".");
+
+        assertThat(userResponses.get(0).get("name")).isEqualTo("keywordqwe");
     }
 }
