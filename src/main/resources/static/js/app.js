@@ -40,7 +40,7 @@ const App = (() => {
       '<div class="feed-header">' +
         '<ul class="list-unstyled list-info">' +
           '<li>' +
-            '<img class="thumb-img img-circle" src="images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
+            '<img class="thumb-img img-circle" src="/images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
             '<div class="info">' +
               '<a href="/users/{{user.id}}" class="title no-pdd-vertical text-semibold inline-block">{{user.name}}</a>' +
               '<span>님이 게시물을 작성하였습니다.</span>' +
@@ -71,7 +71,7 @@ const App = (() => {
           '<span> {{content}} </span>' + 
         '</p>' +
         '{{#each image}}' +
-      '<img class="vertical-align" src="{{this.path}}">' +
+      '<img class="vertical-align" src="/{{this.path}}">' +
         '{{/each}}' +
       '</div>' +
       '<ul class="feed-action pdd-btm-5 border bottom">' +
@@ -188,7 +188,7 @@ const App = (() => {
   
   const COMMENT_TEMPLATE_HTML =
     '<li class="comment-item">' +
-      '<img class="thumb-img img-circle" src="images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
+      '<img class="thumb-img img-circle" src="/images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
       '<div class="info">' +
         '<div class="bg-lightgray border-radius-18 padding-10 max-width-100">' +
           '<a href="/users/{{user.id}}" class="title text-bold inline-block text-link-color">{{user.name}}</a>' +
