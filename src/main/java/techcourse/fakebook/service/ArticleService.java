@@ -40,6 +40,12 @@ public class ArticleService {
         return getArticleResponse(article);
     }
 
+    public List<ArticleResponse> findByUser(User user) {
+        return articleRepository.findArticlesByUserOrderByCreatedDateDesc(user).stream()
+                .map(articleAssembler::toResponse)
+                .collect(Collectors.toList());
+    }
+
     public List<ArticleResponse> findAll() {
         List<Article> articles = articleRepository.findAllByOrderByModifiedDateDescCreatedDateDesc();
         return articles.stream()
