@@ -15,7 +15,9 @@ import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +44,7 @@ public class ArticleService {
 
     public List<ArticleResponse> findByUser(User user) {
         return articleRepository.findArticlesByUserOrderByCreatedDateDesc(user).stream()
-                .map(articleAssembler::toResponse)
+                .map(this::getArticleResponse)
                 .collect(Collectors.toList());
     }
 
