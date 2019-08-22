@@ -247,11 +247,13 @@ const App = (() => {
 
         // 일단 성공한다고 가정
         await axios.post(BASE_URL + "/api/friendships", req)
-        // const likeButton = document.getElementById("article-like-" + id)
-        // likeButton.classList.toggle('liked')
-        //
-        // const countOfLike = (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
-        // document.getElementById("count-of-like-" + id).innerText = " " + countOfLike
+      } catch (e) {}
+    }
+
+    async breakWithFriend(friendId) {
+      try {
+        // 일단 성공한다고 가정
+        await axios.delete(BASE_URL + "/api/friendships?friendId=" + friendId)
       } catch (e) {}
     }
   }
@@ -292,8 +294,12 @@ const App = (() => {
     }
 
     makeFriend(friendId) {
-        alert("makeFriend called.!")
       this.friendService.makeFriend(friendId)
+    }
+
+    breakWithFriend(friendId) {
+      alert("[breakWithFriend]")
+      this.friendService.breakWithFriend(friendId)
     }
   }
 

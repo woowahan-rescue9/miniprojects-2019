@@ -91,6 +91,23 @@ class FriendshipServiceTest {
         assertThrows(DataIntegrityViolationException.class, () -> 유저_친구_초기화(userIndex, Arrays.asList(1)));
     }
 
+    @Test
+    void 친구_추가_이후_삭제() {
+        // Arrange
+        int userIndex = 0;
+        int friendIndex = 1;
+        유저_친구_초기화(userIndex, Arrays.asList(friendIndex));
+
+        // Act
+        Long userId = savedUserIds.get(userIndex);
+        Long friendId = savedUserIds.get(friendIndex);
+        friendshipService.breakThemFriends(userId, friendId);
+
+        System.out.println(friendshipService.findFriendIds(userId));
+        // Assert
+        assertThat(friendshipService.findFriendIds(userId).isEmpty()).isTrue();
+    }
+
     // 원래는 통합 테스트에서 해야하지 않을까?
     @Test
     void 유저삭제_친구정보도_삭제() {
