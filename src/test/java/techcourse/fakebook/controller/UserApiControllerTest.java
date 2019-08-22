@@ -2,6 +2,7 @@ package techcourse.fakebook.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
@@ -31,7 +32,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
                 body("introduction", equalTo(userUpdateRequest.getIntroduction()));
     }
@@ -52,7 +53,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(302);
+                statusCode(HttpStatus.FOUND.value());
     }
 
     @Test
@@ -61,14 +62,14 @@ class UserApiControllerTest extends ControllerTestHelper {
                 new UserSignupRequest("aa@bb.cc", "keyword", "123", "1q2w3e$R", "M", "123456");
         String cookie = getCookie(signup(userSignupRequest));
 
-                given().
-                        port(port).
-                        cookie(cookie).
-                        accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                when().
-                        get("/api/users/" + "keyword").
-                then().
-                        statusCode(200).
-                        body(".", hasItem("keyword123"));
+        given().
+                port(port).
+                cookie(cookie).
+                accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+        when().
+                get("/api/users/" + "keyword").
+        then().
+                statusCode(HttpStatus.OK.value()).
+                body(".", hasItem("keyword123"));
     }
 }
