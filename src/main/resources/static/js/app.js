@@ -222,6 +222,9 @@ const App = (() => {
               "user": comment.userOutline
             })
           )
+
+          const countOfComment = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
+          document.getElementById("count-of-comment-" + id).innerText = countOfComment
         } catch (e) {}
       }
     }
@@ -230,6 +233,9 @@ const App = (() => {
       try {
         await axios.delete(BASE_URL + "/api/comments/" + id)
         document.getElementById("comments-" + id).remove()
+
+        const countOfComment = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
+        document.getElementById("count-of-comment-" + id).innerText = countOfComment
       } catch (e) {}
     }
   }
