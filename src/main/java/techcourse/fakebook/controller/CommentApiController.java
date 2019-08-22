@@ -29,7 +29,7 @@ public class CommentApiController {
     @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest, @SessionUser UserOutline userOutline) {
         CommentResponse commentResponse = commentService.save(articleId, commentRequest, userOutline);
-        return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments")).body(commentResponse);
+        return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments/" + commentResponse.getId())).body(commentResponse);
     }
 
     @PutMapping("/comments/{commentId}")
