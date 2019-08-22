@@ -8,7 +8,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class ArticleMultipart extends BaseEntity {
+public class ArticleAttachment extends BaseEntity {
+    public static String ARTICLE_STATIC_FILE_PATH = "file/article/";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +25,10 @@ public class ArticleMultipart extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Article article;
 
-    private ArticleMultipart() {
+    private ArticleAttachment() {
     }
 
-    public ArticleMultipart(String name, String path, Article article) {
+    public ArticleAttachment(String name, String path, Article article) {
         this.name = name;
         this.path = path;
         this.article = article;
@@ -53,7 +54,7 @@ public class ArticleMultipart extends BaseEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleMultipart that = (ArticleMultipart) o;
+        ArticleAttachment that = (ArticleAttachment) o;
         return Objects.equals(id, that.id);
     }
 

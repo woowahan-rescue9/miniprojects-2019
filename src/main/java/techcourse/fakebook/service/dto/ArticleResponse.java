@@ -1,7 +1,5 @@
 package techcourse.fakebook.service.dto;
 
-import techcourse.fakebook.domain.article.ArticleMultipart;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -10,7 +8,7 @@ public class ArticleResponse {
     private String content;
     private LocalDateTime recentDate;
     private UserOutline userOutline;
-    private List<ArticleMultipart> resources;
+    private List<AttachmentResponse> attachments;
 
     private ArticleResponse() {
     }
@@ -22,12 +20,12 @@ public class ArticleResponse {
         this.userOutline = userOutline;
     }
 
-    public ArticleResponse(Long id, String content, LocalDateTime recentDate, UserOutline userOutline, List<ArticleMultipart> resources) {
+    public ArticleResponse(Long id, String content, LocalDateTime recentDate, UserOutline userOutline, List<AttachmentResponse> attachments) {
         this.id = id;
         this.content = content;
         this.recentDate = recentDate;
         this.userOutline = userOutline;
-        this.resources = resources;
+        this.attachments = attachments;
     }
 
     public Long getId() {
@@ -46,8 +44,8 @@ public class ArticleResponse {
         return userOutline;
     }
 
-    public List<ArticleMultipart> getResources() {
-        return resources;
+    public List<AttachmentResponse> getAttachments() {
+        return attachments;
     }
 
     public void setId(Long id) {
@@ -66,7 +64,7 @@ public class ArticleResponse {
         this.userOutline = userOutline;
     }
 
-    public void setResources(List<ArticleMultipart> resources) {
-        this.resources = resources;
+    public void setAttachments(List<AttachmentResponse> attachments) {
+        this.attachments = attachments;
     }
 }

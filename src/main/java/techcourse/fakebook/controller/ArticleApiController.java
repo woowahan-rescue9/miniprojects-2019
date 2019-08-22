@@ -1,7 +1,6 @@
 package techcourse.fakebook.controller;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
@@ -16,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleApiController {
-    private ArticleService articleService;
+    private final ArticleService articleService;
 
     public ArticleApiController(ArticleService articleService) {
         this.articleService = articleService;
@@ -31,7 +30,7 @@ public class ArticleApiController {
     @PostMapping
     public ResponseEntity<ArticleResponse> create(ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
-        return ResponseEntity.created(URI.create("/api/articles")).body(articleResponse);
+        return ResponseEntity.created(URI.create("/api/articles/" + articleResponse.getId())).body(articleResponse);
     }
 
     @PutMapping("/{id}")
@@ -42,13 +41,13 @@ public class ArticleApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ArticleResponse> delete(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> delete(@PathVariable Long id, @SessionUser UserOutline userOutline) {
         articleService.deleteById(id, userOutline);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/like")
-    public ResponseEntity<HttpStatus> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
         if (articleService.isLiked(id, userOutline)) {
             return ResponseEntity.ok().build();
         }
@@ -56,7 +55,7 @@ public class ArticleApiController {
     }
 
     @PostMapping("/{id}/like")
-    public ResponseEntity<HttpStatus> like(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> like(@PathVariable Long id, @SessionUser UserOutline userOutline) {
         articleService.like(id, userOutline);
         if (articleService.isLiked(id, userOutline)) {
             return ResponseEntity.created(URI.create("/api/articles/" + id + "/like")).build();

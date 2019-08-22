@@ -118,13 +118,13 @@
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                     <div class="social-feeds">
                         <div class="card widget-compose">
-                            <p class="border bottom width-100 pdd-btm-5 text-bold">게시물 만들기</p>
+                            <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
                             <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
                             <ul class="composor-tools pdd-top-15">
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li id="attachment-open" class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
-                                        <span id="attachment-open" class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
+                                        <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
                                     </a>
                                     <div id="attachment-modal">
                                         <div id="modal-content">
@@ -135,22 +135,22 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons tag-friend"></div>
                                         <span class="icon-name font-size-13 text-bold"> 친구 태그하기</span>
                                     </a>
                                 </li>
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons feeling-activity"></div>
                                         <span class="icon-name font-size-13 text-bold"> 기분 / 활동</span>
                                     </a>
                                 </li>
-                                <li class="bg-mint border-radius-round mrg-right-5">
+                                <li class="bg-mint-button border-radius-round mrg-right-5" onclick="App.writeArticle()">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons write-article"></div>
-                                        <span class="icon-name font-size-13 text-bold" onclick="App.writeArticle()"> 글쓰기</span>
+                                        <span class="icon-name font-size-13 text-bold"> 글쓰기</span>
                                     </a>
                                 </li>
                             </ul>
@@ -191,6 +191,7 @@
                                 <p>
                                     <span th:text="${article.articleResponse.content}"></span>
                                 </p>
+                                <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="${attachment.path}">
                             </div>
                             <ul class="feed-action pdd-btm-5 border bottom">
                                 <li>

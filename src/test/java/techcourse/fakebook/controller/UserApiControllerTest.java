@@ -2,6 +2,7 @@ package techcourse.fakebook.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
@@ -34,7 +35,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
                 body("introduction", equalTo(userUpdateRequest.getIntroduction()));
     }
@@ -55,14 +56,13 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(302);
+                statusCode(HttpStatus.FOUND.value());
     }
 
     @Test
     void 로그인_키워드로_유저이름_조회() {
         UserSignupRequest userSignupRequest =
                 new UserSignupRequest("aa@bb.cc", "keyword", "qwe", "1q2w3e$R", "M", "123456");
-
 
         String cookie = getCookie(signup(userSignupRequest));
 

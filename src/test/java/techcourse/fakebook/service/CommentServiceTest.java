@@ -29,6 +29,17 @@ public class CommentServiceTest {
     }
 
     @Test
+    void 삭제된_댓글을_제외하고_불러오는지_확인한다() {
+        CommentRequest commentRequest = new CommentRequest("댓글입니다.");
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userOutline);
+        Long deletedId = commentResponse.getId();
+        assertThat(commentService.findById(deletedId)).isInstanceOf(commentResponse.getClass());
+
+        commentService.deleteById(deletedId, userOutline);
+        assertThrows(NotFoundCommentException.class, () -> commentService.findById(deletedId));
+    }
+
+    @Test
     void 댓글을_잘_작성하는지_확인한다() {
         CommentRequest commentRequest = new CommentRequest("댓글입니다.");
         CommentResponse commentResponse = commentService.save(1L, commentRequest, userOutline);
@@ -98,5 +109,16 @@ public class CommentServiceTest {
         commentService.save(1L, commentRequest, userOutline);
 
         assertThat(commentService.getCommentsCountOf(1L)).isGreaterThanOrEqualTo(1);
+    }
+
+    @Test
+    void 게시글에_대해서_삭제된_댓글을_제외한_개수를_잘_불러오는지_확인한다() {
+        CommentRequest commentRequest = new CommentRequest("댓글입니다.");
+        CommentResponse commentResponse = commentService.save(1L, commentRequest, userOutline);
+        int countOfLike = commentService.getCommentsCountOf(1L);
+
+        commentService.deleteById(commentResponse.getId(), userOutline);
+
+        assertThat(commentService.getCommentsCountOf(1L)).isEqualTo(countOfLike - 1);
     }
 }
