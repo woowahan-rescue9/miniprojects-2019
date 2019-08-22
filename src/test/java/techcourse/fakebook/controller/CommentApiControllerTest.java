@@ -3,6 +3,7 @@ package techcourse.fakebook.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.CommentRequest;
@@ -34,7 +35,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/articles/1/comments").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 extract().
                 body().
                 jsonPath().getList(".", CommentResponse.class);
@@ -54,7 +55,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/1/comments").
         then().
-                statusCode(201).
+                statusCode(HttpStatus.CREATED.value()).
                 body("content", equalTo(commentRequest.getContent()));
     }
 
@@ -66,7 +67,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 delete("/api/comments/2").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -81,7 +82,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/comments/1").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body("content", equalTo(commentRequest.getContent()));
     }
 
@@ -95,7 +96,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/comments/" + comment.getId() + "/like").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -108,7 +109,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -121,7 +122,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
 
         given().
                 port(port).
@@ -129,7 +130,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -143,7 +144,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/comments/" + commentResponse.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
 
 
         given().
@@ -152,7 +153,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/comments/" + commentResponse.getId() + "/like/count").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body(equalTo("1"));
     }
 
@@ -166,7 +167,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/articles/" + articleResponse.getId() + "/comments/count").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body(equalTo("1"));
     }
 

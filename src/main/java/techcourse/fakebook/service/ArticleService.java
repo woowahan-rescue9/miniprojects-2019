@@ -21,8 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ArticleService {
-    private static final String DEFAULT_PATH = "src/main/resources/static";
-
     private final ArticleRepository articleRepository;
     private final ArticleLikeRepository articleLikeRepository;
     private final UserService userService;
@@ -104,36 +102,4 @@ public class ArticleService {
             throw new InvalidAuthorException();
         }
     }
-//
-//    private ArticleAttachment saveAttachment(MultipartFile file, Article article) {
-//        try {
-//            String hashingName = getHashedName(file.getOriginalFilename());
-//
-//            Path filePath = writeFile(file, hashingName);
-//
-//            ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath.toString(), article);
-//
-//            return articleAttachmentRepository.save(articleAttachment);
-//        } catch (IOException e) {
-//            throw new FileSaveException(e.getMessage());
-//        }
-//    }
-//
-//    private Path writeFile(MultipartFile file, String hashingName) throws IOException {
-//        byte[] bytes = file.getBytes();
-//        Path staticFilePath = Paths.get(ARTICLE_STATIC_FILE_PATH + hashingName);
-//        return Files.write(staticFilePath, bytes);
-//    }
-//
-//    private String getHashedName(String originalFileName) {
-//        String hashCodeOfFile = UUID.randomUUID().toString();
-//
-//        List<String> splits = Arrays.asList(originalFileName.split("\\."));
-//        if (splits.size() < 1) {
-//            throw new FileSaveException("파일형식이 올바르지 않습니다.");
-//        }
-//        String extension = splits.get(splits.size() - 1);
-//
-//        return hashCodeOfFile + "." + extension;
-//    }
 }

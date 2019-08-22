@@ -2,6 +2,7 @@ package techcourse.fakebook.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.UserSignupRequest;
 import techcourse.fakebook.service.dto.UserUpdateRequest;
@@ -31,7 +32,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
                 body("introduction", equalTo(userUpdateRequest.getIntroduction()));
     }
@@ -52,23 +53,24 @@ class UserApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/users/" + userId).
         then().
-                statusCode(302);
+                statusCode(HttpStatus.FOUND.value());
     }
 
     @Test
     void 로그인_키워드로_유저이름_조회() {
         UserSignupRequest userSignupRequest =
-                new UserSignupRequest("aa@bb.cc", "keyword", "123", "1q2w3e$R", "M", "123456");
+                new UserSignupRequest("aa@bb.cc", "keyword", "qwe", "1q2w3e$R", "M", "123456");
         String cookie = getCookie(signup(userSignupRequest));
 
-                given().
-                        port(port).
-                        cookie(cookie).
-                        accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                when().
-                        get("/api/users/" + "keyword").
-                then().
-                        statusCode(200).
-                        body(".", hasItem("keyword123"));
+
+        given().
+                port(port).
+                cookie(cookie).
+                accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
+        when().
+                get("/api/users/" + "keyword").
+        then().
+                statusCode(200).
+                body(".", hasItem("keywordqwe"));
     }
 }

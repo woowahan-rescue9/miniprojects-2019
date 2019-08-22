@@ -32,21 +32,7 @@
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/index.css">
         <link rel="stylesheet" href="/css/attachment.css">
-        <style>
-            .dropdown {
-                font-size: 15px;
-                top: 34px;
-                left: 12px;
-                background: white;
-                height: 200px;
-                overflow-y: auto;
-            }
-            .dropdown-item {
-                padding-left: 10px;
-                padding-top: 3px;
-                width: 400px;
-            }
-        </style>
+        <link href="/css/search.css" rel="stylesheet">
     </head>
     <body>
     <div id="wootecobook-app">
@@ -248,61 +234,6 @@
             </a>
             <div class="mrg-top-20"> </div>
         </footer>
-        <script type="text/javascript">
-        window.onload = function(){
-            const SPACE_PATTERN = /\s/g;
-
-            let search = document.getElementById("search");
-            let autocomplete = document.getElementById("autocomplete");
-            let keyword = "";
-
-            search.onkeyup = function(e){
-               keyword = search.value;
-
-               if ( keyword.match(SPACE_PATTERN) || keyword == "" ) {
-                  autocomplete.style.display = "none";
-                  autocomplete.innerHTML = "";
-               }
-               else {
-                  console.log(keyword);
-                  autocomplete.style.display = "block";
-                  findUserNamesByKeyword(autocomplete, keyword);
-               }
-            };
-         };
-
-         function findUserNamesByKeyword(autocomplete, keyword) {
-            const BASE_URL = `http://${window.location.host}`
-
-            fetch(BASE_URL + "/api/users/" + keyword, {
-                method : "GET",
-                headers: {
-                   "Accept": "application/json"
-                }
-            })
-            .then(res => {
-                console.log(res);
-                return res.json()})
-            .then(json => {
-                autocomplete.innerHTML = "";
-                console.log(json);
-                for (var i=0; i < json.length; i++) {
-                    if(json[i].includes(search.value)) {
-                        autocomplete.innerHTML += "<span class='dropdown-item' onclick='selectData(this);'>" + json[i] + "</span>";
-                    }
-                }
-            })
-            .catch(err => console.log(err));
-         }
-
-         function selectData(that) {
-             var search = document.getElementById("search");
-             search.value = that.innerText;
-
-             var autocomplete = document.getElementById("autocomplete");
-             autocomplete.style.display="none";
-         }
-    </script>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
@@ -312,5 +243,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/attachment.js"></script>
+    <script src="/js/search.js"></script>
     </body>
 </html>

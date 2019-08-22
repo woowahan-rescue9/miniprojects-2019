@@ -1,0 +1,14 @@
+.dropdown {
+    font-size: 15px;
+    top: 34px;
+    left: 12px;
+    background: white;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    padding-left: 10px;
+    padding-top: 3px;
+    width: 400px;
+}
