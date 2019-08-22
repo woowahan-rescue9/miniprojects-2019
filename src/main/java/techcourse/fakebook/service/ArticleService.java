@@ -3,8 +3,8 @@ package techcourse.fakebook.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.article.ArticleMultipart;
-import techcourse.fakebook.domain.article.ArticleMultipartRepository;
+import techcourse.fakebook.domain.article.ArticleAttachment;
+import techcourse.fakebook.domain.article.ArticleAttachmentRepository;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.domain.like.ArticleLike;
 import techcourse.fakebook.domain.like.ArticleLikeRepository;
@@ -35,14 +35,14 @@ public class ArticleService {
     private final ArticleLikeRepository articleLikeRepository;
     private final UserService userService;
     private final ArticleAssembler articleAssembler;
-    private final ArticleMultipartRepository articleMultipartRepository;
+    private final ArticleAttachmentRepository articleAttachmentRepository;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler, ArticleMultipartRepository articleMultipartRepository) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler, ArticleAttachmentRepository articleAttachmentRepository) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
         this.articleAssembler = articleAssembler;
-        this.articleMultipartRepository = articleMultipartRepository;
+        this.articleAttachmentRepository = articleAttachmentRepository;
     }
 
     public ArticleResponse findById(Long id) {
@@ -59,7 +59,7 @@ public class ArticleService {
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
         User user = userService.getUser(userOutline.getId());
         Article article = articleRepository.save(articleAssembler.toEntity(articleRequest, user));
-        List<ArticleMultipart> files = Optional.ofNullable(articleRequest.getFiles()).orElse(new ArrayList<>()).stream()
+        List<ArticleAttachment> files = Optional.ofNullable(articleRequest.getFiles()).orElse(new ArrayList<>()).stream()
                 .map(file -> saveMultipart(file, article))
                 .collect(Collectors.toList());
         return articleAssembler.toResponse(article, files);
@@ -110,15 +110,15 @@ public class ArticleService {
         }
     }
 
-    private ArticleMultipart saveMultipart(MultipartFile file, Article article) {
+    private ArticleAttachment saveMultipart(MultipartFile file, Article article) {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
             Path filePath = writeFile(file, hashingName);
 
-            ArticleMultipart articleMultipart = new ArticleMultipart(file.getOriginalFilename(), filePath.toString(), article);
+            ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath.toString(), article);
 
-            return articleMultipartRepository.save(articleMultipart);
+            return articleAttachmentRepository.save(articleAttachment);
         } catch (IOException e) {
             throw new FileSaveException(e.getMessage());
         }

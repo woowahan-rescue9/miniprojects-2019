@@ -2,7 +2,7 @@ package techcourse.fakebook.service.utils;
 
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.article.ArticleMultipart;
+import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
@@ -27,7 +27,7 @@ public class ArticleAssembler {
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline);
     }
 
-    public ArticleResponse toResponse(Article article, List<ArticleMultipart> resources) {
+    public ArticleResponse toResponse(Article article, List<ArticleAttachment> resources) {
         UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, resources);
     }
