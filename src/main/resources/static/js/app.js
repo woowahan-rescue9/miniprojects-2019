@@ -128,7 +128,7 @@ const App = (() => {
               "content": article.content,
               "date": super.formatDate(article.recentDate),
               "user": article.userOutline,
-              "image": article.resources
+              "image": article.attachments
             })
           )
           document.getElementById("attachment").value=""

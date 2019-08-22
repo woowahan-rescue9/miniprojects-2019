@@ -167,6 +167,6 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles").as(ArticleResponse.class);
 
-        assertThat(articleResponse.getResources().size()).isEqualTo(1);
+        assertThat(articleResponse.getAttachments().size()).isEqualTo(1);
     }
 }

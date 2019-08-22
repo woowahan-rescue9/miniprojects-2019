@@ -54,7 +54,7 @@ class ArticleServiceTest {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.", Arrays.asList(multipartFile));
 
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
-        assertThat(articleResponse.getResources().size()).isEqualTo(1);
+        assertThat(articleResponse.getAttachments().size()).isEqualTo(1);
     }
 
     @Test

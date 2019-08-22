@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.service.dto.ArticleRequest;
-import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.TotalArticleResponse;
-import techcourse.fakebook.service.dto.UserOutline;
+import techcourse.fakebook.service.dto.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +24,7 @@ public class ArticleAssembler {
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline);
     }
 
-    public ArticleResponse toResponse(Article article, List<ArticleAttachment> resources) {
+    public ArticleResponse toResponse(Article article, List<AttachmentResponse> resources) {
         UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, resources);
     }
