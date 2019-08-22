@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class TotalService {
-    private ArticleService articleService;
-    private CommentService commentService;
-    private ArticleAssembler articleAssembler;
+    private final ArticleService articleService;
+    private final CommentService commentService;
+    private final ArticleAssembler articleAssembler;
 
     public TotalService(ArticleService articleService, CommentService commentService, ArticleAssembler articleAssembler) {
         this.articleService = articleService;

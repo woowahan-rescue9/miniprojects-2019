@@ -641,15 +641,10 @@ blockquote:before{font-family:themify;content:"\E67F";position:absolute;left:0;c
 .widget-compose textarea.form-control{border:0;min-height:60px;padding:20px 10px}
 .widget-feed{padding:25px 30px}
 .widget-feed .feed-header{padding-bottom:10px}
-.widget-feed .feed-body{padding:15px 0}
 .widget-feed .feed-action{padding-left:0;list-style:none}
 .widget-feed .feed-action>li{display:inline-block}
 .widget-feed .feed-action>li>a{display:block;color:#333;font-size:16px;font-weight:500;padding:10px 25px 10px 0}
 .widget-feed .feed-action>li.active a,.widget-feed .feed-action>li>a:focus,.widget-feed .feed-action>li>a:hover{color:#333}
-.widget-feed .comment .comment-item{padding:30px 0;border-bottom:1px solid #e6ecf5}
-.widget-feed .comment .add-comment textarea{min-height:50px;resize:none;border:0;padding:20px 10px 5px}
-.widget-feed .comment .list-info .info{height:auto}
-.widget-feed .comment .list-info .info p{margin-bottom:0}
 .widget-feed .shared-item{position:relative;border:1px solid #e6ecf5;display:-ms-flexbox;display:flex}
 @media only screen and (max-width:767px){.widget-feed .shared-item{max-height:130px;overflow:hidden}}
 .widget-feed .shared-item .item-image{-ms-flex:4;flex:4;width:30%}
@@ -1246,13 +1241,13 @@ blockquote:before{font-family:themify;content:"\E67F";position:absolute;left:0;c
 .widget-compose textarea.form-control{border:0;min-height:60px;padding:20px 10px}
 .widget-feed{padding:25px 30px}
 .widget-feed .feed-header{padding-bottom:10px}
-.widget-feed .feed-body{padding:15px 0}
+.widget-feed .feed-body{padding:15px 0; margin: 15px 0}
 .widget-feed .feed-action{padding-left:0;list-style:none}
 .widget-feed .feed-action>li{display:inline-block}
 .widget-feed .feed-action>li>a{display:block;color:#333;font-size:16px;font-weight:500;padding:10px 25px 10px 0}
 .widget-feed .feed-action>li.active a,.widget-feed .feed-action>li>a:focus,.widget-feed .feed-action>li>a:hover{color:#333}
-.widget-feed .comment .comment-item{padding:30px 0;border-bottom:1px solid #e6ecf5}
-.widget-feed .comment .add-comment textarea{min-height:50px;resize:none;border:0;padding:20px 10px 5px}
+.widget-feed .comment .comment-item{padding:10px 0}
+.widget-feed .comment .add-comment textarea{min-height:50px;resize:none;border:0;padding:20px 10px 5px;border-top:1px solid #e6ecf5}
 .widget-feed .comment .list-info .info{height:auto}
 .widget-feed .comment .list-info .info p{margin-bottom:0}
 .widget-feed .shared-item{position:relative;border:1px solid #e6ecf5;display:flex}

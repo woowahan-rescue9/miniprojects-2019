@@ -31,6 +31,7 @@
 
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/css/attachment.css">
     </head>
     <body>
     <div id="wootecobook-app">
@@ -62,16 +63,6 @@
                             </div>
                         </a>
                     </li>
-                    <!-- <li class="">
-                        <a class="pointer">
-                            <span class="text-white text-bold font-size-12">홈</span>
-                        </a>
-                    </li> -->
-                    <!-- <li>
-                        <a class="pointer">
-                            <span class="text-white text-bold font-size-12">만들기</span>
-                        </a>
-                    </li> -->
                     <li>
                         <div class="friend-btn pointer mrg-vertical-10 mrg-horizon-5"></div>
                     </li>
@@ -113,27 +104,35 @@
                             <div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                                 <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
-                                    <div class="friend">
+                                <div class="friend">
                                     <img src="/images/profile/default.png" alt="이름">
+                                    <span class="friend-name">이름</span>
                                 </div>
                             </div>
                         </div>
@@ -142,25 +141,39 @@
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                     <div class="timeline">
                         <div class="card widget-compose">
-                            <p class="border bottom width-100 pdd-btm-5 text-bold">게시물 만들기</p>
+                            <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
                             <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${user.name} + '님, 무슨 생각을 하고 계신가요?'" onkeydown="App.writeArticle(event)"></textarea>
                             <ul class="composor-tools pdd-top-15">
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li id="attachment-open" class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
                                         <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
                                     </a>
+                                    <div id="attachment-modal">
+                                        <div id="modal-content">
+                                            <span id="attachment-close">&times;</span>
+                                            <p>
+                                                <input id="attachment" type="file" accept="file_extension|image/*|media_type">
+                                            </p>
+                                        </div>
+                                    </div>
                                 </li>
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons tag-friend"></div>
                                         <span class="icon-name font-size-13 text-bold"> 친구 태그하기</span>
                                     </a>
                                 </li>
-                                <li class="bg-lightgray border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons feeling-activity"></div>
                                         <span class="icon-name font-size-13 text-bold"> 기분 / 활동</span>
+                                    </a>
+                                </li>
+                                <li class="bg-mint-button border-radius-round mrg-right-5" onclick="App.writeArticle()">
+                                    <a class="pdd-vertical-5 pdd-horizon-10 pointer">
+                                        <div class="icons write-article"></div>
+                                        <span class="icon-name font-size-13 text-bold"> 글쓰기</span>
                                     </a>
                                 </li>
                             </ul>
@@ -204,9 +217,6 @@
                                     <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
                                     <span class="font-size-14 lh-2-1">67</span>
                                 </li>
-    <!--                            <li class="float-right">-->
-    <!--                                <span class="font-size-13">공유 78회</span>-->
-    <!--                            </li>-->
                                 <li class="float-right mrg-right-15">
                                     <span class="font-size-13">댓글 2개</span>
                                 </li>
@@ -224,12 +234,6 @@
                                         <span  class="font-size-13">댓글</span>
                                     </button>
                                 </li>
-    <!--                            <li class="text-center flex-grow-1">-->
-    <!--                                <button class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">-->
-    <!--                                    <i class="fa fa-share font-size-16"></i>-->
-    <!--                                    <span class="font-size-13">공유하기</span>-->
-    <!--                                </button>-->
-    <!--                            </li>-->
                             </ul>
                             <div class="feed-footer">
                                 <div class="comment">
@@ -244,8 +248,6 @@
                                                 <div class="font-size-12 pdd-left-10 pdd-top-5">
                                                     <span class="pointer text-link-color">좋아요</span>
                                                     <span> · </span>
-    <!--                                                <span class="pointer text-link-color">답글 달기</span>-->
-    <!--                                                <span>·</span>-->
                                                     <span class="pointer">2시간</span>
                                                 </div>
                                             </div>
@@ -275,5 +277,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/attachment.js"></script>
     </body>
 </html>

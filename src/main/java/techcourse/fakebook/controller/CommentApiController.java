@@ -1,6 +1,5 @@
 package techcourse.fakebook.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
@@ -15,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class CommentApiController {
-    private CommentService commentService;
+    private final CommentService commentService;
 
     public CommentApiController(CommentService commentService) {
         this.commentService = commentService;
@@ -30,7 +29,7 @@ public class CommentApiController {
     @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest, @SessionUser UserOutline userOutline) {
         CommentResponse commentResponse = commentService.save(articleId, commentRequest, userOutline);
-        return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments")).body(commentResponse);
+        return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments/" + commentResponse.getId())).body(commentResponse);
     }
 
     @PutMapping("/comments/{commentId}")
@@ -40,13 +39,13 @@ public class CommentApiController {
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<CommentResponse> delete(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> delete(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
         commentService.deleteById(commentId, userOutline);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/comments/{commentId}/like")
-    public ResponseEntity<HttpStatus> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
         if (commentService.isLiked(commentId, userOutline)) {
             return ResponseEntity.ok().build();
         }
@@ -54,7 +53,7 @@ public class CommentApiController {
     }
 
     @PostMapping("/comments/{commentId}/like")
-    public ResponseEntity<HttpStatus> like(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Void> like(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
         commentService.like(commentId, userOutline);
         if (commentService.isLiked(commentId, userOutline)) {
             return ResponseEntity.created(URI.create("/api/comments/" + commentId + "/like")).build();

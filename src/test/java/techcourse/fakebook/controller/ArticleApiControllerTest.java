@@ -3,6 +3,7 @@ package techcourse.fakebook.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import techcourse.fakebook.service.dto.ArticleRequest;
 import techcourse.fakebook.service.dto.ArticleResponse;
@@ -36,7 +37,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/articles").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 extract().
                 body().
                 jsonPath().getList(".", ArticleResponse.class);
@@ -55,7 +56,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles").
         then().
-                statusCode(201).
+                statusCode(HttpStatus.CREATED.value()).
                 body("content", equalTo(articleRequest.getContent()));
     }
 
@@ -67,7 +68,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 delete("/api/articles/2").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -82,7 +83,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 put("/api/articles/1").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body("content", equalTo(articleRequest.getContent()));
     }
 
@@ -96,7 +97,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 get("api/articles/" + article.getId() + "/like").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -109,7 +110,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
@@ -122,7 +123,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
 
         given().
                 port(port).
@@ -130,7 +131,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
-                statusCode(204);
+                statusCode(HttpStatus.NO_CONTENT.value());
     }
 
     @Test
@@ -145,7 +146,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/articles/" + articleResponse.getId() + "/like").
         then().
-                statusCode(201);
+                statusCode(HttpStatus.CREATED.value());
 
         given().
                 port(port).
@@ -153,7 +154,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         when().
                 get("/api/articles/" + articleResponse.getId() + "/like/count").
         then().
-                statusCode(200).
+                statusCode(HttpStatus.OK.value()).
                 body(equalTo("1"));
     }
 

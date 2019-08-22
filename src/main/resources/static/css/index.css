@@ -140,8 +140,29 @@ header ul.nav-right li, header ul.nav-left li {
     width: 100%
 }
 
+.write-article-text {
+    font-size: 14px;
+    margin: 0
+}
+
 .bg-lightgray {
     background-color: #f5f6f7
+}
+
+.bg-lightgray-button {
+    background-color: #f5f6f7
+}
+
+.bg-lightgray-button:hover {
+    background-color: #e6e7e8
+}
+
+.bg-mint-button {
+    background-color: #daf5ec
+}
+
+.bg-mint-button:hover {
+    background-color: #d1ebe2
 }
 
 .flex-grow-1 {
@@ -272,6 +293,11 @@ header ul.nav-right li, header ul.nav-left li {
 
 .icons.feeling-activity {
     background-position: 0 -501px;
+    background-size: 37px 1608px
+}
+
+.icons.write-article {
+    background-position: 0 -438px;
     background-size: 37px 1608px
 }
 
@@ -553,16 +579,37 @@ header ul.nav-right li, header ul.nav-left li {
 .friend {
     display: inline-block;
     text-align: center;
+    position: relative
 }
 
 .friend > img {
     border: 1px;
     width: 88px;
-    height: 88px
+    height: 88px;
+    margin-bottom: 5px
+}
+
+.friend-name {
+    color: #fff;
+    z-index: 2;
+    position: absolute;
+    top: 70%;
+    left: 10%;
+    text-shadow: 2px 2px 2px gray
+}
+
+.liked > i {
+    color: #0f9aee
+}
+
+.liked > span {
+    font-weight: bold;
+    color: #0f9aee
 }
 
 footer {
-    text-align: center
+    text-align: center;
+    padding: 10px;
 }
 
 form {

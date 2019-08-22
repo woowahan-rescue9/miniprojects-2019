@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class CommentService {
-    private ArticleService articleService;
-    private UserService userService;
-    private CommentRepository commentRepository;
-    private CommentLikeRepository commentLikeRepository;
-    private CommentAssembler commentAssembler;
+    private final ArticleService articleService;
+    private final UserService userService;
+    private final CommentRepository commentRepository;
+    private final CommentLikeRepository commentLikeRepository;
+    private final CommentAssembler commentAssembler;
 
     public CommentService(ArticleService articleService, UserService userService,
                           CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler) {
