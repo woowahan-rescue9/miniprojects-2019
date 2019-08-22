@@ -34,6 +34,6 @@ public class AttachmentServiceTest {
         AttachmentResponse attachmentResponse = attachmentService.saveAttachment(multipartFile, article);
 
         assertThat(attachmentResponse.getName()).isEqualTo("res9-logo.gif");
-        assertThat(attachmentResponse.getPath()).contains("file/article");
+        assertThat(attachmentResponse.getPath()).contains(".gif");
     }
 }

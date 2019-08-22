@@ -15,7 +15,9 @@ import techcourse.fakebook.service.dto.UserOutline;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +40,12 @@ public class ArticleService {
     public ArticleResponse findById(Long id) {
         Article article = getArticle(id);
         return getArticleResponse(article);
+    }
+
+    public List<ArticleResponse> findByUser(User user) {
+        return articleRepository.findArticlesByUserOrderByCreatedDateDesc(user).stream()
+                .map(this::getArticleResponse)
+                .collect(Collectors.toList());
     }
 
     public List<ArticleResponse> findAll() {

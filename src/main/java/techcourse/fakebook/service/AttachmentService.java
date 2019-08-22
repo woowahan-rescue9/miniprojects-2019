@@ -1,6 +1,5 @@
 package techcourse.fakebook.service;
 
-import com.sun.xml.internal.ws.api.message.Attachment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;

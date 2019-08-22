@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.LoginService;
+import techcourse.fakebook.service.TotalService;
 import techcourse.fakebook.service.UserService;
 import techcourse.fakebook.service.dto.LoginRequest;
 import techcourse.fakebook.service.dto.UserOutline;
@@ -23,10 +24,12 @@ public class UserWebController {
 
     private final UserService userService;
     private final LoginService loginService;
+    private final TotalService totalService;
 
-    public UserWebController(UserService userService, LoginService loginService) {
+    public UserWebController(UserService userService, LoginService loginService, TotalService totalService) {
         this.userService = userService;
         this.loginService = loginService;
+        this.totalService = totalService;
     }
 
     @PostMapping
@@ -52,6 +55,7 @@ public class UserWebController {
 
         UserResponse userResponse = userService.findById(userId);
         model.addAttribute("user", userResponse);
+        model.addAttribute("articles", totalService.findArticlesByUser(userId));
         return "profile";
     }
 
