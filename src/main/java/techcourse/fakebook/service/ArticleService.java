@@ -31,11 +31,11 @@ public class ArticleService {
     private static final String DEFAULT_PATH = "src/main/resources/static";
     private static final String ARTICLE_STATIC_FILE_PATH = "file/article/";
 
-    private ArticleRepository articleRepository;
-    private ArticleLikeRepository articleLikeRepository;
-    private UserService userService;
-    private ArticleAssembler articleAssembler;
-    private ArticleMultipartRepository articleMultipartRepository;
+    private final ArticleRepository articleRepository;
+    private final ArticleLikeRepository articleLikeRepository;
+    private final UserService userService;
+    private final ArticleAssembler articleAssembler;
+    private final ArticleMultipartRepository articleMultipartRepository;
 
     public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler, ArticleMultipartRepository articleMultipartRepository) {
         this.articleRepository = articleRepository;
