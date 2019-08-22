@@ -178,7 +178,7 @@ const App = (() => {
       try {
         await axios.post(BASE_URL + "/api/articles/" + id + "/like")
         const likeButton = document.getElementById("article-like-" + id)
-        likeButton.classList.toggle('text-info')
+        likeButton.classList.toggle('liked')
 
         const countOfLike = (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
         document.getElementById("count-of-like-" + id).innerText = " " + countOfLike

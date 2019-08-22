@@ -598,6 +598,15 @@ header ul.nav-right li, header ul.nav-left li {
     text-shadow: 2px 2px 2px gray
 }
 
+.liked > i {
+    color: #0f9aee
+}
+
+.liked > span {
+    font-weight: bold;
+    color: #0f9aee
+}
+
 footer {
     text-align: center;
     padding: 10px;
