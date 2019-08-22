@@ -37,16 +37,21 @@ public class ArticleService {
 
     public ArticleResponse findById(Long id) {
         Article article = getArticle(id);
+        return getArticleResponse(article);
+    }
+
+    public List<ArticleResponse> findAll() {
+        List<Article> articles = articleRepository.findAllByOrderByModifiedDateDescCreatedDateDesc();
+        return articles.stream()
+                .map(this::getArticleResponse)
+                .collect(Collectors.toList());
+    }
+
+    private ArticleResponse getArticleResponse(Article article) {
         List<AttachmentResponse> attachments = article.getAttachments().stream()
                 .map(attachmentService::getAttachmentResponse)
                 .collect(Collectors.toList());
         return articleAssembler.toResponse(article, attachments);
-    }
-
-    public List<ArticleResponse> findAll() {
-        return articleRepository.findAllByOrderByModifiedDateDescCreatedDateDesc().stream()
-                .map(articleAssembler::toResponse)
-                .collect(Collectors.toList());
     }
 
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {

@@ -191,6 +191,7 @@
                                 <p>
                                     <span th:text="${article.articleResponse.content}"></span>
                                 </p>
+                                <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="${attachment.path}">
                             </div>
                             <ul class="feed-action pdd-btm-5 border bottom">
                                 <li>
