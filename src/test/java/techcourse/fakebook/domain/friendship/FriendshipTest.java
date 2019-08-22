@@ -13,31 +13,6 @@ import static org.mockito.Mockito.mock;
 class FriendshipTest {
 
     @Test
-    void 생성자_두_유저가_id가_동일한경우() {
-        Long sameId = 1L;
-        User precedentUser = mock(User.class);
-        given(precedentUser.getId()).willReturn(sameId);
-
-        User user = mock(User.class);
-        given(user.getId()).willReturn(sameId);
-
-        assertThrows(InvalidFriendshipUserIdException.class, () -> new Friendship(precedentUser, user));
-    }
-
-    @Test
-    void 생성자_앞선유저가_id가_더_큰경우() {
-        Long precedentUserId = 10L;
-        Long userId = 1L;
-        User precedentUser = mock(User.class);
-        given(precedentUser.getId()).willReturn(precedentUserId);
-
-        User user = mock(User.class);
-        given(user.getId()).willReturn(userId);
-
-        assertThrows(InvalidFriendshipUserIdException.class, () -> new Friendship(precedentUser, user));
-    }
-
-    @Test
     void from_앞선유저가_id가_더_작은경우() {
         // Arrange
         Long precedentUserId = 1L;
@@ -48,9 +23,10 @@ class FriendshipTest {
         User user = mock(User.class);
         given(user.getId()).willReturn(userId);
 
-        Friendship expectedFriendship = new Friendship(precedentUser, user);
         // Act & Assert
-        assertThat(Friendship.from(precedentUser, user)).isEqualTo(expectedFriendship);
+        Friendship friendship = Friendship.from(precedentUser, user);
+        assertThat(friendship.getPrecedentUser()).isEqualTo(precedentUser);
+        assertThat(friendship.getUser()).isEqualTo(user);
     }
 
     @Test
@@ -64,9 +40,10 @@ class FriendshipTest {
         User user = mock(User.class);
         given(user.getId()).willReturn(userId);
 
-        Friendship expectedFriendship = new Friendship(user, precedentUser);
         // Act & Assert
-        assertThat(Friendship.from(precedentUser, user)).isEqualTo(expectedFriendship);
+        Friendship friendship = Friendship.from(precedentUser, user);
+        assertThat(friendship.getPrecedentUser()).isEqualTo(user);
+        assertThat(friendship.getUser()).isEqualTo(precedentUser);
     }
 
     @Test
