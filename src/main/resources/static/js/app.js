@@ -68,7 +68,7 @@ const App = (() => {
       '</div>' +
       '<div id="article-{{id}}-content" class="feed-body no-pdd">' +
         '<p>' +
-          '<span> {{content}} </span>' + 
+          '<span> {{content}} </span>' +
         '</p>' +
         '{{#each image}}' +
       '<img class="vertical-align" src="/{{this.path}}">' +
@@ -185,7 +185,7 @@ const App = (() => {
       } catch (e) {}
     }
   }
-  
+
   const COMMENT_TEMPLATE_HTML =
     '<li class="comment-item">' +
       '<img class="thumb-img img-circle" src="/images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
@@ -240,10 +240,27 @@ const App = (() => {
     }
   }
 
+  class FriendService extends Service {
+    async makeFriend(friendId) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req)
+        // const likeButton = document.getElementById("article-like-" + id)
+        // likeButton.classList.toggle('liked')
+        //
+        // const countOfLike = (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
+        // document.getElementById("count-of-like-" + id).innerText = " " + countOfLike
+      } catch (e) {}
+    }
+  }
+
   class Controller {
-    constructor(articleService, commentService) {
+    constructor(articleService, commentService, friendService) {
       this.articleService = articleService
       this.commentService = commentService
+      this.friendService = friendService
     }
 
     writeArticle(event) {
@@ -273,7 +290,12 @@ const App = (() => {
     removeComment(id) {
       this.commentService.remove(id)
     }
+
+    makeFriend(friendId) {
+        alert("makeFriend called.!")
+      this.friendService.makeFriend(friendId)
+    }
   }
 
-  return new Controller(new ArticleService(), new CommentService())
+  return new Controller(new ArticleService(), new CommentService(), new FriendService())
 })()

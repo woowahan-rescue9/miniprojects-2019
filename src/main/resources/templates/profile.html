@@ -92,7 +92,7 @@
                         <p th:text="${user.name}">이름</p>
                     </div>
                     <div th:if="${session.user}">
-                        <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button"><i
+                        <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button" th:onclick="|javascript:App.makeFriend('${user.id}')|"><i
                                 class="ti-plus font-size-8"><i class="icons add-friend"></i></i> 친구 추가
                         </button>
                     </div>

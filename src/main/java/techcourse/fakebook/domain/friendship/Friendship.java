@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"precedent_user_id", "user_id"})
+})
 public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
