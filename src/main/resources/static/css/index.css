@@ -583,7 +583,8 @@ header ul.nav-right li, header ul.nav-left li {
 }
 
 footer {
-    text-align: center
+    text-align: center;
+    padding: 10px;
 }
 
 form {

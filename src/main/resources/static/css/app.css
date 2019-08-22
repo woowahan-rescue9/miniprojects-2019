@@ -641,7 +641,6 @@ blockquote:before{font-family:themify;content:"\E67F";position:absolute;left:0;c
 .widget-compose textarea.form-control{border:0;min-height:60px;padding:20px 10px}
 .widget-feed{padding:25px 30px}
 .widget-feed .feed-header{padding-bottom:10px}
-.widget-feed .feed-body{padding:15px 0}
 .widget-feed .feed-action{padding-left:0;list-style:none}
 .widget-feed .feed-action>li{display:inline-block}
 .widget-feed .feed-action>li>a{display:block;color:#333;font-size:16px;font-weight:500;padding:10px 25px 10px 0}
@@ -1242,7 +1241,7 @@ blockquote:before{font-family:themify;content:"\E67F";position:absolute;left:0;c
 .widget-compose textarea.form-control{border:0;min-height:60px;padding:20px 10px}
 .widget-feed{padding:25px 30px}
 .widget-feed .feed-header{padding-bottom:10px}
-.widget-feed .feed-body{padding:15px 0}
+.widget-feed .feed-body{padding:15px 0; margin: 15px 0}
 .widget-feed .feed-action{padding-left:0;list-style:none}
 .widget-feed .feed-action>li{display:inline-block}
 .widget-feed .feed-action>li>a{display:block;color:#333;font-size:16px;font-weight:500;padding:10px 25px 10px 0}
