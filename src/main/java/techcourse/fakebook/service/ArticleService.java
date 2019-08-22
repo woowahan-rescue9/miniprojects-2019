@@ -39,7 +39,10 @@ public class ArticleService {
 
     public ArticleResponse findById(Long id) {
         Article article = getArticle(id);
-        return articleAssembler.toResponse(article);
+        List<AttachmentResponse> attachments = article.getAttachments().stream()
+                .map(attachmentService::getAttachmentResponse)
+                .collect(Collectors.toList());
+        return articleAssembler.toResponse(article, attachments);
     }
 
     public List<ArticleResponse> findAll() {

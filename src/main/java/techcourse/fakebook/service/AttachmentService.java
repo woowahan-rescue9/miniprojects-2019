@@ -1,5 +1,6 @@
 package techcourse.fakebook.service;
 
+import com.sun.xml.internal.ws.api.message.Attachment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +38,7 @@ public class AttachmentService {
 
             ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath.toString(), article);
 
-            return attachmentAssembler.toResponse(articleAttachmentRepository.save(articleAttachment));
+            return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
         } catch (IOException e) {
             throw new FileSaveException(e.getMessage());
         }
@@ -59,5 +60,9 @@ public class AttachmentService {
         String extension = splits.get(splits.size() - 1);
 
         return hashCodeOfFile + "." + extension;
+    }
+
+    public AttachmentResponse getAttachmentResponse(ArticleAttachment attachment) {
+        return attachmentAssembler.toResponse(attachment);
     }
 }

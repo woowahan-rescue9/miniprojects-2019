@@ -5,6 +5,7 @@ import techcourse.fakebook.domain.BaseEntity;
 import techcourse.fakebook.domain.user.User;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,9 @@ public class Article extends BaseEntity {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "article")
+    private List<ArticleAttachment> attachments;
 
     @Column(nullable = false)
     private boolean deleted;
@@ -59,6 +63,10 @@ public class Article extends BaseEntity {
 
     public User getUser() {
         return user;
+    }
+
+    public List<ArticleAttachment> getAttachments() {
+        return attachments;
     }
 
     @Override

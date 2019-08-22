@@ -24,9 +24,9 @@ public class ArticleAssembler {
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline);
     }
 
-    public ArticleResponse toResponse(Article article, List<AttachmentResponse> resources) {
+    public ArticleResponse toResponse(Article article, List<AttachmentResponse> attachments) {
         UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
-        return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, resources);
+        return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, attachments);
     }
 
     public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment, Integer countOfLike) {
