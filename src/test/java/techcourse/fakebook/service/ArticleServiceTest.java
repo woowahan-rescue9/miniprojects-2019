@@ -34,6 +34,19 @@ class ArticleServiceTest {
     }
 
     @Test
+    void 삭제된_게시글을_제외하고_불러오는지_확인한다() {
+        ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
+        ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
+        Long deletedId = articleResponse.getId();
+
+        assertThat(articleService.findById(deletedId)).isInstanceOf(articleResponse.getClass());
+
+        articleService.deleteById(deletedId, userOutline);
+
+        assertThrows(NotFoundArticleException.class, () -> articleService.findById(deletedId));
+    }
+
+    @Test
     void 없는_글을_찾을_때_예외를_잘_던지는지_확인한다() {
         assertThrows(NotFoundArticleException.class, () -> articleService.findById(0L));
     }

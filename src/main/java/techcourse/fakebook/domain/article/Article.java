@@ -1,5 +1,6 @@
 package techcourse.fakebook.domain.article;
 
+import org.hibernate.annotations.Where;
 import techcourse.fakebook.domain.BaseEntity;
 import techcourse.fakebook.domain.user.User;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Where(clause = "deleted = 'false'")
 public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
