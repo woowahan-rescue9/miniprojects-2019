@@ -82,7 +82,7 @@
                     </ul>
                 </nav>
             </header>
-            <main id="gradient-background" >
+            <main id="gradient-background">
                 <div class="container-fluid max-width-lg mx-auto mrg-top-80">
                     <div class="row">
                         <div class="col-7">
@@ -95,7 +95,7 @@
                                 <div id="register-message-b" class="register-message">빠르고 쉽습니다.</div>
                             </div>
                             <div id="registration-box">
-                                <form method="post" action="/users" onsubmit="return validateRegistrationForm()" th:object="${userSignupRequest}">
+                                <form id="registration-form" method="post" action="/users" th:object="${userSignupRequest}">
                                     <input id="birth" type="hidden" name="birth">
                                     <div id="names-wrapper">
                                         <input id="lastname" class="registration-textbox-short" type="text" placeholder="성(姓)" required th:field="*{lastName}">
