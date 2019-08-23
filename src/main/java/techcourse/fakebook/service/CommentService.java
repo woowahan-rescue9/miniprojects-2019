@@ -43,7 +43,7 @@ public class CommentService {
     }
 
     public List<CommentResponse> findAllByArticleId(Long id) {
-        return commentRepository.findAllByArticleIdOrderByModifiedDateDescCreatedDateDesc(id).stream()
+        return commentRepository.findAllByArticleIdOrderByCreatedDateAsc(id).stream()
                 .map(commentAssembler::toResponse)
                 .collect(Collectors.toList());
     }

@@ -6,7 +6,7 @@ import techcourse.fakebook.domain.user.User;
 import java.util.List;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    List<Article> findAllByOrderByModifiedDateDescCreatedDateDesc();
+    List<Article> findAllByOrderByCreatedDateDesc();
 
     List<Article> findArticlesByUserOrderByCreatedDateDesc(User user);
 

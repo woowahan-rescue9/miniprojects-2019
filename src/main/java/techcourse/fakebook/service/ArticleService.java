@@ -55,7 +55,7 @@ public class ArticleService {
     }
 
     public List<ArticleResponse> findAll() {
-        List<Article> articles = articleRepository.findAllByOrderByModifiedDateDescCreatedDateDesc();
+        List<Article> articles = articleRepository.findAllByOrderByCreatedDateDesc();
         return articles.stream()
                 .map(this::getArticleResponse)
                 .collect(Collectors.toList());
