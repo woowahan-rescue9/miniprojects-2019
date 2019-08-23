@@ -57,6 +57,13 @@ ex. 나의 뉴스피드에… 친구들의 글을 가져오기… (글에서 해
 
 
 
+## 프론트 display 설정 (console에서)
+document.getElementById('add-friend').style.display = "none"
+
+
+## 프론트 이슈?? 
+- 여러파일에서 .js 파일을 사용할 경우 (getElementById 를 사용한다면.... 다른곳에서 쓰이는 js파일이 먼저 로딩될수도...... -> 네임스페이스를 정해주어야할까? -> 아 ??? 각자의 html파일에서만 보이려나??)
+
 
 참고
 1. in clause [https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_in]
