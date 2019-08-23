@@ -6,8 +6,11 @@
 - [x] 실제로 jpa 관련해서 적용되는지 테스트 (entity 만들기 + repository 를 통한 테스트 -> user repository 이용?? 그러면… service 를 만들고 이를 통해서 사용해야 할 것 같구먼…ㅎ)
 - [ ] 내가 진행한 사항에 대해서... 위키에 정리하기 (왜 이런 결정을 했는지, 어떤 부분이 문제였는지, 다른 사람들은 어떻게 했는지)
 - [x] user 를 삭제할 경우에 관한 처리 (관련된 user가 삭제되면 어떻게 되려나?)
-- [ ] 컨트롤러 구현  
-    - [ ] 친구추가(외부에서 어떤 식으로 요청을 보낼까?)  
+- [ ] 동일한 친구 추가 시도 
+    - 여러 컬럼으로 unique 체크 
+    - DataIntegrityViolationException 발생
+- [x] 컨트롤러 구현  
+    - [x] 친구추가(외부에서 어떤 식으로 요청을 보낼까?)  
         - 추가할 userId 를 사용 /friends [POST] {friend_id=10}  
             - 성공: CREATED 201  
             - 실패: FORBIDDEN 403  
@@ -17,6 +20,7 @@
         - /friendships {friendId: id}
         - 결과적으로는 .... loginedUserId, friendId 가 필요
     - [ ] 친구조회? (UserOutline)
+    - [ ] 프론트와 연동
 
 
 
@@ -52,6 +56,13 @@ ex. 나의 뉴스피드에… 친구들의 글을 가져오기… (글에서 해
 2. [User 테이블 전체 검색] + 동적인 갯수의 … 쿼리 적용 
 
 
+
+## 프론트 display 설정 (console에서)
+document.getElementById('add-friend').style.display = "none"
+
+
+## 프론트 이슈?? 
+- 여러파일에서 .js 파일을 사용할 경우 (getElementById 를 사용한다면.... 다른곳에서 쓰이는 js파일이 먼저 로딩될수도...... -> 네임스페이스를 정해주어야할까? -> 아 ??? 각자의 html파일에서만 보이려나??)
 
 
 참고

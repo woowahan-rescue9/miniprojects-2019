@@ -218,7 +218,22 @@
                             </ul>
                             <div class="feed-footer">
                                 <div class="comment">
-                                    <ul th:id="'comments-' + ${article.articleResponse.id}" class="list-unstyled list-info"></ul>
+                                    <ul th:id="'comments-' + ${article.articleResponse.id}" class="list-unstyled list-info">
+                                        <li th:each="comment : ${article.comments}" class="comment-item">
+                                            <img class="thumb-img img-circle" th:src="'/images/profile/' + ${comment.userOutline.coverUrl}" th:alt="${comment.userOutline.name}">
+                                            <div class="info">
+                                                <div class="bg-lightgray border-radius-18 padding-10 max-width-100">
+                                                    <a th:href="'/users/' + ${comment.userOutline.id}" class="title text-bold inline-block text-link-color" th:text="${comment.userOutline.name}">이름</a>
+                                                    <span th:text="${comment.content}">내용</span>
+                                                </div>
+                                                <div class="font-size-12 pdd-left-10 pdd-top-5">
+                                                    <span class="pointer text-link-color">좋아요</span>
+                                                    <span> · </span>
+                                                    <span th:text="${comment.createdDate}">날짜</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                     <div class="add-comment">
                                         <textarea th:id="'new-comment-' + ${article.articleResponse.id}" rows="1" class="form-control" placeholder="댓글을 입력하세요." th:onkeydown="|javascript:App.writeComment(event, '${article.articleResponse.id}')|"></textarea>
                                     </div>

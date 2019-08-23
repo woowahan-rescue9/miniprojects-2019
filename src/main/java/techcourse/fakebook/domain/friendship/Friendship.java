@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"precedent_user_id", "user_id"})
+})
 public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +28,10 @@ public class Friendship {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    public Friendship() {
+    Friendship() {
     }
 
-    public Friendship(User precedentUser, User user) {
+    private Friendship(User precedentUser, User user) {
         validatePrecedentUserIdIsLessThanUserId(precedentUser, user);
 
         this.precedentUser = precedentUser;
@@ -50,6 +53,14 @@ public class Friendship {
         return new Friendship(precedentUser, user);
     }
 
+    public User getPrecedentUser() {
+        return precedentUser;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public Long getFriendId(Long myId) {
         if (!myId.equals(precedentUser.getId())
                 && !myId.equals(user.getId())) {
@@ -59,26 +70,24 @@ public class Friendship {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Friendship that = (Friendship) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
         return "Friendship{" +
                 "id=" + id +
                 ", precedentUser=" + precedentUser +
                 ", user=" + user +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Friendship that = (Friendship) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(precedentUser, that.precedentUser) &&
-                Objects.equals(user, that.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, precedentUser, user);
     }
 }

@@ -49,6 +49,12 @@ public class UserService {
                 .orElseThrow(NotFoundUserException::new);
     }
 
+    public List<User> findByIdIn(List<Long> userIds) {
+        log.debug("begin");
+
+        return userRepository.findByIdIn(userIds);
+    }
+
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
 

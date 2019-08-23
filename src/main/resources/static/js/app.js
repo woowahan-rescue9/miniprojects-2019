@@ -133,7 +133,6 @@ const App = (() => {
     }
   }
   
-
   class CommentService extends Service {
     async write(event, id) {
       event = event || window.event
@@ -168,10 +167,29 @@ const App = (() => {
     }
   }
 
+  class FriendService extends Service {
+    async makeFriend(friendId) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req)
+      } catch (e) {}
+    }
+
+    async breakWithFriend(friendId) {
+      try {
+        // 일단 성공한다고 가정
+        await axios.delete(BASE_URL + "/api/friendships?friendId=" + friendId)
+      } catch (e) {}
+    }
+  }
+
   class Controller {
-    constructor(articleService, commentService) {
+    constructor(articleService, commentService, friendService) {
       this.articleService = articleService
       this.commentService = commentService
+      this.friendService = friendService
     }
 
     writeArticle(event) {
@@ -201,8 +219,17 @@ const App = (() => {
     removeComment(id) {
       this.commentService.remove(id)
     }
+
+    makeFriend(friendId) {
+      this.friendService.makeFriend(friendId)
+    }
+
+    breakWithFriend(friendId) {
+      alert("[breakWithFriend]")
+      this.friendService.breakWithFriend(friendId)
+    }
   }
 
   const api = new Api()
-  return new Controller(new ArticleService(api), new CommentService(api))
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(api))
 })()

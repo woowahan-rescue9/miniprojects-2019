@@ -2,7 +2,6 @@ package techcourse.fakebook.service.utils;
 
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.*;
 
@@ -29,8 +28,8 @@ public class ArticleAssembler {
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, attachments);
     }
 
-    public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment, Integer countOfLike) {
-        return new TotalArticleResponse(articleResponse, countOfComment, countOfLike);
+    public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment, Integer countOfLike, List<CommentResponse> comments) {
+        return new TotalArticleResponse(articleResponse, countOfComment, countOfLike, comments);
     }
 
     private LocalDateTime getRecentDate(Article article) {

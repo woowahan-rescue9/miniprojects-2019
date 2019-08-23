@@ -32,15 +32,22 @@ public class FriendshipService {
                 .collect(Collectors.toList());
     }
 
-    public void makeThemFriends(Long userId1, Long userId2) {
+    public void makeThemFriends(Long userId, Long friendId) {
         log.debug("begin");
 
-        User user1 = userService.getUser(userId1);
-        User user2 = userService.getUser(userId2);
+        friendshipRepository.save(makeFriendship(userId, friendId));
+    }
 
-        log.debug("user1: {}, user2: {}", user1, user2);
-        Friendship friendship = Friendship.from(user1, user2);
+    public void breakFriendship(Long userId, Long friendId) {
+        log.debug("begin");
 
-        friendshipRepository.save(friendship);
+        friendshipRepository.deleteByPrecedentUserIdAndUserId(userId, friendId);
+    }
+
+    private Friendship makeFriendship(Long userId, Long friendId) {
+        User user = userService.getUser(userId);
+        User friend = userService.getUser(friendId);
+
+        return Friendship.from(user, friend);
     }
 }

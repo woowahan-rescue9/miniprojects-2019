@@ -308,6 +308,13 @@ header ul.nav-right li, header ul.nav-left li {
     background-size: 37px 1608px
 }
 
+.icons.remove-friend {
+    width: 16px;
+    height: 16px;
+    background-position: -16px -1505px;
+    background-size: 37px 1608px
+}
+
 .left-group-title{
     font-weight: bold;
     color: #616770

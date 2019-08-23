@@ -3,10 +3,7 @@ package techcourse.fakebook.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.SessionUser;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.FriendshipService;
@@ -33,7 +30,21 @@ public class FriendshipApiController {
         try {
             friendshipService.makeThemFriends(userOutline.getId(), friendshipRequest.getFriendId());
         } catch (NotFoundUserException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@RequestParam("friendId") Long friendId, @SessionUser UserOutline userOutline) {
+        log.debug("begin");
+
+        log.debug("friendId: {}", friendId);
+        log.debug("userOutline: {}", userOutline);
+        try {
+            friendshipService.breakFriendship(userOutline.getId(), friendId);
+        } catch (NotFoundUserException e) {
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }

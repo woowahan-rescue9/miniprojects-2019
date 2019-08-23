@@ -23,7 +23,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
     private int port;
 
-    private int numUsers = 10;
+    private int numUsers = 6;
     private List<UserSignupRequest> userSignupRequests;
     private List<Long> userIds;
 
@@ -80,7 +80,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/friendships").
         then().
-                statusCode(HttpStatus.NOT_FOUND.value());
+                statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -98,5 +98,68 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
                 post("/api/friendships").
         then().
                 statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 로그인_안_된_상태에서_친구제거() {
+        int friendIndex = 5;
+        Long friendId = userIds.get(friendIndex);
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+        when().
+                delete("/api/friendships" + "?friendId=" + friendId).
+        then().
+                statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    }
+
+    @Test
+    void 존재하지_않는_friendId로_친구제거() {
+        Long notExistsFriendId = -1L;
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
+        when().
+                delete("/api/friendships" + "?friendId=" + notExistsFriendId).
+        then().
+                statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 친구요청후_친구제거() {
+        int friendIndex = 5;
+        친구_요청(friendIndex);
+
+        Long friendId = userIds.get(friendIndex);
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
+        when().
+                delete("/api/friendships" + "?friendId=" + friendId).
+        then().
+                statusCode(HttpStatus.OK.value());
+
+        // 삭제 되었어야만 친구_요청 이 성공
+        친구_요청(friendIndex);
+    }
+
+    private void 친구_요청(int friendIndex) {
+        Long friendId = userIds.get(friendIndex);
+        FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                cookie(cookie).
+                body(friendshipRequest).
+        when().
+                post("/api/friendships").
+        then().
+                statusCode(HttpStatus.OK.value());;
     }
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FriendshipServiceTest {
@@ -44,7 +46,7 @@ class FriendshipServiceTest {
 
     private void 유저_10명_추가() {
         assertThat(userRepository).isNotNull();
-        int numUsers = 10;
+        int numUsers = 4;
         List<User> users = generatesUsers(numUsers);
 
         savedUsers = users.stream()
@@ -61,11 +63,10 @@ class FriendshipServiceTest {
     void 유저_친구_추가_및_올바른지_조회() {
         // Arrange
         int userIndex = 0;
-        List<Integer> friendIndexes = Arrays.asList(1, 9);
+        List<Integer> friendIndexes = Arrays.asList(1, 3);
         유저_친구_초기화(userIndex, friendIndexes);
 
         // Act
-        log.debug("userId: {}", userId);
         List<Long> foundFriendIds = friendshipService.findFriendIds(userId);
 
         // Assert
@@ -79,12 +80,40 @@ class FriendshipServiceTest {
         }
     }
 
+    @Test
+    void 친구_추가_여러번시도() {
+        // Arrange
+        int userIndex = 0;
+        List<Integer> friendIndexes = Arrays.asList(1);
+        유저_친구_초기화(userIndex, friendIndexes);
+
+        // Act & Assert
+        assertThrows(DataIntegrityViolationException.class, () -> 유저_친구_초기화(userIndex, Arrays.asList(1)));
+    }
+
+    @Test
+    void 친구_추가_이후_삭제() {
+        // Arrange
+        int userIndex = 0;
+        int friendIndex = 1;
+        유저_친구_초기화(userIndex, Arrays.asList(friendIndex));
+
+        // Act
+        Long userId = savedUserIds.get(userIndex);
+        Long friendId = savedUserIds.get(friendIndex);
+        friendshipService.breakFriendship(userId, friendId);
+
+        System.out.println(friendshipService.findFriendIds(userId));
+        // Assert
+        assertThat(friendshipService.findFriendIds(userId).isEmpty()).isTrue();
+    }
+
     // 원래는 통합 테스트에서 해야하지 않을까?
     @Test
     void 유저삭제_친구정보도_삭제() {
         // Arrange
         int userIndex = 0;
-        List<Integer> friendIndexes = Arrays.asList(1, 9);
+        List<Integer> friendIndexes = Arrays.asList(1, 3);
         유저_친구_초기화(userIndex, friendIndexes);
 
         // Act
