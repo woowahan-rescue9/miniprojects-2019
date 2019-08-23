@@ -222,11 +222,42 @@ const App = (() => {
     }
   }
 
+  class SearchService {
+    constructor() {
+      const autoComplete = document.getElementById("auto-complete")
+      const findUsernamesByKeyword = async keyword => {
+        const result = (await axios.get(BASE_URL + "/api/users/" + keyword)).data
+        autoComplete.innerHTML = ""
+        for (let i = 0; i < result.length; i++) {
+          autoComplete.innerHTML += `<span class="dropdown-item" onclick="App.visitResult('${result[i].name}', ${result[i].id})">${result[i].name}&nbsp;&nbsp;
+                                      <span style="color:grey"> (${result[i].email}) </span></span>`
+        }
+      }
+      document.getElementById("search").addEventListener("keyup", event => {
+        const keyword = event.target.value
+        if (keyword.trim().length === 0) {
+          autoComplete.style.display = "none"
+          autoComplete.innerHTML = ""
+        } else {
+          autoComplete.style.display = "block"
+          findUsernamesByKeyword(keyword)
+        }
+      })
+    }
+ 
+    visitResult(name, id) {
+      document.getElementById("search").value = name
+      document.getElementById("search-form").setAttribute("action", "/users/" + id)
+      document.getElementById("auto-complete").style.display = "none"
+    }
+ }
+
   class Controller {
-    constructor(articleService, commentService, friendService) {
+    constructor(articleService, commentService, friendService, searchService) {
       this.articleService = articleService
       this.commentService = commentService
       this.friendService = friendService
+      this.searchService = searchService
     }
 
     writeArticle(event) {
@@ -264,6 +295,10 @@ const App = (() => {
     breakWithFriend(friendId) {
       this.friendService.breakWithFriend(friendId)
     }
+
+    visitResult(name, id) {
+      this.searchService.visitResult(name, id)
+    }
   }
 
   const attachmentModal = document.getElementById("attachment-modal")
@@ -276,5 +311,5 @@ const App = (() => {
   document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
 
   const api = new Api()
-  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(api))
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(api), new SearchService())
 })()
