@@ -42,7 +42,7 @@ public class FriendshipApiController {
         log.debug("friendId: {}", friendId);
         log.debug("userOutline: {}", userOutline);
         try {
-            friendshipService.breakThemFriends(userOutline.getId(), friendId);
+            friendshipService.breakFriendship(userOutline.getId(), friendId);
         } catch (NotFoundUserException e) {
             return ResponseEntity.notFound().build();
         }

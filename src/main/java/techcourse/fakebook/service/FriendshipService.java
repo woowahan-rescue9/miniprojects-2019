@@ -38,7 +38,7 @@ public class FriendshipService {
         friendshipRepository.save(makeFriendship(userId, friendId));
     }
 
-    public void breakThemFriends(Long userId, Long friendId) {
+    public void breakFriendship(Long userId, Long friendId) {
         log.debug("begin");
 
         friendshipRepository.deleteByPrecedentUserIdAndUserId(userId, friendId);
