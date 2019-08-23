@@ -16,7 +16,8 @@ public class TotalService {
     private final FriendshipService friendshipService;
     private final ArticleAssembler articleAssembler;
 
-    public TotalService(ArticleService articleService, CommentService commentService, UserService userService, FriendshipService friendshipService, ArticleAssembler articleAssembler) {
+    public TotalService(ArticleService articleService, CommentService commentService, UserService userService,
+                        FriendshipService friendshipService, ArticleAssembler articleAssembler) {
         this.articleService = articleService;
         this.commentService = commentService;
         this.userService = userService;

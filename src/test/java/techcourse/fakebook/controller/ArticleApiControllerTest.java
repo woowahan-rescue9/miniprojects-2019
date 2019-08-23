@@ -164,7 +164,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
                 port(port).
                 cookie(cookie).
                 multiPart("files", new File("src/test/resources/static/images/logo/res9-logo.gif")).
-                formParam("content","hello").
+                formParam("content", "hello").
         when().
                 post("/api/articles").as(ArticleResponse.class);
 

@@ -34,7 +34,8 @@ public class ArticleApiController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArticleResponse> update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<ArticleResponse> update(@PathVariable Long id, @RequestBody ArticleRequest articleRequest,
+                                                  @SessionUser UserOutline userOutline) {
         ArticleResponse articleResponse = articleService.update(id, articleRequest, userOutline);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;")
                 .body(articleResponse);

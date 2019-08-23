@@ -25,7 +25,7 @@ public class AttachmentServiceTest {
     private ArticleRepository articleRepository;
 
     @Test
-    void 파일을_잘_저장하는지_테스트_한다() throws IOException {
+    void 파일을_잘_저장하는지_확인한다() throws IOException {
         File file = new File("src/test/resources/static/images/logo/res9-logo.gif");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));

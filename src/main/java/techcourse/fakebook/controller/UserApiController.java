@@ -24,7 +24,8 @@ public class UserApiController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long userId, @RequestBody UserUpdateRequest userUpdateRequest, HttpSession session) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long userId,
+                                               @RequestBody UserUpdateRequest userUpdateRequest, HttpSession session) {
         log.debug("begin");
         log.debug("userUpdateRequest : {}", userUpdateRequest);
 

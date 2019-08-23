@@ -18,7 +18,6 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-// TODO: 이 어노테이션을 하면 왜 userRepository 를 찾을 수 있는 건지 아직 이해가 안된다
 @DataJpaTest
 class UserRepositoryTest {
     @Autowired

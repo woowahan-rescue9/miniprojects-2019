@@ -14,7 +14,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final SessionUserArgumentResolver sessionUserArgumentResolver;
     private final OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver;
 
-    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor, NotLoginedInterceptor notLoginedInterceptor, SessionUserArgumentResolver sessionUserArgumentResolver, OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver) {
+    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor,
+                        NotLoginedInterceptor notLoginedInterceptor,
+                        SessionUserArgumentResolver sessionUserArgumentResolver,
+                        OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver) {
         this.alreadyLoginedInterceptor = alreadyLoginedInterceptor;
         this.notLoginedInterceptor = notLoginedInterceptor;
         this.sessionUserArgumentResolver = sessionUserArgumentResolver;

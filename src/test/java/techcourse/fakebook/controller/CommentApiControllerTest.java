@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.CommentRequest;
-import techcourse.fakebook.service.dto.CommentResponse;
-import techcourse.fakebook.service.dto.LoginRequest;
+import techcourse.fakebook.service.dto.*;
 
 import java.util.List;
 

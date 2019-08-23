@@ -45,6 +45,19 @@ public class User extends BaseEntity {
         this.introduction = introduction;
     }
 
+    public void updateModifiableFields(String coverUrl, String introduction) {
+        this.coverUrl = coverUrl;
+        this.introduction = introduction;
+    }
+
+    public boolean isSameWith(Long id) {
+        return this.id.equals(id);
+    }
+
+    public boolean checkEncryptedPassword(String encryptedPassword) {
+        return this.encryptedPassword.equals(encryptedPassword);
+    }
+
     public Long getId() {
         return id;
     }
@@ -75,19 +88,6 @@ public class User extends BaseEntity {
 
     public String getIntroduction() {
         return introduction;
-    }
-
-    public void updateModifiableFields(String coverUrl, String introduction) {
-        this.coverUrl = coverUrl;
-        this.introduction = introduction;
-    }
-
-    public boolean isSameWith(Long id) {
-        return this.id.equals(id);
-    }
-
-    public boolean checkEncryptedPassword(String encryptedPassword) {
-        return this.encryptedPassword.equals(encryptedPassword);
     }
 
     @Override

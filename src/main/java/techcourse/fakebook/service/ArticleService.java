@@ -8,10 +8,7 @@ import techcourse.fakebook.domain.like.ArticleLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundArticleException;
-import techcourse.fakebook.service.dto.ArticleRequest;
-import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.AttachmentResponse;
-import techcourse.fakebook.service.dto.UserOutline;
+import techcourse.fakebook.service.dto.*;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
 import javax.transaction.Transactional;
@@ -29,7 +26,8 @@ public class ArticleService {
     private final ArticleAssembler articleAssembler;
     private final AttachmentService attachmentService;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository, UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService) {
+    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository,
+                          UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;

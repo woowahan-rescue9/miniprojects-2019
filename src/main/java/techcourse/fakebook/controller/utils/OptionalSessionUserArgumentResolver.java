@@ -28,7 +28,8 @@ public class OptionalSessionUserArgumentResolver implements HandlerMethodArgumen
     }
 
     @Override
-    public Optional<UserOutline> resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Optional<UserOutline> resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                                 NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         log.debug("begin");
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();

@@ -8,9 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.service.dto.UserResponse;
-import techcourse.fakebook.service.dto.UserSignupRequest;
-import techcourse.fakebook.service.dto.UserUpdateRequest;
+import techcourse.fakebook.service.dto.*;
 import techcourse.fakebook.service.utils.UserAssembler;
 
 import java.util.Arrays;

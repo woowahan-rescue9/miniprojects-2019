@@ -8,13 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.controller.utils.OptionalSessionUser;
 import techcourse.fakebook.service.FriendshipService;
-import techcourse.fakebook.service.LoginService;
-import techcourse.fakebook.service.TotalService;
-import techcourse.fakebook.service.UserService;
-import techcourse.fakebook.service.dto.LoginRequest;
-import techcourse.fakebook.service.dto.UserOutline;
-import techcourse.fakebook.service.dto.UserResponse;
-import techcourse.fakebook.service.dto.UserSignupRequest;
+import techcourse.fakebook.service.*;
+import techcourse.fakebook.service.dto.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

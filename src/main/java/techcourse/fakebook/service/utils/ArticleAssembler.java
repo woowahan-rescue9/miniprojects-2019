@@ -28,7 +28,8 @@ public class ArticleAssembler {
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, attachments);
     }
 
-    public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment, Integer countOfLike, List<CommentResponse> comments) {
+    public TotalArticleResponse toTotalArticleResponse(ArticleResponse articleResponse, Integer countOfComment,
+                                                       Integer countOfLike, List<CommentResponse> comments) {
         return new TotalArticleResponse(articleResponse, countOfComment, countOfLike, comments);
     }
 

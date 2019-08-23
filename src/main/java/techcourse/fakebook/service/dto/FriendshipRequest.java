@@ -1,6 +1,6 @@
 package techcourse.fakebook.service.dto;
 
-public class FriendshipRequest  {
+public class FriendshipRequest {
     private Long friendId;
 
     public FriendshipRequest() {

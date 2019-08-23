@@ -10,10 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.web.reactive.function.BodyInserters;
 import techcourse.fakebook.domain.user.UserRepository;
-import techcourse.fakebook.service.dto.ArticleRequest;
-import techcourse.fakebook.service.dto.ArticleResponse;
-import techcourse.fakebook.service.dto.LoginRequest;
-import techcourse.fakebook.service.dto.UserSignupRequest;
+import techcourse.fakebook.service.dto.*;
 
 import static io.restassured.RestAssured.given;
 
