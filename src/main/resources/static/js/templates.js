@@ -1,7 +1,7 @@
 const templates = (() => {
   class Templates {
     escapeHtml(string) {
-      return string.replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br>")
+      return string.replace(/</gi, "&lt;").replace(/>/gi, "&gt;").replace(/\n/gi, "<br>")
     }
 
     articleTemplate(input) {
