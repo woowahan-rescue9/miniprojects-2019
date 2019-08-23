@@ -80,7 +80,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/friendships").
         then().
-                statusCode(HttpStatus.NOT_FOUND.value());
+                statusCode(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
@@ -134,7 +134,6 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         친구_요청(friendIndex);
 
         Long friendId = userIds.get(friendIndex);
-        FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
 
         given().
                 port(port).

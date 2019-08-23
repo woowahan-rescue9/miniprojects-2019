@@ -101,7 +101,7 @@ class FriendshipServiceTest {
         // Act
         Long userId = savedUserIds.get(userIndex);
         Long friendId = savedUserIds.get(friendIndex);
-        friendshipService.breakThemFriends(userId, friendId);
+        friendshipService.breakFriendship(userId, friendId);
 
         System.out.println(friendshipService.findFriendIds(userId));
         // Assert

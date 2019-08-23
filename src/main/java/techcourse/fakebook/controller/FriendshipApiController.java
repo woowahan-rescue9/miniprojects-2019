@@ -30,7 +30,7 @@ public class FriendshipApiController {
         try {
             friendshipService.makeThemFriends(userOutline.getId(), friendshipRequest.getFriendId());
         } catch (NotFoundUserException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
@@ -44,7 +44,7 @@ public class FriendshipApiController {
         try {
             friendshipService.breakFriendship(userOutline.getId(), friendId);
         } catch (NotFoundUserException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
