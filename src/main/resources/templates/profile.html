@@ -62,7 +62,7 @@
                 </li>
             </ul>
             <ul class="nav-right">
-                <li class="user-profile" th:object="${session.user}">
+                <li th:if="${session.user}" th:object="${session.user}" class="user-profile">
                     <a th:href="'/users/' + *{id}">
                         <img class="profile-img img-fluid" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
                         <div class="user-info mrg-left-5">
@@ -78,6 +78,9 @@
                 </li>
                 <li>
                     <div class="notification-btn pointer mrg-vertical-10 mrg-horizon-5"></div>
+                </li>
+                <li>
+                    <div class="more-btn pointer mrg-vertical-10 mrg-horizon-5"></div>
                 </li>
             </ul>
         </nav>

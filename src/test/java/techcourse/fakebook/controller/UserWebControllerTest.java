@@ -48,7 +48,7 @@ class UserWebControllerTest extends ControllerTestHelper {
                 .expectBody()
                 .consumeWith(response -> {
                     String body = new String(response.getResponseBody());
-                    assertThat(body.contains("/users/" + userId)).isTrue();
+                    assertThat(body.contains("성이름")).isTrue();
                 });
     }
 
