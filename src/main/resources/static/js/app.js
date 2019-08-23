@@ -87,7 +87,7 @@ const App = (() => {
 
     edit(id) {
       const contentArea = document.getElementById("article-" + id + "-content")
-      const originalContent = contentArea.firstChild.firstChild.innerHTML.trim().replace("<br>", "\n")
+      const originalContent = contentArea.firstElementChild.firstElementChild.innerText
       contentArea.innerHTML = ""
       contentArea.insertAdjacentHTML(
         "afterbegin",

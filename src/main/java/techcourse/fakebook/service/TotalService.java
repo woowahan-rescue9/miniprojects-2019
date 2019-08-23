@@ -5,7 +5,6 @@ import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.dto.TotalArticleResponse;
 import techcourse.fakebook.service.utils.ArticleAssembler;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +54,8 @@ public class TotalService {
                 .map(articleResponse ->
                         articleAssembler.toTotalArticleResponse(articleResponse,
                                 commentService.getCommentsCountOf(articleResponse.getId()),
-                                articleService.getLikeCountOf(articleResponse.getId())))
+                                articleService.getLikeCountOf(articleResponse.getId()),
+                                commentService.findAllByArticleId(articleResponse.getId())))
                 .collect(Collectors.toList());
     }
 }
