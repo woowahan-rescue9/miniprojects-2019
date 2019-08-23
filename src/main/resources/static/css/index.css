@@ -587,6 +587,28 @@ header ul.nav-right li, header ul.nav-left li {
     height: 26px
 }
 
+#add-friend.already-friend {
+    display: none;
+}
+
+#remove-friend {
+    border-color: #8b8b8b;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 2px;
+    background: #f3f3f3;
+    cursor: pointer;
+    float: right;
+    vertical-align: middle;
+    width: 100px;
+    height: 26px;
+    display: none;
+}
+
+#remove-friend.already-friend {
+    display: block;
+}
+
 .friend {
     display: inline-block;
     text-align: center;

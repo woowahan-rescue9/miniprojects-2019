@@ -108,6 +108,33 @@ class FriendshipServiceTest {
         assertThat(friendshipService.findFriendIds(userId).isEmpty()).isTrue();
     }
 
+    @Test
+    void 친구여부_확인() {
+        // Arrange
+        int userIndex = 0;
+        int friendIndex = 1;
+        유저_친구_초기화(userIndex, Arrays.asList(friendIndex));
+
+        Long userId = savedUserIds.get(userIndex);
+        Long friendId = savedUserIds.get(friendIndex);
+
+        // Act & Assert
+        assertThat(friendshipService.hasFriendship(userId, friendId)).isTrue();
+    }
+
+    @Test
+    void 친구여부_확인_서로_친구가_아닌경우() {
+        // Arrange
+        int userIndex = 0;
+        int wrongFriendIndex = 1;
+
+        Long userId = savedUserIds.get(userIndex);
+        Long notFriendId = savedUserIds.get(wrongFriendIndex);
+
+        // Act & Assert
+        assertThat(friendshipService.hasFriendship(userId, notFriendId)).isFalse();
+    }
+
     // 원래는 통합 테스트에서 해야하지 않을까?
     @Test
     void 유저삭제_친구정보도_삭제() {

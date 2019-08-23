@@ -12,11 +12,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final AlreadyLoginedInterceptor alreadyLoginedInterceptor;
     private final NotLoginedInterceptor notLoginedInterceptor;
     private final SessionUserArgumentResolver sessionUserArgumentResolver;
+    private final OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver;
 
-    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor, NotLoginedInterceptor notLoginedInterceptor, SessionUserArgumentResolver sessionUserArgumentResolver) {
+    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor, NotLoginedInterceptor notLoginedInterceptor, SessionUserArgumentResolver sessionUserArgumentResolver, OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver) {
         this.alreadyLoginedInterceptor = alreadyLoginedInterceptor;
         this.notLoginedInterceptor = notLoginedInterceptor;
         this.sessionUserArgumentResolver = sessionUserArgumentResolver;
+        this.optionalSessionUserArgumentResolver = optionalSessionUserArgumentResolver;
     }
 
     @Override
@@ -37,5 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(sessionUserArgumentResolver);
+        resolvers.add(optionalSessionUserArgumentResolver);
     }
 }

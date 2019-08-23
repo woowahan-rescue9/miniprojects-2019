@@ -168,12 +168,39 @@ const App = (() => {
   }
 
   class FriendService extends Service {
+    constructor() {
+        if (typeof document.getElementById('user-id') === 'undefined'
+          || document.getElementById('user-id') === null)
+        {
+          super();
+          return ;
+        }
+
+        const userId = document.getElementById('user-id').value;
+        const friendId = document.getElementById('friend-id').value;
+
+        if (typeof userId !== 'undefined' && userId !== friendId) {
+
+            if (document.getElementById('already-friend').value === 'true') {
+              // toggleButton
+              const addFriend= document.getElementById('add-friend');
+              addFriend.classList.toggle('already-friend');
+
+              const removeFriend= document.getElementById('remove-friend');
+              removeFriend.classList.toggle('already-friend');
+            }
+        }
+        super();
+    }
+
     async makeFriend(friendId) {
       try {
         const req = {friendId: friendId}
 
         // 일단 성공한다고 가정
-        await axios.post(BASE_URL + "/api/friendships", req)
+        await axios.post(BASE_URL + "/api/friendships", req);
+
+        this.toggleButton();
       } catch (e) {}
     }
 
@@ -181,7 +208,17 @@ const App = (() => {
       try {
         // 일단 성공한다고 가정
         await axios.delete(BASE_URL + "/api/friendships?friendId=" + friendId)
+
+        this.toggleButton();
       } catch (e) {}
+    }
+
+    toggleButton() {
+      const addFriend= document.getElementById('add-friend');
+      addFriend.classList.toggle('already-friend');
+
+      const removeFriend= document.getElementById('remove-friend');
+      removeFriend.classList.toggle('already-friend');
     }
   }
 
@@ -221,11 +258,10 @@ const App = (() => {
     }
 
     makeFriend(friendId) {
-      this.friendService.makeFriend(friendId)
+      this.friendService.makeFriend(friendId);
     }
 
     breakWithFriend(friendId) {
-      alert("[breakWithFriend]")
       this.friendService.breakWithFriend(friendId)
     }
   }

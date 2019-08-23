@@ -95,8 +95,9 @@
                         <p th:text="${user.name}">이름</p>
                     </div>
                     <div th:if="${session.user}">
-                        <!-- 여기에 확인할 값을 넣어놓자-->
-                        <input id="has-friend" type="hidden">
+                        <input id="user-id" type="hidden" th:value="${session.user.id}" >
+                        <input id="friend-id" type="hidden" th:value="${user.id}" >
+                        <input id="already-friend" type="hidden" th:value="${isFriend}" >
                         <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button" th:onclick="|javascript:App.makeFriend('${user.id}')|"><i
                                 class="ti-plus font-size-8"><i class="icons add-friend"></i></i> 친구 추가
                         </button>

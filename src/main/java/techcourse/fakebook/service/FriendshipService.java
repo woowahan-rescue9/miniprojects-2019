@@ -41,7 +41,9 @@ public class FriendshipService {
     public void breakFriendship(Long userId, Long friendId) {
         log.debug("begin");
 
-        friendshipRepository.deleteByPrecedentUserIdAndUserId(userId, friendId);
+        friendshipRepository.deleteByPrecedentUserIdAndUserId(
+                Math.min(userId, friendId),
+                Math.max(userId, friendId));
     }
 
     private Friendship makeFriendship(Long userId, Long friendId) {
@@ -49,5 +51,12 @@ public class FriendshipService {
         User friend = userService.getUser(friendId);
 
         return Friendship.from(user, friend);
+    }
+
+    public boolean hasFriendship(Long userId, Long friendId) {
+        return friendshipRepository.findByPrecedentUserIdAndUserId(
+                Math.min(userId, friendId),
+                Math.max(userId, friendId))
+                .isPresent();
     }
 }
