@@ -120,20 +120,20 @@
                         <div class="card widget-compose">
                             <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
                             <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
+                            <div id="attachment-modal">
+                                <div id="modal-content">
+                                    <span id="attachment-close">&times;</span>
+                                    <p>
+                                        <input id="attachment" type="file" accept="file_extension|image/*|media_type">
+                                    </p>
+                                </div>
+                            </div>
                             <ul class="composor-tools pdd-top-15">
                                 <li id="attachment-open" class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
                                         <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>
                                     </a>
-                                    <div id="attachment-modal">
-                                        <div id="modal-content">
-                                            <span id="attachment-close">&times;</span>
-                                            <p>
-                                                <input id="attachment" type="file" accept="file_extension|image/*|media_type">
-                                            </p>
-                                        </div>
-                                    </div>
                                 </li>
                                 <li class="bg-lightgray-button border-radius-round mrg-right-5">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
@@ -258,7 +258,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="/js/templates.js"></script>
     <script src="/js/app.js"></script>
-    <script src="/js/attachment.js"></script>
     <script src="/js/search.js"></script>
     </body>
 </html>

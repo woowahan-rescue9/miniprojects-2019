@@ -266,6 +266,15 @@ const App = (() => {
     }
   }
 
+  const attachmentModal = document.getElementById("attachment-modal")
+  attachmentModal.addEventListener("click", event => {
+    if (event.target != document.getElementById("attachment")) {
+      attachmentModal.style.display = "none"
+    }
+  })
+  document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
+  document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
+
   const api = new Api()
   return new Controller(new ArticleService(api), new CommentService(api), new FriendService(api))
 })()

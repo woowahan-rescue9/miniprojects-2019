@@ -1,2 +1,0 @@
-INSERT into user(email,encrypted_password, name, gender, cover_url, birth, introduction)
- values('donut@woowa.com', '$2a$10$ATZMi4uqvRN9ahHqNgn8k.XaZOx1YvOc8L7sJUT88fIEavF4b4vDK','도나쓰' ,'female', 'default.png', '1992/5/11', '');
