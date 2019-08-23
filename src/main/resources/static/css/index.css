@@ -549,6 +549,10 @@ header ul.nav-right li, header ul.nav-left li {
     height: 50px
 }
 
+#articles {
+    border-collapse: collapse
+}
+
 #profile-photo-container {
     font-size: 24px;
     font-weight: bolder;
