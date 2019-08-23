@@ -27,7 +27,8 @@ public class TotalService {
                 .map(articleResponse ->
                         articleAssembler.toTotalArticleResponse(articleResponse,
                                 commentService.getCommentsCountOf(articleResponse.getId()),
-                                articleService.getLikeCountOf(articleResponse.getId())))
+                                articleService.getLikeCountOf(articleResponse.getId()),
+                                commentService.findAllByArticleId(articleResponse.getId())))
                 .collect(Collectors.toList());
     }
 
@@ -37,7 +38,8 @@ public class TotalService {
                 .map(articleResponse ->
                         articleAssembler.toTotalArticleResponse(articleResponse,
                                 commentService.getCommentsCountOf(articleResponse.getId()),
-                                articleService.getLikeCountOf(articleResponse.getId())))
+                                articleService.getLikeCountOf(articleResponse.getId()),
+                                commentService.findAllByArticleId(articleResponse.getId())))
                 .collect(Collectors.toList());
     }
 }
