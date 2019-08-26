@@ -37,5 +37,6 @@ out/
 ### 임시 저장소 ###
 file/
 
-src/main/java/techcourse/fakeboo/Runner.java
+src/main/java/techcourse/fakebook/Runner.java
 src/main/resources/data.sql
+application-test.yml

@@ -1,11 +1,4 @@
 spring:
-  profiles:
-    active: test
-
----
-
-spring:
-  profiles: local
   jpa:
     hibernate:
       ddl-auto: create-drop
