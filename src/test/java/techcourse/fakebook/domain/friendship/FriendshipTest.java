@@ -3,7 +3,6 @@ package techcourse.fakebook.domain.friendship;
 import org.junit.jupiter.api.Test;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.FriendshipNotRelatedUserIdException;
-import techcourse.fakebook.exception.InvalidFriendshipUserIdException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -2,6 +2,7 @@ const App = (() => {
   "use strict"
 
   const BASE_URL = "http://" + window.location.host
+
   class Api {
     get(path) {
       return axios.get(BASE_URL + path)
@@ -65,23 +66,24 @@ const App = (() => {
           const req = new FormData()
           req.append("content", content)
           const files = document.getElementById("attachment").files;
-          if(files.length > 0) {
+          if (files.length > 0) {
             req.append("files", files[0])
           }
           const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
-            "afterbegin",
-            templates.articleTemplate({
-              "id": article.id,
-              "content": article.content,
-              "date": super.formatDate(article.recentDate),
-              "user": article.userOutline,
-              "images": article.attachments
-            })
+              "afterbegin",
+              templates.articleTemplate({
+                "id": article.id,
+                "content": article.content,
+                "date": super.formatDate(article.recentDate),
+                "user": article.userOutline,
+                "images": article.attachments
+              })
           )
           document.getElementById("attachment").value = ""
-        } catch (e) {}
+        } catch (e) {
+        }
       }
     }
 
@@ -90,8 +92,8 @@ const App = (() => {
       const originalContent = contentArea.firstElementChild.firstElementChild.innerText
       contentArea.innerHTML = ""
       contentArea.insertAdjacentHTML(
-        "afterbegin",
-        '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
+          "afterbegin",
+          '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
       )
       super.editBackup[id] = originalContent
     }
@@ -120,7 +122,8 @@ const App = (() => {
       try {
         await axios.delete(BASE_URL + "/api/articles/" + id)
         document.getElementById("article-" + id).remove()
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     async like(id) {
@@ -129,10 +132,11 @@ const App = (() => {
         const likeButton = document.getElementById("article-like-" + id)
         likeButton.classList.toggle('liked')
         document.getElementById("count-of-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
-      } catch (e) {}
+      } catch (e) {
+      }
     }
   }
-  
+
   class CommentService extends Service {
     async write(event, id) {
       event = event || window.event
@@ -145,16 +149,17 @@ const App = (() => {
           })).data
           textbox.value = ""
           document.getElementById("comments-" + id).insertAdjacentHTML(
-            "beforeend",
-            templates.commentTemplate({
-              "id": comment.id,
-              "content": comment.content,
-              "date": super.formatDate(comment.createdDate),
-              "user": comment.userOutline
-            })
+              "beforeend",
+              templates.commentTemplate({
+                "id": comment.id,
+                "content": comment.content,
+                "date": super.formatDate(comment.createdDate),
+                "user": comment.userOutline
+              })
           )
           document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
-        } catch (e) {}
+        } catch (e) {
+        }
       }
     }
 
@@ -163,34 +168,34 @@ const App = (() => {
         await axios.delete(BASE_URL + "/api/comments/" + id)
         document.getElementById("comments-" + id).remove()
         document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
-      } catch (e) {}
+      } catch (e) {
+      }
     }
   }
 
   class FriendService extends Service {
     constructor() {
-        if (typeof document.getElementById('user-id') === 'undefined'
-          || document.getElementById('user-id') === null)
-        {
-          super();
-          return ;
-        }
-
-        const userId = document.getElementById('user-id').value;
-        const friendId = document.getElementById('friend-id').value;
-
-        if (typeof userId !== 'undefined' && userId !== friendId) {
-
-            if (document.getElementById('already-friend').value === 'true') {
-              // toggleButton
-              const addFriend= document.getElementById('add-friend');
-              addFriend.classList.toggle('already-friend');
-
-              const removeFriend= document.getElementById('remove-friend');
-              removeFriend.classList.toggle('already-friend');
-            }
-        }
+      if (typeof document.getElementById('user-id') === 'undefined'
+          || document.getElementById('user-id') === null) {
         super();
+        return;
+      }
+
+      const userId = document.getElementById('user-id').value;
+      const friendId = document.getElementById('friend-id').value;
+
+      if (typeof userId !== 'undefined' && userId !== friendId) {
+
+        if (document.getElementById('already-friend').value === 'true') {
+          // toggleButton
+          const addFriend = document.getElementById('add-friend');
+          addFriend.classList.toggle('already-friend');
+
+          const removeFriend = document.getElementById('remove-friend');
+          removeFriend.classList.toggle('already-friend');
+        }
+      }
+      super();
     }
 
     async makeFriend(friendId) {
@@ -201,7 +206,8 @@ const App = (() => {
         await axios.post(BASE_URL + "/api/friendships", req);
 
         this.toggleButton();
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     async breakWithFriend(friendId) {
@@ -210,14 +216,15 @@ const App = (() => {
         await axios.delete(BASE_URL + "/api/friendships?friendId=" + friendId)
 
         this.toggleButton();
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     toggleButton() {
-      const addFriend= document.getElementById('add-friend');
+      const addFriend = document.getElementById('add-friend');
       addFriend.classList.toggle('already-friend');
 
-      const removeFriend= document.getElementById('remove-friend');
+      const removeFriend = document.getElementById('remove-friend');
       removeFriend.classList.toggle('already-friend');
     }
   }
@@ -244,13 +251,13 @@ const App = (() => {
         }
       })
     }
- 
+
     visitResult(name, id) {
       document.getElementById("search").value = name
       document.getElementById("search-form").setAttribute("action", "/users/" + id)
       document.getElementById("auto-complete").style.display = "none"
     }
- }
+  }
 
   class Controller {
     constructor(articleService, commentService, friendService, searchService) {
@@ -302,14 +309,15 @@ const App = (() => {
   }
 
   const attachmentModal = document.getElementById("attachment-modal")
-  attachmentModal.addEventListener("click", event => {
-    if (event.target != document.getElementById("attachment")) {
-      attachmentModal.style.display = "none"
-    }
-  })
+  if (attachmentModal != null) {
+    attachmentModal.addEventListener("click", event => {
+      if (event.target != document.getElementById("attachment")) {
+        attachmentModal.style.display = "none"
+      }
+    })
   document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
   document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
-
+}
   const api = new Api()
-  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(api), new SearchService())
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService())
 })()

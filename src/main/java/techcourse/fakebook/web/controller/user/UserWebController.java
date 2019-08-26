@@ -10,11 +10,8 @@ import techcourse.fakebook.web.argumentresolver.OptionalSessionUser;
 import techcourse.fakebook.service.friendship.FriendshipService;
 import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.article.TotalService;
-import techcourse.fakebook.service.user.UserService;
-import techcourse.fakebook.service.user.dto.LoginRequest;
-import techcourse.fakebook.service.user.dto.UserOutline;
-import techcourse.fakebook.service.user.dto.UserResponse;
-import techcourse.fakebook.service.user.dto.UserSignupRequest;
+import techcourse.fakebook.service.user.*;
+import techcourse.fakebook.service.user.dto.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

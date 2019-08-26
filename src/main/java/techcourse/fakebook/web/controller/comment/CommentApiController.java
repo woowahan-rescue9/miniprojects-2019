@@ -27,13 +27,15 @@ public class CommentApiController {
     }
 
     @PostMapping("/articles/{articleId}/comments")
-    public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<CommentResponse> create(@PathVariable Long articleId, @RequestBody CommentRequest commentRequest,
+                                                  @SessionUser UserOutline userOutline) {
         CommentResponse commentResponse = commentService.save(articleId, commentRequest, userOutline);
         return ResponseEntity.created(URI.create("/api/articles/" + articleId + "/comments/" + commentResponse.getId())).body(commentResponse);
     }
 
     @PutMapping("/comments/{commentId}")
-    public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<CommentResponse> update(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest,
+                                                  @SessionUser UserOutline userOutline) {
         CommentResponse commentResponse = commentService.update(commentId, commentRequest, userOutline);
         return ResponseEntity.ok().body(commentResponse);
     }

@@ -12,8 +12,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.user.dto.LoginRequest;
-import techcourse.fakebook.service.user.dto.UserSignupRequest;
+import techcourse.fakebook.service.user.dto.*;
 
 import static io.restassured.RestAssured.given;
 

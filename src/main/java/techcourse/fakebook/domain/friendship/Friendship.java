@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(uniqueConstraints={
+@Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"precedent_user_id", "user_id"})
 })
 public class Friendship {
@@ -39,9 +39,9 @@ public class Friendship {
     }
 
     private void validatePrecedentUserIdIsLessThanUserId(User precedentUser, User user) {
-         if (precedentUser.getId() >= user.getId()) {
-             throw new InvalidFriendshipUserIdException();
-         }
+        if (precedentUser.getId() >= user.getId()) {
+            throw new InvalidFriendshipUserIdException();
+        }
     }
 
     public static Friendship from(User precedentUser, User user) {

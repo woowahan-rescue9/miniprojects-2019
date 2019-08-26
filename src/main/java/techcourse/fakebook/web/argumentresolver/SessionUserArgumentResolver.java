@@ -25,7 +25,8 @@ public class SessionUserArgumentResolver implements HandlerMethodArgumentResolve
     }
 
     @Override
-    public UserOutline resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public UserOutline resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                       NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         log.debug("begin");
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
