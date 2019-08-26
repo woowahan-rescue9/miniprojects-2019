@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/attachment.css">
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -118,7 +119,7 @@
 
                                 <h3>사진 수정</h3>
                                 <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
-
+                                <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
                                 <h3>소개 수정</h3>
                                 <input type="text" class="edit-introduction">
 
@@ -357,5 +358,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 <script src="/js/templates.js"></script>
 <script src="/js/app.js"></script>
+
+<script type="text/javascript">
+    document.getElementById('profile-attachment').addEventListener('change', function () {
+        readURL(this);
+    })
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader()
+
+            reader.onload = function (e) {
+                document.getElementById('profile-image').setAttribute('src', e.target.result)
+            }
+            reader.readAsDataURL(input.files[0])
+            const image = document.getElementById('profile-image');
+            image.style.visibility = "visible";
+        }
+    }
+</script>
 </body>
 </html>

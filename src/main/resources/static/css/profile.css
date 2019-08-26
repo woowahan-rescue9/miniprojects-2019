@@ -1,0 +1,6 @@
+#edit-profile-form > #profile-image {
+    height: 100%;
+    width: 50%;
+    min-width: 200px;
+    max-height: 200px;
+}
