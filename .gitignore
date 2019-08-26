@@ -39,3 +39,4 @@ file/
 
 src/main/java/techcourse/fakebook/Runner.java
 src/main/resources/data.sql
+application-test.yml
