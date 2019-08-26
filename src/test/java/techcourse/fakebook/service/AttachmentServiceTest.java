@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.exception.NotFoundArticleException;
-import techcourse.fakebook.service.dto.AttachmentResponse;
+import techcourse.fakebook.service.article.AttachmentService;
+import techcourse.fakebook.service.article.dto.AttachmentResponse;
 
 import java.io.File;
 import java.io.FileInputStream;

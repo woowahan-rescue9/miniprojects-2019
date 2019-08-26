@@ -308,6 +308,13 @@ header ul.nav-right li, header ul.nav-left li {
     background-size: 37px 1608px
 }
 
+.icons.remove-friend {
+    width: 16px;
+    height: 16px;
+    background-position: -16px -1505px;
+    background-size: 37px 1608px
+}
+
 .left-group-title{
     font-weight: bold;
     color: #616770
@@ -549,6 +556,10 @@ header ul.nav-right li, header ul.nav-left li {
     height: 50px
 }
 
+#articles {
+    border-collapse: collapse
+}
+
 #profile-photo-container {
     font-size: 24px;
     font-weight: bolder;
@@ -576,6 +587,29 @@ header ul.nav-right li, header ul.nav-left li {
     height: 26px
 }
 
+#add-friend.already-friend {
+    display: none;
+}
+
+#remove-friend {
+    border-color: #8b8b8b;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 2px;
+    background: #f3f3f3;
+    cursor: pointer;
+    float: right;
+    vertical-align: middle;
+    width: 100px;
+    height: 26px;
+    display: none;
+}
+
+#remove-friend.already-friend {
+    display: block;
+}
+
+>>>>>>> 42b3dfbb60d8ec010327494a84a931d57c84c9bf
 .friend {
     display: inline-block;
     text-align: center;

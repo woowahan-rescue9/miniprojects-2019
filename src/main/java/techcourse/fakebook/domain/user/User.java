@@ -1,7 +1,7 @@
 package techcourse.fakebook.domain.user;
 
 import techcourse.fakebook.domain.BaseEntity;
-import techcourse.fakebook.utils.FullName;
+import techcourse.fakebook.utils.validator.EqualFields;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -20,7 +20,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String encryptedPassword;
 
-    @FullName
+    @EqualFields.FullName
     @Column(nullable = false)
     private String name;
 
@@ -47,6 +47,19 @@ public class User extends BaseEntity {
         this.coverUrl = coverUrl;
         this.birth = birth;
         this.introduction = introduction;
+    }
+
+    public void updateModifiableFields(String coverUrl, String introduction) {
+        this.coverUrl = coverUrl;
+        this.introduction = introduction;
+    }
+
+    public boolean isSameWith(Long id) {
+        return this.id.equals(id);
+    }
+
+    public boolean checkEncryptedPassword(String encryptedPassword) {
+        return this.encryptedPassword.equals(encryptedPassword);
     }
 
     public Long getId() {
@@ -81,37 +94,17 @@ public class User extends BaseEntity {
         return introduction;
     }
 
-    public void updateModifiableFields(String coverUrl, String introduction) {
-        this.coverUrl = coverUrl;
-        this.introduction = introduction;
-    }
-
-    public boolean isSameWith(Long id) {
-        return this.id.equals(id);
-    }
-
-    public boolean checkEncryptedPassword(String encryptedPassword) {
-        return this.encryptedPassword.equals(encryptedPassword);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(encryptedPassword, user.encryptedPassword) &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(gender, user.gender) &&
-                Objects.equals(coverUrl, user.coverUrl) &&
-                Objects.equals(birth, user.birth) &&
-                Objects.equals(introduction, user.introduction);
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, encryptedPassword, name, gender, coverUrl, birth, introduction);
+        return Objects.hash(id);
     }
 
     @Override

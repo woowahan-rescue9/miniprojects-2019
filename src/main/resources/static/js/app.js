@@ -2,21 +2,43 @@ const App = (() => {
   "use strict"
 
   const BASE_URL = "http://" + window.location.host
-  const ENTER = 13
-  const MINUTE = 1000 * 60
-  const HOUR = 60 * MINUTE
-  const DAY = 24 * HOUR
-  const WEEK = 7 * DAY
+
+  class Api {
+    get(path) {
+      return axios.get(BASE_URL + path)
+    }
+
+    post(path, data) {
+      return axios.post(BASE_URL + path, data)
+    }
+
+    put(path, data) {
+      return axios.post(BASE_URL + path, data)
+    }
+
+    delete(path) {
+      return axios.delete(BASE_URL + path)
+    }
+  }
+
   class Service {
-    constructor() {
+    constructor(api) {
+      this.api = api
       this.editBackup = {}
     }
 
     isEnterKey(e) {
+      const ENTER = 13
+
       return e.keyCode === ENTER || e.which === ENTER || e.key === ENTER
     }
 
     formatDate(dateString) {
+      const MINUTE = 1000 * 60
+      const HOUR = 60 * MINUTE
+      const DAY = 24 * HOUR
+      const WEEK = 7 * DAY
+
       const date = new Date(dateString)
       const difference = (new Date()).getTime() - date.getTime()
       if (difference < 10 * MINUTE) {
@@ -35,78 +57,6 @@ const App = (() => {
     }
   }
 
-  const ARTICLE_TEMPLATE_HTML =
-    '<div id="article-{{id}}" class="card widget-feed padding-15">' +
-      '<div class="feed-header">' +
-        '<ul class="list-unstyled list-info">' +
-          '<li>' +
-            '<img class="thumb-img img-circle" src="/images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
-            '<div class="info">' +
-              '<a href="/users/{{user.id}}" class="title no-pdd-vertical text-semibold inline-block">{{user.name}}</a>' +
-              '<span>님이 게시물을 작성하였습니다.</span>' +
-              '<span class="sub-title">{{date}}</span>' +
-              '<a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">' +
-                '<span class="btn-icon text-dark">' +
-                  '<i class="ti-more font-size-16"></i>' +
-                '</span>' +
-              '</a>' +
-              '<ul class="dropdown-menu">' +
-                '<li>' +
-                  '<a href="javascript:App.editArticle({{id}})" class="pointer">' +
-                    '<i class="ti-pencil pdd-right-10 text-dark"></i>' +
-                    '<span>게시글 수정</span>' +
-                  '</a>' +
-                  '<a href="javascript:App.removeArticle({{id}})" class="pointer">' +
-                    '<i class="ti-trash pdd-right-10 text-dark"></i>' +
-                    '<span>게시글 삭제</span>' +
-                  '</a>' +
-                '</li>' +
-              '</ul>' +
-            '</div>' +
-          '</li>' +
-        '</ul>' +
-      '</div>' +
-      '<div id="article-{{id}}-content" class="feed-body no-pdd">' +
-        '<p>' +
-          '<span> {{content}} </span>' + 
-        '</p>' +
-        '{{#each image}}' +
-      '<img class="vertical-align" src="/{{this.path}}">' +
-        '{{/each}}' +
-      '</div>' +
-      '<ul class="feed-action pdd-btm-5 border bottom">' +
-        '<li>' +
-          '<i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>' +
-          '<span id="count-of-like-{{id}}" class="font-size-14 lh-2-1"> 0</span>' +
-        '</li>' +
-        '<li class="float-right mrg-right-15">' +
-          '<span class="font-size-13">댓글 <span id="count-of-comment-{{id}}">0</span>개</span>' +
-        '</li>' +
-      '</ul>' +
-      '<ul class="feed-action border bottom d-flex">' +
-        '<li class="text-center flex-grow-1">' +
-          '<button id="article-like-{{id}}" onclick="App.likeArticle({{id}})" class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">' +
-            '<i class="fa fa-thumbs-o-up font-size-16"></i>' +
-            '<span class="font-size-13"> 좋아요</span>' +
-          '</button>' +
-        '</li>' +
-        '<li class="text-center flex-grow-1">' +
-          '<button class="btn btn-default no-border pdd-vertical-0 no-mrg width-100">' +
-            '<i class="fa fa-comment-o font-size-16"></i>' +
-            '<span class="font-size-13"> 댓글</span>' +
-          '</button>' +
-        '</li>' +
-      '</ul>' +
-      '<div class="feed-footer">' +
-        '<div class="comment">' +
-        '<ul id="comments-{{id}}" class="list-unstyled list-info"></ul>' +
-          '<div class="add-comment">' +
-            '<textarea id="new-comment-{{id}}" rows="1" class="form-control" placeholder="댓글을 입력하세요." onkeydown="App.writeComment(event, {{id}})"></textarea>' +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>'
-  const articleTemplate = Handlebars.compile(ARTICLE_TEMPLATE_HTML)
   class ArticleService extends Service {
     async write() {
       const textbox = document.getElementById("new-article")
@@ -116,33 +66,34 @@ const App = (() => {
           const req = new FormData()
           req.append("content", content)
           const files = document.getElementById("attachment").files;
-          if(files.length > 0) {
+          if (files.length > 0) {
             req.append("files", files[0])
           }
           const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
-            "afterbegin",
-            articleTemplate({
-              "id": article.id,
-              "content": article.content,
-              "date": super.formatDate(article.recentDate),
-              "user": article.userOutline,
-              "image": article.attachments
-            })
+              "afterbegin",
+              templates.articleTemplate({
+                "id": article.id,
+                "content": article.content,
+                "date": super.formatDate(article.recentDate),
+                "user": article.userOutline,
+                "images": article.attachments
+              })
           )
-          document.getElementById("attachment").value=""
-        } catch (e) {}
+          document.getElementById("attachment").value = ""
+        } catch (e) {
+        }
       }
     }
 
     edit(id) {
       const contentArea = document.getElementById("article-" + id + "-content")
-      const originalContent = contentArea.firstChild.firstChild.innerHTML.trim()
+      const originalContent = contentArea.firstElementChild.firstElementChild.innerText
       contentArea.innerHTML = ""
       contentArea.insertAdjacentHTML(
-        "afterbegin",
-        '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
+          "afterbegin",
+          '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
       )
       super.editBackup[id] = originalContent
     }
@@ -162,7 +113,7 @@ const App = (() => {
           }
         })()
         contentArea.innerHTML = ""
-        contentArea.insertAdjacentHTML("afterbegin", "<p><span> " + result + " </span></p>")
+        contentArea.insertAdjacentHTML("afterbegin", "<p><span> " + templates.escapeHtml(result) + " </span></p>")
         super.editBackup[id] = undefined
       }
     }
@@ -171,7 +122,8 @@ const App = (() => {
       try {
         await axios.delete(BASE_URL + "/api/articles/" + id)
         document.getElementById("article-" + id).remove()
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     async like(id) {
@@ -179,29 +131,12 @@ const App = (() => {
         await axios.post(BASE_URL + "/api/articles/" + id + "/like")
         const likeButton = document.getElementById("article-like-" + id)
         likeButton.classList.toggle('liked')
-
-        const countOfLike = (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
-        document.getElementById("count-of-like-" + id).innerText = " " + countOfLike
-      } catch (e) {}
+        document.getElementById("count-of-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/articles/" + id + "/like/count")).data
+      } catch (e) {
+      }
     }
   }
-  
-  const COMMENT_TEMPLATE_HTML =
-    '<li class="comment-item">' +
-      '<img class="thumb-img img-circle" src="/images/profile/{{user.coverUrl}}" alt="{{user.name}}">' +
-      '<div class="info">' +
-        '<div class="bg-lightgray border-radius-18 padding-10 max-width-100">' +
-          '<a href="/users/{{user.id}}" class="title text-bold inline-block text-link-color">{{user.name}}</a>' +
-          '<span> {{content}}</span>' +
-        '</div>' +
-        '<div class="font-size-12 pdd-left-10 pdd-top-5">' +
-          '<span class="pointer text-link-color">좋아요</span>' +
-          '<span> · </span>' +
-          '<span>{{date}}</span>' +
-        '</div>' +
-      '</div>' +
-    '</li>'
-  const commentTemplate = Handlebars.compile(COMMENT_TEMPLATE_HTML)
+
   class CommentService extends Service {
     async write(event, id) {
       event = event || window.event
@@ -214,18 +149,17 @@ const App = (() => {
           })).data
           textbox.value = ""
           document.getElementById("comments-" + id).insertAdjacentHTML(
-            "beforeend",
-            commentTemplate({
-              "id": comment.id,
-              "content": comment.content,
-              "date": super.formatDate(comment.createdDate),
-              "user": comment.userOutline
-            })
+              "beforeend",
+              templates.commentTemplate({
+                "id": comment.id,
+                "content": comment.content,
+                "date": super.formatDate(comment.createdDate),
+                "user": comment.userOutline
+              })
           )
-
-          const countOfComment = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
-          document.getElementById("count-of-comment-" + id).innerText = countOfComment
-        } catch (e) {}
+          document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
+        } catch (e) {
+        }
       }
     }
 
@@ -233,17 +167,104 @@ const App = (() => {
       try {
         await axios.delete(BASE_URL + "/api/comments/" + id)
         document.getElementById("comments-" + id).remove()
+        document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
+      } catch (e) {
+      }
+    }
+  }
 
-        const countOfComment = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
-        document.getElementById("count-of-comment-" + id).innerText = countOfComment
-      } catch (e) {}
+  class FriendService extends Service {
+    constructor() {
+      if (typeof document.getElementById('user-id') === 'undefined'
+          || document.getElementById('user-id') === null) {
+        super();
+        return;
+      }
+
+      const userId = document.getElementById('user-id').value;
+      const friendId = document.getElementById('friend-id').value;
+
+      if (typeof userId !== 'undefined' && userId !== friendId) {
+
+        if (document.getElementById('already-friend').value === 'true') {
+          // toggleButton
+          const addFriend = document.getElementById('add-friend');
+          addFriend.classList.toggle('already-friend');
+
+          const removeFriend = document.getElementById('remove-friend');
+          removeFriend.classList.toggle('already-friend');
+        }
+      }
+      super();
+    }
+
+    async makeFriend(friendId) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req);
+
+        this.toggleButton();
+      } catch (e) {
+      }
+    }
+
+    async breakWithFriend(friendId) {
+      try {
+        // 일단 성공한다고 가정
+        await axios.delete(BASE_URL + "/api/friendships?friendId=" + friendId)
+
+        this.toggleButton();
+      } catch (e) {
+      }
+    }
+
+    toggleButton() {
+      const addFriend = document.getElementById('add-friend');
+      addFriend.classList.toggle('already-friend');
+
+      const removeFriend = document.getElementById('remove-friend');
+      removeFriend.classList.toggle('already-friend');
+    }
+  }
+
+  class SearchService {
+    constructor() {
+      const autoComplete = document.getElementById("auto-complete")
+      const findUsernamesByKeyword = async keyword => {
+        const result = (await axios.get(BASE_URL + "/api/users/" + keyword)).data
+        autoComplete.innerHTML = ""
+        for (let i = 0; i < result.length; i++) {
+          autoComplete.innerHTML += `<span class="dropdown-item" onclick="App.visitResult('${result[i].name}', ${result[i].id})">${result[i].name}&nbsp;&nbsp;
+                                      <span style="color:grey"> (${result[i].email}) </span></span>`
+        }
+      }
+      document.getElementById("search").addEventListener("keyup", event => {
+        const keyword = event.target.value
+        if (keyword.trim().length === 0) {
+          autoComplete.style.display = "none"
+          autoComplete.innerHTML = ""
+        } else {
+          autoComplete.style.display = "block"
+          findUsernamesByKeyword(keyword)
+        }
+      })
+    }
+
+    visitResult(name, id) {
+      document.getElementById("search").value = name
+      document.getElementById("search-form").setAttribute("action", "/users/" + id)
+      document.getElementById("auto-complete").style.display = "none"
     }
   }
 
   class Controller {
-    constructor(articleService, commentService) {
+    constructor(articleService, commentService, friendService, searchService) {
       this.articleService = articleService
       this.commentService = commentService
+      this.friendService = friendService
+      this.searchService = searchService
     }
 
     writeArticle(event) {
@@ -273,7 +294,42 @@ const App = (() => {
     removeComment(id) {
       this.commentService.remove(id)
     }
+
+    makeFriend(friendId) {
+      this.friendService.makeFriend(friendId);
+    }
+
+    breakWithFriend(friendId) {
+      this.friendService.breakWithFriend(friendId)
+    }
+
+    visitResult(name, id) {
+      this.searchService.visitResult(name, id)
+    }
   }
 
-  return new Controller(new ArticleService(), new CommentService())
+  const attachmentModal = document.getElementById("attachment-modal")
+  if (attachmentModal != null) {
+    attachmentModal.addEventListener("click", event => {
+      if (event.target != document.getElementById("attachment")) {
+        attachmentModal.style.display = "none"
+      }
+    })
+  document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
+  document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
+}
+
+  const editProfileModal = document.getElementById("edit-profile-modal")
+  if (editProfileModal != null) {
+    // editProfileModal.addEventListener("click", event => {
+    //   if (event.target != document.getElementById("edit-profile-form")) {
+    //     editProfileModal.style.display = "none"
+    //   }
+    // })
+    document.getElementById("edit-profile").addEventListener("click", () => editProfileModal.style.display = "block")
+    document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
+  }
+
+  const api = new Api()
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService())
 })()
