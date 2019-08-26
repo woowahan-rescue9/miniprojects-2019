@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import techcourse.fakebook.service.dto.*;
-
-import java.util.List;
+import techcourse.fakebook.service.dto.ArticleResponse;
+import techcourse.fakebook.service.dto.CommentRequest;
+import techcourse.fakebook.service.dto.CommentResponse;
+import techcourse.fakebook.service.dto.LoginRequest;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 public class CommentApiControllerTest extends ControllerTestHelper {
@@ -27,17 +28,13 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 댓글을_잘_불러오는지_확인한다() {
-        List<CommentResponse> comments = given().
+        given().
                 port(port).
         when().
                 get("/api/articles/1/comments").
         then().
                 statusCode(HttpStatus.OK.value()).
-                extract().
-                body().
-                jsonPath().getList(".", CommentResponse.class);
-
-        assertThat(comments.size()).isGreaterThanOrEqualTo(2);
+                body("size", greaterThanOrEqualTo(2));
     }
 
     @Test
@@ -142,7 +139,6 @@ public class CommentApiControllerTest extends ControllerTestHelper {
                 post("/api/comments/" + commentResponse.getId() + "/like").
         then().
                 statusCode(HttpStatus.CREATED.value());
-
 
         given().
                 port(port).

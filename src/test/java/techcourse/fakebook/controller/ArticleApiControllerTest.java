@@ -10,11 +10,10 @@ import techcourse.fakebook.service.dto.ArticleResponse;
 import techcourse.fakebook.service.dto.LoginRequest;
 
 import java.io.File;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 public class ArticleApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
@@ -32,17 +31,13 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     void 글_목록을_잘_불러오는지_확인한다() {
         writeArticle();
 
-        List<ArticleResponse> articles = given().
+        given().
                 port(port).
         when().
                 get("/api/articles").
         then().
                 statusCode(HttpStatus.OK.value()).
-                extract().
-                body().
-                jsonPath().getList(".", ArticleResponse.class);
-
-        assertThat(articles.size()).isGreaterThanOrEqualTo(2);
+                body("size", greaterThanOrEqualTo(2));
     }
 
     @Test
@@ -160,14 +155,14 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 게시글_이미지_포함_업로드가_잘_되는지_확인한다() {
-        ArticleResponse articleResponse = given().
+        given().
                 port(port).
                 cookie(cookie).
                 multiPart("files", new File("src/test/resources/static/images/logo/res9-logo.gif")).
                 formParam("content", "hello").
         when().
-                post("/api/articles").as(ArticleResponse.class);
-
-        assertThat(articleResponse.getAttachments().size()).isEqualTo(1);
+                post("/api/articles").
+        then().
+                body("attachments.size", equalTo(1));
     }
 }
