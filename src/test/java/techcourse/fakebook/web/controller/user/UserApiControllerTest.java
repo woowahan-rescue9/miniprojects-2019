@@ -17,6 +17,18 @@ class UserApiControllerTest extends ControllerTestHelper {
     private int port;
 
     @Test
+    void 유저_아이디로_유저정보_조회() {
+        given().
+                port(port).
+        when().
+                get("/api/users/1/info").
+        then().
+                statusCode(HttpStatus.OK.value()).
+                body("id", equalTo(1)).
+                body("introduction", equalTo("introduction"));
+    }
+
+    @Test
     void 로그인_존재하는_유저_수정() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
         String cookie = getCookie(signup(userSignupRequest));

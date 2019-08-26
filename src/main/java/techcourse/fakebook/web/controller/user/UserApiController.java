@@ -23,9 +23,18 @@ public class UserApiController {
         this.userService = userService;
     }
 
+    @GetMapping("/{userId}/info")
+    public ResponseEntity<UserResponse> userInfo(@PathVariable Long userId) {
+        log.debug("begin");
+
+        UserResponse userResponse = userService.findById(userId);
+
+        return ResponseEntity.ok().body(userResponse);
+    }
+
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponse> update(@PathVariable Long userId,
-                                               @RequestBody UserUpdateRequest userUpdateRequest, HttpSession session) {
+                                               UserUpdateRequest userUpdateRequest, HttpSession session) {
         log.debug("begin");
         log.debug("userUpdateRequest : {}", userUpdateRequest);
 
