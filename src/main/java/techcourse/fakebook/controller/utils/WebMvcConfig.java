@@ -25,7 +25,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/")
                 .addPathPatterns("/users/**")
                 .addPathPatterns("/api/users/**")
-                .addPathPatterns("/login");
+                .addPathPatterns("/api/login");
 
         registry.addInterceptor(notLoginedInterceptor)
                 .addPathPatterns("/users/**")

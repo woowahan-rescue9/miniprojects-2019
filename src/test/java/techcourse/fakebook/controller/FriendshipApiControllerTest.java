@@ -29,7 +29,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
 
 
     private Long loginedUserId;
-    private String cookie;
+    private String sessionId;
 
     @BeforeEach
     void Setup() {
@@ -45,9 +45,9 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         int loginedUserIndex = 0;
         loginedUserId = userIds.get(loginedUserIndex);
         UserSignupRequest loginedUserSignupRequest = userSignupRequests.get(loginedUserIndex);
-        cookie = getCookie(login(new LoginRequest(loginedUserSignupRequest.getEmail(), loginedUserSignupRequest.getPassword())));
+        sessionId = getSessionId(login(new LoginRequest(loginedUserSignupRequest.getEmail(), loginedUserSignupRequest.getPassword())));
 
-        log.debug("cookie: {}", cookie);
+        log.debug("sessionId: {}", sessionId);
     }
 
 
@@ -75,7 +75,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(friendshipRequest).
         when().
                 post("/api/friendships").
@@ -92,7 +92,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(friendshipRequest).
         when().
                 post("/api/friendships").
