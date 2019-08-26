@@ -315,6 +315,13 @@ header ul.nav-right li, header ul.nav-left li {
     background-size: 37px 1608px
 }
 
+.icons.edit-profile {
+    width: 16px;
+    height: 16px;
+    background-image: url('/images/default/pencil.png');
+    background-size: 16px
+}
+
 .left-group-title{
     font-weight: bold;
     color: #616770
@@ -574,7 +581,7 @@ header ul.nav-right li, header ul.nav-left li {
     height: 144px
 }
 
-#add-friend {
+#add-friend, #remove-friend, #edit-profile {
     border-color: #8b8b8b;
     border-style: solid;
     border-width: thin;
@@ -592,21 +599,15 @@ header ul.nav-right li, header ul.nav-left li {
 }
 
 #remove-friend {
-    border-color: #8b8b8b;
-    border-style: solid;
-    border-width: thin;
-    border-radius: 2px;
-    background: #f3f3f3;
-    cursor: pointer;
-    float: right;
-    vertical-align: middle;
-    width: 100px;
-    height: 26px;
     display: none;
 }
 
 #remove-friend.already-friend {
     display: block;
+}
+
+#edit-profile {
+    width: 105px;
 }
 
 .friend {

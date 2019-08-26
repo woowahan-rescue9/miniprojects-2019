@@ -318,6 +318,18 @@ const App = (() => {
   document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
   document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
 }
+
+  const editProfileModal = document.getElementById("edit-profile-modal")
+  if (editProfileModal != null) {
+    // editProfileModal.addEventListener("click", event => {
+    //   if (event.target != document.getElementById("edit-profile-form")) {
+    //     editProfileModal.style.display = "none"
+    //   }
+    // })
+    document.getElementById("edit-profile").addEventListener("click", () => editProfileModal.style.display = "block")
+    document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
+  }
+
   const api = new Api()
   return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService())
 })()
