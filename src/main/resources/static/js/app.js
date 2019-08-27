@@ -65,6 +65,7 @@ const App = (() => {
       const check_password = document.getElementById('edit-password-confirm').value
       if(password !== check_password) {
         alert("패스워드를 다시 확인해 주세요.");
+        exit()
       }
 
       try {
