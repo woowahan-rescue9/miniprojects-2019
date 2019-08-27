@@ -1,4 +1,14 @@
  const signup = function signup() {
+     const YEAR_BEGIN = 1900
+
+     const target = document.getElementById("birth-year")
+     for (let i = (new Date()).getFullYear(); i >= YEAR_BEGIN ; i--) {
+         const year = document.createElement("option")
+         year.setAttribute("value", i)
+         year.innerHTML = i
+         target.appendChild(year)
+     }
+
     const BASE_URL = `http://${window.location.host}`
 
     document.getElementById("registration-button").addEventListener("click", function () {
