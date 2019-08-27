@@ -38,7 +38,6 @@ public class UserService {
     public UserResponse save(UserSignupRequest userSignupRequest) {
         log.debug("begin");
 
-        //회원 가입시에는 프로필 사진 설정을 못하니까 default로 간다.
         User user = userAssembler.toEntity(userSignupRequest, attachmentService.getDefaultProfileImage());
         User savedUser = userRepository.save(user);
         log.debug("savedUser: {}", savedUser);

@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils;
+package techcourse.fakebook.utils.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = PartitialNameValidator.class)
-public @interface PartitialName {
+@Constraint(validatedBy = FullNameValidator.class)
+public @interface FullName {
     String message() default "이름 형식이 올바르지 않습니다.";
 
     Class<?>[] groups() default {};

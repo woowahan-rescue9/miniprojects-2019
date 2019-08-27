@@ -1,7 +1,7 @@
 package techcourse.fakebook.service.user.dto;
 
 import org.springframework.web.multipart.MultipartFile;
-import techcourse.fakebook.utils.PartitialName;
+import techcourse.fakebook.utils.validator.PartitialName;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

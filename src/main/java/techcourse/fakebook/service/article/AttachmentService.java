@@ -34,7 +34,7 @@ public class AttachmentService {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path filePath = writeFile(file, hashingName);
+            Path filePath = writeFile(file, hashingName, ArticleAttachment.ARTICLE_STATIC_FILE_PATH);
 
             ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath.toString(), article);
 
@@ -53,7 +53,7 @@ public class AttachmentService {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path filePath = writeFile(file, hashingName);
+            Path filePath = writeFile(file, hashingName, UserProfileImage.USER_STATIC_FILE_PATH);
 
             return new UserProfileImage(file.getOriginalFilename(), filePath.toString());
         } catch (IOException e) {
@@ -61,9 +61,9 @@ public class AttachmentService {
         }
     }
 
-    private Path writeFile(MultipartFile file, String hashingName) throws IOException {
+    private Path writeFile(MultipartFile file, String hashingName, String path) throws IOException {
         byte[] bytes = file.getBytes();
-        Path staticFilePath = Paths.get(ArticleAttachment.ARTICLE_STATIC_FILE_PATH + hashingName);
+        Path staticFilePath = Paths.get(path + hashingName);
         return Files.write(staticFilePath, bytes);
     }
 

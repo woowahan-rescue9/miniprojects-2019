@@ -1,7 +1,7 @@
 package techcourse.fakebook.domain.user;
 
 import techcourse.fakebook.domain.BaseEntity;
-import techcourse.fakebook.utils.FullName;
+import techcourse.fakebook.utils.validator.FullName;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

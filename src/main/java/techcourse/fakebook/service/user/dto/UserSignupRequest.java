@@ -1,16 +1,11 @@
 package techcourse.fakebook.service.user.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.utils.validator.NotExistsEmail;
-import techcourse.fakebook.utils.PartitialName;
+import techcourse.fakebook.utils.validator.PartitialName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 //@EqualFields(baseField = "password", matchField = "reconfirmPassword")
 public class UserSignupRequest {
