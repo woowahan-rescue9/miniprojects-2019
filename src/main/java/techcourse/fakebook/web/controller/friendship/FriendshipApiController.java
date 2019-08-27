@@ -4,21 +4,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.web.argumentresolver.SessionUser;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.friendship.FriendshipService;
 import techcourse.fakebook.service.friendship.dto.FriendshipRequest;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/friendships")
 public class FriendshipApiController {
     private static final Logger log = LoggerFactory.getLogger(FriendshipApiController.class);
 
+    private final UserService userService;
     private final FriendshipService friendshipService;
 
-    public FriendshipApiController(FriendshipService friendshipService) {
+    public FriendshipApiController(UserService userService, FriendshipService friendshipService) {
+        this.userService = userService;
         this.friendshipService = friendshipService;
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<UserOutline>> findAll(@PathVariable Long userId) {
+        List<UserOutline> friends = userService.findFriends(friendshipService.findFriendIds(userId));
+        return ResponseEntity.ok().body(friends);
     }
 
     @PostMapping

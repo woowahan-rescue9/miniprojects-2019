@@ -62,12 +62,18 @@ public class UserService {
         return userRepository.findByIdIn(userIds);
     }
 
+    public List<UserOutline> findFriends(List<Long> userIds) {
+        return findByIdIn(userIds).stream()
+                .map(userAssembler::toUserOutline)
+                .collect(Collectors.toList());
+    }
+
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
         String password = userUpdateRequest.getPassword();
         User user = getUser(userId);
 
-        user.updateModifiableFields(userUpdateRequest.getName(), password,
+        user.updateModifiableFields(userUpdateRequest.getName(), encryptor.encrypt(password),
                 userUpdateRequest.getIntroduction(), attachmentService.getProfileImage(userUpdateRequest.getProfileImage()));
 
         log.debug("user: {}", user);

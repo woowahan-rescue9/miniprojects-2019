@@ -14,6 +14,7 @@ import techcourse.fakebook.service.article.AttachmentService;
 import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
 import techcourse.fakebook.service.user.dto.*;
+import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,9 @@ class UserServiceTest extends ServiceTestHelper {
 
     @Mock
     private AttachmentService attachmentService;
+
+    @Mock
+    private Encryptor encryptor;
 
     @Test
     void save_유저_저장() {
@@ -89,11 +93,12 @@ class UserServiceTest extends ServiceTestHelper {
         Long existUserId = 1L;
         given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
         given(attachmentService.getProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);
+        given(encryptor.encrypt(userUpdateRequest.getPassword())).willReturn("aaaaaaaa");
         // Act
         userService.update(existUserId, userUpdateRequest);
 
         // Assert
-        verify(user).updateModifiableFields(userUpdateRequest.getName(),  userUpdateRequest.getPassword(),
+        verify(user).updateModifiableFields(userUpdateRequest.getName(),  "aaaaaaaa",
                  userUpdateRequest.getIntroduction(), profileImage);
     }
 

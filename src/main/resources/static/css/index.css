@@ -618,14 +618,14 @@ header ul.nav-right li, header ul.nav-left li {
 .friend {
     display: inline-block;
     text-align: center;
-    position: relative
+    position: relative;
+    padding: 1px;
 }
 
 .friend > img {
     border: 1px;
     width: 88px;
-    height: 88px;
-    margin-bottom: 5px
+    height: 88px
 }
 
 .friend-name {
