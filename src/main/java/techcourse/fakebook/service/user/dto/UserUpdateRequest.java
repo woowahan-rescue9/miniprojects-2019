@@ -1,7 +1,7 @@
 package techcourse.fakebook.service.user.dto;
 
 import org.springframework.web.multipart.MultipartFile;
-import techcourse.fakebook.utils.validator.PartitialName;
+import techcourse.fakebook.utils.validator.FullName;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 public class UserUpdateRequest {
     private MultipartFile profileImage;
     private String introduction;
-    @PartitialName
+    @FullName
     private String name;
     @NotBlank(message = "* 비밀번호를 작성해주세요!")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[~!@#$%^&*()])[A-Za-z\\d~!@#$%^&*()]{8,}",

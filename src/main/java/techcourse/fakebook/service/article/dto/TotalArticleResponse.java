@@ -1,6 +1,5 @@
 package techcourse.fakebook.service.article.dto;
 
-import techcourse.fakebook.service.article.dto.ArticleResponse;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
 
 import java.util.List;

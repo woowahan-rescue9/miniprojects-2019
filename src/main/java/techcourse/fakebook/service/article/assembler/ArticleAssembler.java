@@ -3,13 +3,13 @@ package techcourse.fakebook.service.article.assembler;
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.service.user.assembler.UserAssembler;
-import techcourse.fakebook.service.article.dto.TotalArticleResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
 import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
+import techcourse.fakebook.service.user.assembler.UserAssembler;
+import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.time.LocalDateTime;
 import java.util.List;

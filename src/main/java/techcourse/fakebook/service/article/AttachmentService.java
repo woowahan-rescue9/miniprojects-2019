@@ -8,8 +8,8 @@ import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.article.ArticleAttachmentRepository;
 import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.exception.FileSaveException;
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
+import techcourse.fakebook.service.article.dto.AttachmentResponse;
 
 import java.io.IOException;
 import java.nio.file.Files;

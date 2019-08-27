@@ -27,14 +27,12 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String gender;
 
-    //    @Column(nullable = false)
     @Embedded
     private UserProfileImage profileImage;
 
     @Column(nullable = false)
     private String birth;
 
-    //    @Column(nullable = false)
     private String introduction;
 
 

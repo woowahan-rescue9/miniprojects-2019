@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import techcourse.fakebook.exception.InvalidSignupException;
 import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.*;
-import techcourse.fakebook.exception.InvalidSignupException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

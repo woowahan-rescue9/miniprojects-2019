@@ -1,7 +1,5 @@
 package techcourse.fakebook.domain.user;
 
-import techcourse.fakebook.domain.BaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 

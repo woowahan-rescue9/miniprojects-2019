@@ -8,14 +8,14 @@ import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.article.AttachmentService;
-import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
-import techcourse.fakebook.service.user.dto.*;
+import techcourse.fakebook.service.user.dto.UserOutline;
+import techcourse.fakebook.service.user.dto.UserResponse;
+import techcourse.fakebook.service.user.dto.UserSignupRequest;
+import techcourse.fakebook.service.user.dto.UserUpdateRequest;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

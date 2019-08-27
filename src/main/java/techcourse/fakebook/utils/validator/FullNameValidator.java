@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
 public class FullNameValidator implements ConstraintValidator<FullName, String> {
-    private static final String FULL_NAME_PATTERN = "[a-zA-Z가-힣]{1,20}";
+    private static final Pattern FULL_NAME_PATTERN = Pattern.compile("[a-zA-Z가-힣]{1,20}");
 
     @Override
     public void initialize(FullName constraintAnnotation) {
@@ -13,7 +13,7 @@ public class FullNameValidator implements ConstraintValidator<FullName, String> 
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return FULL_NAME_PATTERN.matches(name);
+        return FULL_NAME_PATTERN.matcher(name).matches();
     }
 }
 

@@ -6,8 +6,8 @@ import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
+import techcourse.fakebook.service.user.dto.UserOutline;
 
 @Component
 public class CommentAssembler {

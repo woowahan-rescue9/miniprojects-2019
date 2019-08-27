@@ -47,13 +47,6 @@ public class UserSignupRequest {
         this.password = password;
         this.gender = gender;
         this.birth = birth;
-//        try {
-//            File file = new File("src/main/resources/static/images/user/profile/default.png");
-//            FileInputStream input = new FileInputStream(file);
-//            profileImage = new MultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));
-//        } catch (IOException e) {
-//            throw new FileSaveException();
-//        }
     }
 
     public String getEmail() {
