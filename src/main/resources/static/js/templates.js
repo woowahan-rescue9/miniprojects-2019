@@ -5,43 +5,42 @@ const templates = (() => {
     }
 
     articleTemplate(input) {
-      const ARTICLE_TEMPLATE_HTML_A =
-        `<div id="article-${input.id}" class="card widget-feed padding-15">
-          <div class="feed-header">
-            <ul class="list-unstyled list-info">
-              <li>
-                <img class="thumb-img img-circle" src="/${input.user.profileImage.path}" alt="${input.user.name}">
-                <div class="info">
-                  <a href="/users/${input.user.id}" class="title no-pdd-vertical text-semibold inline-block">${input.user.name}</a>
-                  <span>님이 게시물을 작성하였습니다.</span>
-                  <span class="sub-title">${input.date}</span>
-                  <a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
-                    <span class="btn-icon text-dark">
-                      <i class="ti-more font-size-16"></i>
-                    </span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="javascript:App.editArticle(${input.id})" class="pointer">
-                        <i class="ti-pencil pdd-right-10 text-dark"></i>
-                        <span>게시글 수정</span>
-                      </a>
-                      <a href="javascript:App.removeArticle(${input.id})" class="pointer">
-                        <i class="ti-trash pdd-right-10 text-dark"></i>
-                        <span>게시글 삭제</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div id="article-${input.id}-content" class="feed-body no-pdd">
-            <p>
-              <span> ${this.escapeHtml(input.content)} </span> 
-            </p>`
-      const ARTICLE_TEMPLATE_HTML_B =
-          `</div>
+      return `<div id="article-${input.id}" class="card widget-feed padding-15">
+        <div class="feed-header">
+          <ul class="list-unstyled list-info">
+            <li>
+              <img class="thumb-img img-circle" src="/images/profile/${input.user.coverUrl}" alt="${input.user.name}">
+              <div class="info">
+                <a href="/users/${input.user.id}" class="title no-pdd-vertical text-semibold inline-block">${input.user.name}</a>
+                <span>님이 게시물을 작성하였습니다.</span>
+                <span class="sub-title">${input.date}</span>
+                <a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
+                  <span class="btn-icon text-dark">
+                    <i class="ti-more font-size-16"></i>
+                  </span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a href="javascript:App.editArticle(${input.id})" class="pointer">
+                      <i class="ti-pencil pdd-right-10 text-dark"></i>
+                      <span>게시글 수정</span>
+                    </a>
+                    <a href="javascript:App.removeArticle(${input.id})" class="pointer">
+                      <i class="ti-trash pdd-right-10 text-dark"></i>
+                      <span>게시글 삭제</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div id="article-${input.id}-content" class="feed-body no-pdd">` +
+          input.images.map(image => `<img class="vertical-align" src="/${image.path}">`) +
+          `<p>
+            <span> ${this.escapeHtml(input.content)} </span> 
+          </p>
+        </div>
           <ul class="feed-action pdd-btm-5 border bottom">
             <li>
               <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
@@ -74,12 +73,6 @@ const templates = (() => {
             </div>
           </div>
         </div>`
-
-      let result = ARTICLE_TEMPLATE_HTML_A
-      input.images.forEach(image => {
-        result += `<img class="vertical-align" src="/${image.path}">`
-      })
-      return result + ARTICLE_TEMPLATE_HTML_B
     }
 
     commentTemplate(input) {
@@ -103,7 +96,7 @@ const templates = (() => {
       return `<div class="friend">
           <img src="/${input.profileImage}" alt="${input.name}">
           <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
-      </div>`;
+        </div>`
     }
   }
 

@@ -193,11 +193,11 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div th:id="'article-' + ${article.articleResponse.id} + 'content'" class="feed-body no-pdd">
+                            <div th:id="'article-' + ${article.articleResponse.id} + '-content'" class="feed-body no-pdd">
+                                <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="${attachment.path}">
                                 <p>
                                     <span th:text="${article.articleResponse.content}"></span>
                                 </p>
-                                <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="${attachment.path}">
                             </div>
                             <ul class="feed-action pdd-btm-5 border bottom">
                                 <li>

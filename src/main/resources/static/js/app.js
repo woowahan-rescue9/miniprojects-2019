@@ -23,8 +23,8 @@ const App = (() => {
 
   class Service {
     constructor(api) {
-      this.api = api
-      this.editBackup = {}
+      Service.prototype.api = api
+      Service.prototype.editBackup = {}
     }
 
     isEnterKey(e) {
@@ -141,11 +141,11 @@ const App = (() => {
     }
 
     edit(id) {
-      const contentArea = document.getElementById("article-" + id + "-content")
-      const originalContent = contentArea.firstElementChild.firstElementChild.innerText
+      const contentArea = document.getElementById("article-" + id + "-content").lastElementChild
+      const originalContent = contentArea.firstElementChild.innerText
       contentArea.innerHTML = ""
       contentArea.insertAdjacentHTML(
-          "afterbegin",
+          "beforeend",
           '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
       )
       super.editBackup[id] = originalContent
@@ -153,20 +153,20 @@ const App = (() => {
 
     async confirmEdit(event, id) {
       event = event || window.event
-      const contentArea = document.getElementById("article-" + id + "-content")
-      const editedContent = contentArea.firstChild.value.trim()
+      const contentArea = document.getElementById("article-" + id + "-content").lastElementChild
+      const editedContent = contentArea.firstElementChild.value.trim()
       if (editedContent.length != 0 && super.isEnterKey(event)) {
-        const result = await (async () => {
-          try {
-            return (await axios.put(BASE_URL + "/api/articles/" + id, {
-              "content": editedContent
-            })).data.content
-          } catch (e) {
-            return super.editBackup[id]
-          }
-        })()
-        contentArea.innerHTML = ""
-        contentArea.insertAdjacentHTML("afterbegin", "<p><span> " + templates.escapeHtml(result) + " </span></p>")
+        try {
+          const editedArticle = (await axios.put(BASE_URL + "/api/articles/" + id, {
+            "content": editedContent
+          })).data
+          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.recentDate)
+          contentArea.innerHTML = ""
+          contentArea.insertAdjacentHTML("afterbegin", "<span> " + templates.escapeHtml(editedArticle.content) + " </span>")
+        } catch (e) {
+          contentArea.innerHTML = ""
+          contentArea.insertAdjacentHTML("afterbegin", "<span> " + templates.escapeHtml(super.editBackup[id]) + " </span>")
+        }
         super.editBackup[id] = undefined
       }
     }
