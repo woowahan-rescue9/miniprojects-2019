@@ -319,14 +319,15 @@ const App = (() => {
   document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
 }
 
-  const editProfileModal = document.getElementById("edit-profile-modal")
-  if (editProfileModal != null) {
+  const editProfileButton = document.getElementById("edit-profile")
+  if (editProfileButton != null) {
+    const editProfileModal = document.getElementById("edit-profile-modal")
     // editProfileModal.addEventListener("click", event => {
     //   if (event.target != document.getElementById("edit-profile-form")) {
     //     editProfileModal.style.display = "none"
     //   }
     // })
-    document.getElementById("edit-profile").addEventListener("click", () => editProfileModal.style.display = "block")
+    editProfileButton.addEventListener("click", () => editProfileModal.style.display = "block")
     document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
   }
 

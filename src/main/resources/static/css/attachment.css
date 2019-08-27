@@ -76,7 +76,7 @@
 
 #edit-profile-form > input {
     display: block;
-    min-width: 450px;
+    width: 90%;
     border: #ccc 1px solid;
     border-radius: 5px;
     margin: 5px 0;
