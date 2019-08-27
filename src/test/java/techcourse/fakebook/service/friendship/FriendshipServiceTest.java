@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.domain.user.UserRepository;
+import techcourse.fakebook.service.ServiceTestHelper;
 import techcourse.fakebook.service.user.UserService;
 
 import java.util.Arrays;
@@ -20,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class FriendshipServiceTest {
+class FriendshipServiceTest extends ServiceTestHelper {
     private static final Logger log = LoggerFactory.getLogger(FriendshipServiceTest.class);
 
     private static int newUserId = 1000;
@@ -185,7 +187,7 @@ class FriendshipServiceTest {
                 anyString,
                 anyString,
                 anyString,
-                anyString,
+                new UserProfileImage("a", "src/test/resources/static/images/user/profile/default.png"),
                 anyString,
                 anyString
         );

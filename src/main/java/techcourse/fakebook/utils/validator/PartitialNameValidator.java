@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils;
+package techcourse.fakebook.utils.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,6 +13,6 @@ public class PartitialNameValidator implements ConstraintValidator<PartitialName
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return PARTITIAL_NAME_PATTERN.matcher(name).find();
+        return PARTITIAL_NAME_PATTERN.matcher(name).matches();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import techcourse.fakebook.domain.friendship.Friendship;
 import techcourse.fakebook.domain.friendship.FriendshipRepository;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.domain.user.UserRepository;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ class UserRepositoryTest {
                 anyString,
                 anyString,
                 anyString,
-                anyString,
+                new UserProfileImage("a", "src/test/resources/static/images/user/profile/default.png"),
                 anyString,
                 anyString
         );

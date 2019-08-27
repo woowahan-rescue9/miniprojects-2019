@@ -21,4 +21,9 @@ public class MultiPartController {
     public ResponseEntity<byte[]> displayFile(@PathVariable String fileName) throws IOException {
         return ResponseEntity.ok().body(Files.readAllBytes(Paths.get("file/article/" + fileName)));
     }
+
+    @GetMapping("/user/profile/{fileName}")
+    public ResponseEntity<byte[]> showProfileImage(@PathVariable String fileName) throws IOException {
+        return ResponseEntity.ok().body(Files.readAllBytes(Paths.get("file/user/profile/" + fileName)));
+    }
 }

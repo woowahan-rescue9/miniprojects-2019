@@ -1,7 +1,7 @@
 package techcourse.fakebook.service.user.dto;
 
 import techcourse.fakebook.utils.validator.NotExistsEmail;
-import techcourse.fakebook.utils.PartitialName;
+import techcourse.fakebook.utils.validator.PartitialName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

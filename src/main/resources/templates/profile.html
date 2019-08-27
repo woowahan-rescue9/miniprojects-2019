@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Fakebook</title>
@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/attachment.css">
+    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -64,7 +65,7 @@
             <ul class="nav-right">
                 <li th:if="${session.user}" th:object="${session.user}" class="user-profile">
                     <a th:href="'/users/' + *{id}">
-                        <img class="profile-img img-fluid" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
+                        <img class="profile-img img-fluid" th:src="'/' + *{profileImage.path}" alt="프로필 사진">
                         <div class="user-info mrg-left-5">
                             <span class="name pdd-right-5 text-white text-bold" th:text="*{name}"></span>
                         </div>
@@ -93,7 +94,7 @@
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                 <div class="card widget-compose">
                     <div id="profile-photo-container">
-                        <img th:src="'/images/profile/' + ${user.coverUrl}" src="/images/profile/default.png"
+                        <img th:src="'/' + ${user.profileImage.path}"
                              alt="프로필 사진">
                         <p th:text="${user.name}">이름</p>
                     </div>
@@ -109,7 +110,7 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
-                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"><i
+                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
@@ -121,18 +122,18 @@
 
                                 <h3>사진 수정</h3>
                                 <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
-
+                                <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
                                 <h3>소개 수정</h3>
-                                <input type="text" class="edit-introduction">
+                                <input type="text" id="edit-introduction">
 
                                 <h3>이름 수정</h3>
-                                <input type="text" class="edit-name">
+                                <input type="text" id="edit-name">
 
                                 <h3>비밀번호 수정</h3>
-                                <input type="password" class="edit-password">
-                                <input type="password" class="edit-password-confirm">
+                                <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
+                                <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
 
-                                <input id="edit-profile-button" value="수정하기" type="submit">
+                                <input type="button" id="edit-profile-button" value="수정하기" onclick="javascript:App.editProfile()">
                             </div>
                         </div>
                     </div>
@@ -210,7 +211,7 @@
                             <ul class="list-unstyled list-info">
                                 <li>
                                     <img class="thumb-img img-circle"
-                                         th:src="'../images/profile/' + ${article.articleResponse.userOutline.coverUrl}"
+                                         th:src="'/' + ${article.articleResponse.userOutline.profileImage.path}"
                                          th:alt="${article.articleResponse.userOutline.name}">
                                     <div class="info">
                                         <a th:href="'/users/' + ${article.articleResponse.userOutline.id}"
@@ -282,7 +283,7 @@
                                 <ul th:id="'comments-' + ${article.articleResponse.id}" class="list-unstyled list-info">
                                     <li th:each="comment : ${article.comments}" class="comment-item">
                                         <img class="thumb-img img-circle"
-                                             th:src="'/images/profile/' + ${comment.userOutline.coverUrl}"
+                                             th:src="'/' + ${comment.userOutline.profileImage.path}"
                                              th:alt="${comment.userOutline.name}">
                                         <div class="info">
                                             <div class="bg-lightgray border-radius-18 padding-10 max-width-100">

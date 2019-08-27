@@ -6,10 +6,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
+import techcourse.fakebook.service.ServiceTestHelper;
+import techcourse.fakebook.service.article.AttachmentService;
+import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
 import techcourse.fakebook.service.user.dto.*;
+import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-class UserServiceTest {
+class UserServiceTest extends ServiceTestHelper {
     @InjectMocks
     private UserService userService;
 
@@ -32,12 +37,18 @@ class UserServiceTest {
     @Mock
     private UserAssembler userAssembler;
 
+    @Mock
+    private AttachmentService attachmentService;
+
+    @Mock
+    private Encryptor encryptor;
+
     @Test
     void save_유저_저장() {
         // Arrange
         UserSignupRequest userSignupRequest = mock(UserSignupRequest.class);
         User user = mock(User.class);
-        given(userAssembler.toEntity(userSignupRequest)).willReturn(user);
+        given(userAssembler.toEntity(userSignupRequest, attachmentService.getDefaultProfileImage())).willReturn(user);
 
         // Act
         userService.save(userSignupRequest);
@@ -76,21 +87,26 @@ class UserServiceTest {
     void update_존재하는_유저_유저_수정() {
         // Arrange
         User user = mock(User.class);
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        UserProfileImage profileImage = mock(UserProfileImage.class);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
+                "updatedName", "updatedPassword");
         Long existUserId = 1L;
         given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
-
+        given(attachmentService.getProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);
+        given(encryptor.encrypt(userUpdateRequest.getPassword())).willReturn("aaaaaaaa");
         // Act
         userService.update(existUserId, userUpdateRequest);
 
         // Assert
-        verify(user).updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
+        verify(user).updateModifiableFields(userUpdateRequest.getName(),  "aaaaaaaa",
+                 userUpdateRequest.getIntroduction(), profileImage);
     }
 
     @Test
     void update_존재하지_않는_유저_유저_수정() {
         // Arrange
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
+                "updatedName", "updatedPassword");
         Long notExistUserId = 1L;
         given(userRepository.findById(notExistUserId)).willReturn(Optional.empty());
 

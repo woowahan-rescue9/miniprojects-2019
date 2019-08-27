@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils;
+package techcourse.fakebook.utils.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +13,7 @@ public class FullNameValidator implements ConstraintValidator<FullName, String> 
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        return FULL_NAME_PATTERN.matcher(name).find();
+        return FULL_NAME_PATTERN.matcher(name).matches();
     }
 }
 
