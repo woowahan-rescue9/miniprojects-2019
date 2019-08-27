@@ -9,10 +9,11 @@ import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.exception.InvalidAuthorException;
 import techcourse.fakebook.exception.NotFoundCommentException;
-import techcourse.fakebook.service.comment.assembler.CommentAssembler;
-import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.article.ArticleService;
-import techcourse.fakebook.service.comment.dto.*;
+import techcourse.fakebook.service.comment.assembler.CommentAssembler;
+import techcourse.fakebook.service.comment.dto.CommentRequest;
+import techcourse.fakebook.service.comment.dto.CommentResponse;
+import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
 import javax.transaction.Transactional;
