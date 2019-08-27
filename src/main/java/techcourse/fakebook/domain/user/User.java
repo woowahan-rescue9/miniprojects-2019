@@ -23,14 +23,15 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String gender;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String coverUrl;
 
     @Column(nullable = false)
     private String birth;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String introduction;
+
 
     private User() {
     }
@@ -42,6 +43,13 @@ public class User extends BaseEntity {
         this.gender = gender;
         this.coverUrl = coverUrl;
         this.birth = birth;
+        this.introduction = introduction;
+    }
+
+    public void updateModifiableFields(String name, String encryptedPassword, String profileImage, String introduction) {
+        this.name = name;
+        this.encryptedPassword = encryptedPassword;
+        this.coverUrl = profileImage;
         this.introduction = introduction;
     }
 

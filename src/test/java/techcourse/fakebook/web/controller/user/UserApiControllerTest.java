@@ -34,19 +34,20 @@ class UserApiControllerTest extends ControllerTestHelper {
         String cookie = getCookie(signup(userSignupRequest));
         Long userId = getId(userSignupRequest.getEmail());
 
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
-
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+                "updatedName", "updatedPassword");
         given().
                 port(port).
                 cookie(cookie).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                accept(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                body(userUpdateRequest).
+                formParam("profileImage", "updatedProfileImage").
+                formParam("introduction", "updatedIntroduction").
+                formParam("name", "updatedName").
+                formParam("password", "updatedPassword").
         when().
                 put("/api/users/" + userId).
         then().
                 statusCode(HttpStatus.OK.value()).
-                body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
+//                body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
                 body("introduction", equalTo(userUpdateRequest.getIntroduction()));
     }
 
@@ -56,8 +57,8 @@ class UserApiControllerTest extends ControllerTestHelper {
         signup(userSignupRequest);
         Long userId = getId(userSignupRequest.getEmail());
 
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
-
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+                "updatedName", "updatedPassword");
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).

@@ -9,6 +9,7 @@ import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
 import techcourse.fakebook.service.user.dto.*;
+import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,10 +21,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
+    private final Encryptor encryptor;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler) {
+    public UserService(UserRepository userRepository, UserAssembler userAssembler, Encryptor encryptor) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
+        this.encryptor = encryptor;
     }
 
     public UserResponse save(UserSignupRequest userSignupRequest) {
@@ -54,9 +57,11 @@ public class UserService {
 
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
-
+        String password = userUpdateRequest.getPassword();
         User user = getUser(userId);
-        user.updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
+
+        user.updateModifiableFields(userUpdateRequest.getName(), "a",
+                userUpdateRequest.getProfileImage(), userUpdateRequest.getIntroduction());
 
         log.debug("user: {}", user);
         return userAssembler.toResponse(user);

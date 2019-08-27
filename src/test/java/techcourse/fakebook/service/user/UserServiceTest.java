@@ -76,7 +76,8 @@ class UserServiceTest {
     void update_존재하는_유저_유저_수정() {
         // Arrange
         User user = mock(User.class);
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+                "updatedName", "updatedPassword");
         Long existUserId = 1L;
         given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
 
@@ -84,13 +85,15 @@ class UserServiceTest {
         userService.update(existUserId, userUpdateRequest);
 
         // Assert
-        verify(user).updateModifiableFields(userUpdateRequest.getCoverUrl(), userUpdateRequest.getIntroduction());
+        verify(user).updateModifiableFields(userUpdateRequest.getName(), "a",
+                userUpdateRequest.getProfileImage(), userUpdateRequest.getIntroduction());
     }
 
     @Test
     void update_존재하지_않는_유저_유저_수정() {
         // Arrange
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedCoverUrl", "updatedIntroduction");
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+                "updatedName", "updatedPassword");
         Long notExistUserId = 1L;
         given(userRepository.findById(notExistUserId)).willReturn(Optional.empty());
 

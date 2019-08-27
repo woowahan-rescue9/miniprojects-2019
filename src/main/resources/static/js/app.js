@@ -57,6 +57,56 @@ const App = (() => {
     }
   }
 
+  class UserService extends Service {
+    async edit() {
+      const introduction = document.getElementById('edit-introduction').value
+      const name = document.getElementById('edit-name').value
+      const password = document.getElementById('edit-password').value
+      const check_password = document.getElementById('edit-password-confirm').value
+      if(password !== check_password) {
+        alert("패스워드를 다시 확인해 주세요.");
+      }
+
+      try {
+        const req = new FormData()
+        const files = document.getElementById("profile-attachment").files;
+        const uri = document.getElementsByClassName('user-profile')[0].firstElementChild.getAttribute('href')
+        if (files.length > 0) {
+          req.append("files", files[0])
+        }
+        req.append("introduction", introduction)
+        req.append("name", name)
+        req.append("password", password)
+
+        const userInfo = (await axios.put(BASE_URL + "/api" + uri, req)).data
+        alert("수정이 완료 되었습니다.")
+        const editProfileModal = document.getElementById("edit-profile-modal")
+        editProfileModal.style.display = "none"
+      } catch (e) {
+      }
+    }
+
+    profileImagePreview(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader()
+
+        reader.onload = function (e) {
+          document.getElementById('profile-image').setAttribute('src', e.target.result)
+        }
+        reader.readAsDataURL(input.files[0])
+        const image = document.getElementById('profile-image');
+        image.style.visibility = "visible";
+      }
+    }
+
+    async userInfo() {
+        const uri = document.getElementsByClassName('user-profile')[0].firstElementChild.getAttribute('href')
+        const userInfo = (await axios.get(BASE_URL + "/api" + uri + "/info")).data
+        document.getElementById('edit-introduction').setAttribute('value',userInfo.introduction)
+        document.getElementById('edit-name').setAttribute('value',userInfo.name)
+    }
+  }
+
   class ArticleService extends Service {
     async write() {
       const textbox = document.getElementById("new-article")
@@ -260,11 +310,12 @@ const App = (() => {
   }
 
   class Controller {
-    constructor(articleService, commentService, friendService, searchService) {
+    constructor(articleService, commentService, friendService, searchService, userService) {
       this.articleService = articleService
       this.commentService = commentService
       this.friendService = friendService
       this.searchService = searchService
+      this.userService = userService
     }
 
     writeArticle(event) {
@@ -306,6 +357,18 @@ const App = (() => {
     visitResult(name, id) {
       this.searchService.visitResult(name, id)
     }
+
+    editProfile() {
+      this.userService.edit()
+    }
+
+    userInfo() {
+      this.userService.userInfo()
+    }
+
+    profileImagePreview(input) {
+      this.userService.profileImagePreview(input)
+    }
   }
 
   const attachmentModal = document.getElementById("attachment-modal")
@@ -330,6 +393,11 @@ const App = (() => {
     document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
   }
 
+  const editImage = document.getElementById('profile-attachment');
+  editImage.addEventListener('change', function () {
+    App.profileImagePreview(this)
+  })
+
   const api = new Api()
-  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService())
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService(), new UserService(api))
 })()

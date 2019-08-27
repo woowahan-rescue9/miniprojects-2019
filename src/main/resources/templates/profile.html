@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Fakebook</title>
@@ -107,7 +107,7 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
-                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"><i
+                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
@@ -121,16 +121,17 @@
                                 <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
                                 <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
                                 <h3>소개 수정</h3>
-                                <input type="text" class="edit-introduction">
+                                <input type="text" id="edit-introduction">
 
                                 <h3>이름 수정</h3>
-                                <input type="text" class="edit-name">
+                                <input type="text" id="edit-name">
 
                                 <h3>비밀번호 수정</h3>
-                                <input type="password" class="edit-password">
-                                <input type="password" class="edit-password-confirm">
+                                <input type="password" id="edit-password" placeholder="변경할 비밀번호">
+                                <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인">
 
-                                <input id="edit-profile-button" value="수정하기" type="submit">
+<!--                                <input type="submit" id="edit-profile-button" value="수정하기" onclick="App.editProfile">-->
+                                <input type="button" id="edit-profile-button" value="수정하기" onclick="javascript:App.editProfile()">
                             </div>
                         </div>
                     </div>
@@ -360,22 +361,7 @@
 <script src="/js/app.js"></script>
 
 <script type="text/javascript">
-    document.getElementById('profile-attachment').addEventListener('change', function () {
-        readURL(this);
-    })
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader()
-
-            reader.onload = function (e) {
-                document.getElementById('profile-image').setAttribute('src', e.target.result)
-            }
-            reader.readAsDataURL(input.files[0])
-            const image = document.getElementById('profile-image');
-            image.style.visibility = "visible";
-        }
-    }
 </script>
 </body>
 </html>
