@@ -23,8 +23,8 @@ const App = (() => {
 
   class Service {
     constructor(api) {
-      this.api = api
-      this.editBackup = {}
+      Service.prototype.api = api
+      Service.prototype.editBackup = {}
     }
 
     isEnterKey(e) {
