@@ -45,7 +45,7 @@
                     </ul>
                     <ul class="nav-right mrg-top-15">
                         <li id="login-form-container">
-                            <form method="post" action="/login">
+                            <span>
                                 <table role="presentation">
                                     <tbody>
                                         <tr>
@@ -77,7 +77,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </form>
+                            </span>
                         </li>
                     </ul>
                 </nav>
@@ -95,23 +95,23 @@
                                 <div id="register-message-b" class="register-message">빠르고 쉽습니다.</div>
                             </div>
                             <div id="registration-box">
-                                <form id="registration-form" method="post" action="/users" th:object="${userSignupRequest}">
+                                <span>
                                     <input id="birth" type="hidden" name="birth">
                                     <div id="names-wrapper">
-                                        <input id="lastname" class="registration-textbox-short" type="text" placeholder="성(姓)" required th:field="*{lastName}">
-                                        <input id="firstname" class="registration-textbox-short" type="text" placeholder="이름(성은 제외)" required th:field="*{firstName}">
+                                        <input class="registration-textbox-short" id="lastname" placeholder="성(姓)" required type="text" >
+                                        <input class="registration-textbox-short" id="firstname" placeholder="이름(성은 제외)" required type="text">
                                         <div>
-                                            <div class="error-message" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-                                            <div class="error-message" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                                            <div class="error-message"></div>
+                                            <div class="error-message"></div>
                                         </div>
                                     </div>
                                     <div>
-                                        <input class="registration-textbox-long" type="email" name="email" placeholder="이메일" required th:field="*{email}">
-                                        <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                        <input class="registration-textbox-long" id="new-email" name="email" placeholder="이메일" required type="email">
+                                        <div class="error-message"></div>
                                     </div>
                                     <div>
                                         <input id="new-password" class="registration-textbox-long" type="password" name="password" placeholder="새 비밀번호" required minlength="8">
-                                        <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                                        <div class="error-message"></div>
                                     </div>
                                     <div>
                                         <input id="new-password-confirm" class="registration-textbox-long" type="password" placeholder="비밀번호 확인" required minlength="8">
@@ -179,9 +179,9 @@
                                         </span>
                                     </div>
                                     <div>
-                                        <button id="registration-button" type="submit" name="register">가입하기</button>
+                                        <button id="registration-button" name="register">가입하기</button>
                                     </div>
-                                </form>
+                                </span>
                             </div>
                        </div>
                     </div>
@@ -198,6 +198,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
         <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
-        <script src="/js/index.js"></script>
+        <script src="/js/signup.js"></script>
+        <script src="/js/login.js"></script>
     </body>
 </html>

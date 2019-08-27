@@ -96,7 +96,7 @@ header ul.nav-right li, header ul.nav-left li {
     height: 24px
 }
 
-.friend-btn, .message-btn, .notification-btn {
+.friend-btn, .message-btn, .notification-btn, .more-btn {
     background-image: url('/images/default/icons.png');
     background-repeat: no-repeat;
     height: 24px;
@@ -116,6 +116,11 @@ header ul.nav-right li, header ul.nav-left li {
 .notification-btn {
     background-size: 283px 396px;
     background-position: -175px -329px
+}
+
+.more-btn {
+    background-size: 283px 396px;
+    background-position: -225px -329px
 }
 
 .friend-icon, .introduction-icon {

@@ -3,6 +3,7 @@ package techcourse.fakebook.service.user.dto;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.utils.validator.NotExistsEmail;
+import techcourse.fakebook.utils.PartitialName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -18,9 +19,11 @@ public class UserSignupRequest {
     @NotExistsEmail
     private String email;
 
+    @PartitialName
     @NotBlank(message = "* 성을 입력해주세요!")
     private String lastName;
 
+    @PartitialName
     @NotBlank(message = "* 이름을 입력해주세요!")
     private String firstName;
 

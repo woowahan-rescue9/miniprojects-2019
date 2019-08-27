@@ -21,11 +21,11 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     private int port;
 
     private LoginRequest loginRequest = new LoginRequest("van@van.com", "Password!1");
-    private String cookie;
+    private String sessionId;
 
     @BeforeEach
     void setUp() {
-        cookie = getCookie(login(loginRequest));
+        sessionId = getSessionId(login(loginRequest));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
                 formParam("content", "hello").
         when().
                 post("/api/articles").
@@ -60,7 +60,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     void 글을_잘_삭제하는지_확인한다() {
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 delete("/api/articles/2").
         then().
@@ -74,7 +74,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(articleRequest).
         when().
                 put("/api/articles/1").
@@ -89,7 +89,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 get("api/articles/" + article.getId() + "/like").
         then().
@@ -102,7 +102,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
@@ -115,7 +115,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
@@ -123,7 +123,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/articles/" + article.getId() + "/like").
         then().
@@ -138,7 +138,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/articles/" + articleResponse.getId() + "/like").
         then().
@@ -146,7 +146,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 get("/api/articles/" + articleResponse.getId() + "/like/count").
         then().
@@ -158,7 +158,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
     void 게시글_이미지_포함_업로드가_잘_되는지_확인한다() {
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
                 multiPart("files", new File("src/test/resources/static/images/logo/res9-logo.gif")).
                 formParam("content", "hello").
         when().

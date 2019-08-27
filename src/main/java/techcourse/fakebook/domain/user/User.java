@@ -1,8 +1,10 @@
 package techcourse.fakebook.domain.user;
 
 import techcourse.fakebook.domain.BaseEntity;
+import techcourse.fakebook.utils.FullName;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Objects;
 
 @Entity
@@ -11,12 +13,14 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
     @Column(unique = true)
     private String email;
 
     @Column(nullable = false)
     private String encryptedPassword;
 
+    @FullName
     @Column(nullable = false)
     private String name;
 
