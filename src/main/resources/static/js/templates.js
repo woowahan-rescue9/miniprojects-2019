@@ -98,6 +98,13 @@ const templates = (() => {
           </div>
         </li>`
     }
+
+    friendTemplate(input) {
+      return `<div class="friend">
+          <img src="/images/profile/${input.coverUrl}" alt="${input.name}">
+          <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
+      </div>`;
+    }
   }
 
   return new Templates()

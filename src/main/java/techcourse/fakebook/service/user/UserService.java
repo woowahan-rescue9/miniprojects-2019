@@ -52,6 +52,12 @@ public class UserService {
         return userRepository.findByIdIn(userIds);
     }
 
+    public List<UserOutline> findAndConvertToUserOutline(List<Long> userIds) {
+        return findByIdIn(userIds).stream()
+                .map(UserAssembler::toUserOutline)
+                .collect(Collectors.toList());
+    }
+
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
 

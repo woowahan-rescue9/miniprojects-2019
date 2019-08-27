@@ -259,12 +259,30 @@ const App = (() => {
     }
   }
 
+  class ProfileService extends Service {
+    async showFriends(userId) {
+      const friends = (await axios.get(BASE_URL + "/api/friendships/" + userId)).data
+      document.getElementById("friend-list").innerHTML = ""
+      friends.forEach(friend => {
+        document.getElementById("friend-list").insertAdjacentHTML(
+            "beforeend",
+            templates.friendTemplate({
+              "id": friend.id,
+              "name": friend.name,
+              "coverUrl": friend.coverUrl
+            })
+        )
+      })
+    }
+  }
+
   class Controller {
-    constructor(articleService, commentService, friendService, searchService) {
+    constructor(articleService, commentService, friendService, searchService, profileService) {
       this.articleService = articleService
       this.commentService = commentService
       this.friendService = friendService
       this.searchService = searchService
+      this.profileService = profileService
     }
 
     writeArticle(event) {
@@ -306,6 +324,10 @@ const App = (() => {
     visitResult(name, id) {
       this.searchService.visitResult(name, id)
     }
+
+    showFriends(userId) {
+      this.profileService.showFriends(userId)
+    }
   }
 
   const attachmentModal = document.getElementById("attachment-modal")
@@ -332,5 +354,5 @@ const App = (() => {
   }
 
   const api = new Api()
-  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService())
+  return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService(), new ProfileService(api))
 })()
