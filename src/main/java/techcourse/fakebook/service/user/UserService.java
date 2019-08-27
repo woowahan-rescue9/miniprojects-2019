@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
+import techcourse.fakebook.service.article.AttachmentService;
+import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
+import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
 import techcourse.fakebook.service.user.dto.*;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
@@ -21,22 +24,25 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
+    private final AttachmentService attachmentService;
     private final Encryptor encryptor;
 
-    public UserService(UserRepository userRepository, UserAssembler userAssembler, Encryptor encryptor) {
+    public UserService(UserRepository userRepository, UserAssembler userAssembler, AttachmentService attachmentService, Encryptor encryptor) {
         this.userRepository = userRepository;
         this.userAssembler = userAssembler;
+        this.attachmentService = attachmentService;
         this.encryptor = encryptor;
     }
 
     public UserResponse save(UserSignupRequest userSignupRequest) {
         log.debug("begin");
 
-        User user = userAssembler.toEntity(userSignupRequest);
+        //회원 가입시에는 프로필 사진 설정을 못하니까 default로 간다.
+        User user = userAssembler.toEntity(userSignupRequest, attachmentService.getDefaultProfileImage());
         User savedUser = userRepository.save(user);
         log.debug("savedUser: {}", savedUser);
 
-        return userAssembler.toResponse(savedUser);
+        return userAssembler.toResponse(user);
     }
 
     @Transactional(readOnly = true)
@@ -61,7 +67,7 @@ public class UserService {
         User user = getUser(userId);
 
         user.updateModifiableFields(userUpdateRequest.getName(), "a",
-                userUpdateRequest.getProfileImage(), userUpdateRequest.getIntroduction());
+                 userUpdateRequest.getIntroduction(), attachmentService.getProfileImage(userUpdateRequest.getProfileImage()));
 
         log.debug("user: {}", user);
         return userAssembler.toResponse(user);
@@ -84,13 +90,13 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserOutline getUserOutline(Long userId) {
         return userRepository.findById(userId)
-                .map(UserAssembler::toUserOutline)
+                .map(userAssembler::toUserOutline)
                 .orElseThrow(NotFoundUserException::new);
     }
 
     public List<UserResponse> findUserNamesByKeyword(String keyword) {
         return userRepository.findByNameContaining(keyword).stream()
-                .map(user -> userAssembler.toResponse(user))
+                .map(userAssembler::toResponse)
                 .collect(Collectors.toList());
     }
 

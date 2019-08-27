@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.article.ArticleAttachmentRepository;
+import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.service.article.dto.AttachmentResponse;
 import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
@@ -43,6 +44,23 @@ public class AttachmentService {
         }
     }
 
+    public UserProfileImage getDefaultProfileImage() {
+        Path filesPath = Paths.get(UserProfileImage.USER_STATIC_FILE_PATH + UserProfileImage.DEFAULT_IMAGE_NAME);
+        return new UserProfileImage(UserProfileImage.DEFAULT_IMAGE_NAME, filesPath.toString());
+    }
+
+    public UserProfileImage getProfileImage(MultipartFile file) {
+        try {
+            String hashingName = getHashedName(file.getOriginalFilename());
+
+            Path filePath = writeFile(file, hashingName);
+
+            return new UserProfileImage(file.getOriginalFilename(), filePath.toString());
+        } catch (IOException e) {
+            throw new FileSaveException(e.getMessage());
+        }
+    }
+
     private Path writeFile(MultipartFile file, String hashingName) throws IOException {
         byte[] bytes = file.getBytes();
         Path staticFilePath = Paths.get(ArticleAttachment.ARTICLE_STATIC_FILE_PATH + hashingName);
@@ -62,6 +80,10 @@ public class AttachmentService {
     }
 
     public AttachmentResponse getAttachmentResponse(ArticleAttachment attachment) {
+        return attachmentAssembler.toResponse(attachment);
+    }
+
+    public AttachmentResponse getAttachmentResponse(UserProfileImage attachment) {
         return attachmentAssembler.toResponse(attachment);
     }
 }

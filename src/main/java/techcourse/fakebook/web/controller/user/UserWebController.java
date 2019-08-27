@@ -42,8 +42,8 @@ public class UserWebController {
             return "index";
         }
 
-        userService.save(userSignupRequest);
-
+        UserResponse userResponse = userService.save(userSignupRequest);
+        userResponse = userService.findById(userResponse.getId());
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
         UserOutline userOutline = loginService.login(loginRequest);
         session.setAttribute(LoginController.SESSION_USER_KEY, userOutline);

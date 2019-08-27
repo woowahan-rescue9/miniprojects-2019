@@ -17,7 +17,10 @@ import java.util.Optional;
 
 @Component
 public class ArticleAssembler {
-    private ArticleAssembler() {
+    private final UserAssembler userAssembler;
+
+    public ArticleAssembler(UserAssembler userAssembler) {
+        this.userAssembler = userAssembler;
     }
 
     public Article toEntity(ArticleRequest articleRequest, User user) {
@@ -25,12 +28,12 @@ public class ArticleAssembler {
     }
 
     public ArticleResponse toResponse(Article article) {
-        UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
+        UserOutline userOutline = userAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline);
     }
 
     public ArticleResponse toResponse(Article article, List<AttachmentResponse> attachments) {
-        UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
+        UserOutline userOutline = userAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, attachments);
     }
 

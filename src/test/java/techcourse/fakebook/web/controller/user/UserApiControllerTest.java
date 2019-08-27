@@ -1,12 +1,20 @@
 package techcourse.fakebook.web.controller.user;
 
+import io.restassured.internal.util.IOUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
 import techcourse.fakebook.service.user.dto.UserUpdateRequest;
 import techcourse.fakebook.web.controller.ControllerTestHelper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -15,6 +23,15 @@ import static org.hamcrest.Matchers.hasItem;
 class UserApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
     private int port;
+    private MultipartFile image;
+
+    @BeforeEach
+    void setUp() throws IOException {
+        File file = new File("src/test/resources/static/images/user/profile/default.png");
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile image = new MockMultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));
+
+    }
 
     @Test
     void 유저_아이디로_유저정보_조회() {
@@ -34,12 +51,12 @@ class UserApiControllerTest extends ControllerTestHelper {
         String cookie = getCookie(signup(userSignupRequest));
         Long userId = getId(userSignupRequest.getEmail());
 
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image,"updatedIntroduction",
                 "updatedName", "updatedPassword");
         given().
                 port(port).
                 cookie(cookie).
-                formParam("profileImage", "updatedProfileImage").
+                multiPart("profileImage", new File("src/test/resources/static/images/user/profile/default.png")).
                 formParam("introduction", "updatedIntroduction").
                 formParam("name", "updatedName").
                 formParam("password", "updatedPassword").
@@ -47,8 +64,8 @@ class UserApiControllerTest extends ControllerTestHelper {
                 put("/api/users/" + userId).
         then().
                 statusCode(HttpStatus.OK.value()).
-//                body("coverUrl", equalTo(userUpdateRequest.getCoverUrl())).
-                body("introduction", equalTo(userUpdateRequest.getIntroduction()));
+                body("introduction", equalTo(userUpdateRequest.getIntroduction())).
+                body("name", equalTo(userUpdateRequest.getName()));
     }
 
     @Test
@@ -57,7 +74,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         signup(userSignupRequest);
         Long userId = getId(userSignupRequest.getEmail());
 
-        UserUpdateRequest userUpdateRequest = new UserUpdateRequest("updatedProfileImage", "updatedIntroduction",
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
                 "updatedName", "updatedPassword");
         given().
                 port(port).

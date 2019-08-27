@@ -1,13 +1,12 @@
 package techcourse.fakebook.service.user.dto;
 
-import com.sun.xml.internal.ws.api.message.Attachment;
-import techcourse.fakebook.domain.user.UserAttachment;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class UserUpdateRequest {
-    private String profileImage;
+    private MultipartFile profileImage;
     private String introduction;
     private String name;
     @NotBlank(message = "* 비밀번호를 작성해주세요!")
@@ -18,14 +17,14 @@ public class UserUpdateRequest {
     public UserUpdateRequest() {
     }
 
-    public UserUpdateRequest(String profileImage, String introduction, String name, String password) {
+    public UserUpdateRequest(MultipartFile profileImage, String introduction, String name, String password) {
         this.profileImage = profileImage;
         this.introduction = introduction;
         this.name = name;
         this.password = password;
     }
 
-    public String getProfileImage() {
+    public MultipartFile getProfileImage() {
         return profileImage;
     }
 
@@ -41,7 +40,7 @@ public class UserUpdateRequest {
         return password;
     }
 
-    public void setProfileImage(String profileImage) {
+    public void setProfileImage(MultipartFile profileImage) {
         this.profileImage = profileImage;
     }
 

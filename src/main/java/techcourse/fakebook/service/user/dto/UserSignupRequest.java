@@ -1,10 +1,15 @@
 package techcourse.fakebook.service.user.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.utils.validator.NotExistsEmail;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 //@EqualFields(baseField = "password", matchField = "reconfirmPassword")
 public class UserSignupRequest {
@@ -44,6 +49,13 @@ public class UserSignupRequest {
         this.password = password;
         this.gender = gender;
         this.birth = birth;
+//        try {
+//            File file = new File("src/main/resources/static/images/user/profile/default.png");
+//            FileInputStream input = new FileInputStream(file);
+//            profileImage = new MultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));
+//        } catch (IOException e) {
+//            throw new FileSaveException();
+//        }
     }
 
     public String getEmail() {
