@@ -35,12 +35,12 @@ const templates = (() => {
             </li>
           </ul>
         </div>
-        <div id="article-${input.id}-content" class="feed-body no-pdd">
-          <p>
-            <span> ${this.escapeHtml(input.content)} </span> 
-          </p>` +
+        <div id="article-${input.id}-content" class="feed-body no-pdd">` +
           input.images.map(image => `<img class="vertical-align" src="/${image.path}">`) +
-        `</div>
+          `<p>
+            <span> ${this.escapeHtml(input.content)} </span> 
+          </p>
+        </div>
           <ul class="feed-action pdd-btm-5 border bottom">
             <li>
               <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
