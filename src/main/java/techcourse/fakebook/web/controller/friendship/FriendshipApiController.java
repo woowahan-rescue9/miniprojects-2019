@@ -4,12 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import techcourse.fakebook.service.user.UserService;
-import techcourse.fakebook.web.argumentresolver.SessionUser;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.friendship.FriendshipService;
 import techcourse.fakebook.service.friendship.dto.FriendshipRequest;
+import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
+import techcourse.fakebook.web.argumentresolver.SessionUser;
 
 import java.util.List;
 

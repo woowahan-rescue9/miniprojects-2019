@@ -77,7 +77,7 @@ const templates = (() => {
 
     commentTemplate(input) {
         return `<li class="comment-item">
-          <img class="thumb-img img-circle" src="/images/profile/${input.user.coverUrl}" alt="${input.user.name}">
+          <img class="thumb-img img-circle" src="/${input.user.profileImage.path}" alt="${input.user.name}">
           <div class="info">
             <div class="bg-lightgray border-radius-18 padding-10 max-width-100">
               <a href="/users/${input.user.id}" class="title text-bold inline-block text-link-color">${input.user.name}</a>
@@ -94,7 +94,7 @@ const templates = (() => {
 
     friendTemplate(input) {
       return `<div class="friend">
-          <img src="/images/profile/${input.coverUrl}" alt="${input.name}">
+          <img src="/${input.profileImage}" alt="${input.name}">
           <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
         </div>`
     }

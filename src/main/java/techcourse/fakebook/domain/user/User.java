@@ -1,7 +1,7 @@
 package techcourse.fakebook.domain.user;
 
 import techcourse.fakebook.domain.BaseEntity;
-import techcourse.fakebook.utils.FullName;
+import techcourse.fakebook.utils.validator.FullName;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -27,30 +27,37 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String gender;
 
-    @Column(nullable = false)
-    private String coverUrl;
+    @Embedded
+    private UserProfileImage profileImage;
 
     @Column(nullable = false)
     private String birth;
 
-    @Column(nullable = false)
     private String introduction;
+
 
     private User() {
     }
 
-    public User(String email, String encryptedPassword, String name, String gender, String coverUrl, String birth, String introduction) {
+    public User(String email, String encryptedPassword, String name, String gender, UserProfileImage profileImage, String birth, String introduction) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.name = name;
         this.gender = gender;
-        this.coverUrl = coverUrl;
+        this.profileImage = profileImage;
         this.birth = birth;
         this.introduction = introduction;
     }
 
-    public void updateModifiableFields(String coverUrl, String introduction) {
-        this.coverUrl = coverUrl;
+    public void updateModifiableFields(String name, String encryptedPassword, String introduction, UserProfileImage profileImage) {
+        this.name = name;
+        this.encryptedPassword = encryptedPassword;
+        this.introduction = introduction;
+        this.profileImage = profileImage;
+    }
+
+    public void updateModifiableFields(UserProfileImage coverUrl, String introduction) {
+        this.profileImage = coverUrl;
         this.introduction = introduction;
     }
 
@@ -82,8 +89,8 @@ public class User extends BaseEntity {
         return gender;
     }
 
-    public String getCoverUrl() {
-        return coverUrl;
+    public UserProfileImage getProfileImage() {
+        return profileImage;
     }
 
     public String getBirth() {
@@ -115,7 +122,7 @@ public class User extends BaseEntity {
                 ", encryptedPassword='" + encryptedPassword + '\'' +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
-                ", coverUrl='" + coverUrl + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 ", birth='" + birth + '\'' +
                 ", introduction='" + introduction + '\'' +
                 '}';

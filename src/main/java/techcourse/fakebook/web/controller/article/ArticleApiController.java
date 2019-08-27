@@ -3,11 +3,11 @@ package techcourse.fakebook.web.controller.article;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import techcourse.fakebook.web.argumentresolver.SessionUser;
 import techcourse.fakebook.service.article.ArticleService;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
 import techcourse.fakebook.service.user.dto.UserOutline;
+import techcourse.fakebook.web.argumentresolver.SessionUser;
 
 import java.net.URI;
 import java.util.List;

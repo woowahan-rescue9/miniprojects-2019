@@ -6,12 +6,15 @@ import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
+import techcourse.fakebook.service.user.dto.UserOutline;
 
 @Component
 public class CommentAssembler {
-    private CommentAssembler() {
+    private final UserAssembler userAssembler;
+
+    public CommentAssembler(UserAssembler userAssembler) {
+        this.userAssembler = userAssembler;
     }
 
     public Comment toEntity(CommentRequest commentRequest, Article article, User user) {
@@ -19,7 +22,7 @@ public class CommentAssembler {
     }
 
     public CommentResponse toResponse(Comment comment) {
-        UserOutline userOutline = UserAssembler.toUserOutline(comment.getUser());
+        UserOutline userOutline = userAssembler.toUserOutline(comment.getUser());
         return new CommentResponse(comment.getId(), comment.getContent(), comment.getCreatedDate(), userOutline);
     }
 }

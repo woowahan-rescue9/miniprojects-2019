@@ -1,19 +1,21 @@
 package techcourse.fakebook.service.user.dto;
 
+import techcourse.fakebook.service.article.dto.AttachmentResponse;
+
 import java.util.Objects;
 
 public class UserOutline {
     private Long id;
     private String name;
-    private String coverUrl;
+    private AttachmentResponse profileImage;
 
     private UserOutline() {
     }
 
-    public UserOutline(Long id, String name, String coverUrl) {
+    public UserOutline(Long id, String name, AttachmentResponse profileImage) {
         this.id = id;
         this.name = name;
-        this.coverUrl = coverUrl;
+        this.profileImage = profileImage;
     }
 
     public Long getId() {
@@ -24,8 +26,8 @@ public class UserOutline {
         return name;
     }
 
-    public String getCoverUrl() {
-        return coverUrl;
+    public AttachmentResponse getProfileImage() {
+        return profileImage;
     }
 
     @Override
@@ -35,12 +37,12 @@ public class UserOutline {
         UserOutline that = (UserOutline) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(coverUrl, that.coverUrl);
+                Objects.equals(profileImage, that.profileImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, coverUrl);
+        return Objects.hash(id, name, profileImage);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class UserOutline {
         return "UserOutline{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", coverUrl='" + coverUrl + '\'' +
+                ", profileImage='" + profileImage + '\'' +
                 '}';
     }
 }

@@ -4,18 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import techcourse.fakebook.web.argumentresolver.OptionalSessionUser;
-import techcourse.fakebook.service.friendship.FriendshipService;
-import techcourse.fakebook.service.user.LoginService;
-import techcourse.fakebook.service.article.TotalService;
-import techcourse.fakebook.service.user.*;
-import techcourse.fakebook.service.user.dto.*;
-
-import java.util.Optional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import techcourse.fakebook.service.article.TotalService;
+import techcourse.fakebook.service.friendship.FriendshipService;
+import techcourse.fakebook.service.user.LoginService;
+import techcourse.fakebook.service.user.UserService;
+import techcourse.fakebook.service.user.dto.UserOutline;
+import techcourse.fakebook.service.user.dto.UserResponse;
+import techcourse.fakebook.web.argumentresolver.OptionalSessionUser;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")

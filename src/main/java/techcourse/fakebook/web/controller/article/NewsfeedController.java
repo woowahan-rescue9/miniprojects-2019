@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import techcourse.fakebook.service.article.dto.TotalArticleResponse;
-import techcourse.fakebook.web.argumentresolver.SessionUser;
-import techcourse.fakebook.service.article.TotalService;
-import techcourse.fakebook.service.user.dto.UserOutline;
 import org.springframework.web.bind.annotation.ResponseBody;
+import techcourse.fakebook.service.article.TotalService;
+import techcourse.fakebook.service.article.dto.TotalArticleResponse;
+import techcourse.fakebook.service.user.dto.UserOutline;
+import techcourse.fakebook.web.argumentresolver.SessionUser;
 
 import java.util.List;
 

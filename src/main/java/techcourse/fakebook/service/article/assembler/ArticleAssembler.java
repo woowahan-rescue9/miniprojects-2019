@@ -3,13 +3,13 @@ package techcourse.fakebook.service.article.assembler;
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.service.user.assembler.UserAssembler;
-import techcourse.fakebook.service.article.dto.TotalArticleResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
 import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
+import techcourse.fakebook.service.user.assembler.UserAssembler;
+import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +17,10 @@ import java.util.Optional;
 
 @Component
 public class ArticleAssembler {
-    private ArticleAssembler() {
+    private final UserAssembler userAssembler;
+
+    public ArticleAssembler(UserAssembler userAssembler) {
+        this.userAssembler = userAssembler;
     }
 
     public Article toEntity(ArticleRequest articleRequest, User user) {
@@ -25,12 +28,12 @@ public class ArticleAssembler {
     }
 
     public ArticleResponse toResponse(Article article) {
-        UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
+        UserOutline userOutline = userAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline);
     }
 
     public ArticleResponse toResponse(Article article, List<AttachmentResponse> attachments) {
-        UserOutline userOutline = UserAssembler.toUserOutline(article.getUser());
+        UserOutline userOutline = userAssembler.toUserOutline(article.getUser());
         return new ArticleResponse(article.getId(), article.getContent(), getRecentDate(article), userOutline, attachments);
     }
 

@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import techcourse.fakebook.exception.InvalidSignupException;
 import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.*;
-import techcourse.fakebook.exception.InvalidSignupException;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -45,9 +45,18 @@ public class UserApiController {
         return ResponseEntity.created(URI.create("/users/" + userOutline.getId())).build();
     }
 
+    @GetMapping("/{userId}/info")
+    public ResponseEntity<UserResponse> userInfo(@PathVariable Long userId) {
+        log.debug("begin");
+
+        UserResponse userResponse = userService.findById(userId);
+
+        return ResponseEntity.ok().body(userResponse);
+    }
+
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponse> update(@PathVariable Long userId,
-                                               @RequestBody UserUpdateRequest userUpdateRequest, HttpSession session) {
+                                               @Valid UserUpdateRequest userUpdateRequest, HttpSession session) {
         log.debug("begin");
         log.debug("userUpdateRequest : {}", userUpdateRequest);
 

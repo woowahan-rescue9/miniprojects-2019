@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.NotFoundArticleException;
+import techcourse.fakebook.service.ServiceTestHelper;
 import techcourse.fakebook.service.article.ArticleService;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
@@ -22,11 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ArticleServiceTest {
+class ArticleServiceTest extends ServiceTestHelper {
     @Autowired
     private ArticleService articleService;
-
-    private UserOutline userOutline = new UserOutline(1L, "cony", "https");
 
     @Test
     void 게시글들을_잘_불러오는지_확인한다() {
@@ -117,7 +116,6 @@ class ArticleServiceTest {
     @Test
     void 게시글의_좋아요_개수를_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
-        UserOutline userOutline = new UserOutline(1L, "name", "coverUrl");
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
         Long articleId = articleResponse.getId();
 

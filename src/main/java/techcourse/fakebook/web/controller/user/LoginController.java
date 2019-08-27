@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 

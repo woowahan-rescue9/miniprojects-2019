@@ -2,9 +2,9 @@ package techcourse.fakebook.service.article;
 
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.service.article.assembler.ArticleAssembler;
 import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.comment.CommentService;
-import techcourse.fakebook.service.article.assembler.ArticleAssembler;
 import techcourse.fakebook.service.friendship.FriendshipService;
 import techcourse.fakebook.service.user.UserService;
 

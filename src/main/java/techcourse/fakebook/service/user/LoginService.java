@@ -8,6 +8,7 @@ import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.exception.NotMatchPasswordException;
+import techcourse.fakebook.service.article.AttachmentService;
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
@@ -18,10 +19,12 @@ public class LoginService {
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
 
     private final UserRepository userRepository;
+    private final AttachmentService attachmentService;
     private final Encryptor encryptor;
 
-    public LoginService(UserRepository userRepository, Encryptor encryptor) {
+    public LoginService(UserRepository userRepository, AttachmentService attachmentService, Encryptor encryptor) {
         this.userRepository = userRepository;
+        this.attachmentService = attachmentService;
         this.encryptor = encryptor;
     }
 
@@ -36,6 +39,6 @@ public class LoginService {
             throw new NotMatchPasswordException();
         }
 
-        return new UserOutline(user.getId(), user.getName(), user.getCoverUrl());
+        return new UserOutline(user.getId(), user.getName(), attachmentService.getAttachmentResponse(user.getProfileImage()));
     }
 }
