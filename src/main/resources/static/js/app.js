@@ -72,7 +72,7 @@ const App = (() => {
         const files = document.getElementById("profile-attachment").files;
         const uri = document.getElementsByClassName('user-profile')[0].firstElementChild.getAttribute('href')
         if (files.length > 0) {
-          req.append("files", files[0])
+          req.append("profileImage", files[0])
         }
         req.append("introduction", introduction)
         req.append("name", name)
@@ -82,6 +82,7 @@ const App = (() => {
         alert("수정이 완료 되었습니다.")
         const editProfileModal = document.getElementById("edit-profile-modal")
         editProfileModal.style.display = "none"
+        location.reload()
       } catch (e) {
       }
     }
@@ -395,9 +396,11 @@ const App = (() => {
   }
 
   const editImage = document.getElementById('profile-attachment');
-  editImage.addEventListener('change', function () {
-    App.profileImagePreview(this)
-  })
+  if(editImage != null) {
+    editImage.addEventListener('change', function () {
+      App.profileImagePreview(this)
+    })
+  }
 
   const api = new Api()
   return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService(), new UserService(api))

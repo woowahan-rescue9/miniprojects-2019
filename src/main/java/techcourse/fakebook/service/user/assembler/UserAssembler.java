@@ -50,16 +50,4 @@ public class UserAssembler {
                 user.getIntroduction()
         );
     }
-
-    public UserResponse toResponse(User user, AttachmentResponse userProfileImage) {
-        return new UserResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getName(),
-                user.getGender(),
-                userProfileImage,
-                user.getBirth(),
-                user.getIntroduction()
-        );
-    }
 }
