@@ -52,7 +52,7 @@ public class UserService {
         return userRepository.findByIdIn(userIds);
     }
 
-    public List<UserOutline> findAndConvertToUserOutline(List<Long> userIds) {
+    public List<UserOutline> findFriends(List<Long> userIds) {
         return findByIdIn(userIds).stream()
                 .map(UserAssembler::toUserOutline)
                 .collect(Collectors.toList());

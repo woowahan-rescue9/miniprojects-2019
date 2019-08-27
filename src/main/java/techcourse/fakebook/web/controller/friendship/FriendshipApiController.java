@@ -28,7 +28,7 @@ public class FriendshipApiController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<UserOutline>> findAll(@PathVariable Long userId) {
-        List<UserOutline> friends = userService.findAndConvertToUserOutline(friendshipService.findFriendIds(userId));
+        List<UserOutline> friends = userService.findFriends(friendshipService.findFriendIds(userId));
         return ResponseEntity.ok().body(friends);
     }
 
