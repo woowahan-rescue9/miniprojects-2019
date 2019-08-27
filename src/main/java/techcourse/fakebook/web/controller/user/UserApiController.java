@@ -56,7 +56,7 @@ public class UserApiController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponse> update(@PathVariable Long userId,
-                                               UserUpdateRequest userUpdateRequest, HttpSession session) {
+                                               @Valid UserUpdateRequest userUpdateRequest, HttpSession session) {
         log.debug("begin");
         log.debug("userUpdateRequest : {}", userUpdateRequest);
 

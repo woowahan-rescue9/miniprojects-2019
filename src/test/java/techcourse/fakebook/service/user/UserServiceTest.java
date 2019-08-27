@@ -93,7 +93,7 @@ class UserServiceTest extends ServiceTestHelper {
         userService.update(existUserId, userUpdateRequest);
 
         // Assert
-        verify(user).updateModifiableFields(userUpdateRequest.getName(), "a",
+        verify(user).updateModifiableFields(userUpdateRequest.getName(),  userUpdateRequest.getPassword(),
                  userUpdateRequest.getIntroduction(), profileImage);
     }
 

@@ -126,14 +126,14 @@ class UserApiControllerTest extends ControllerTestHelper {
         Long userId = getId(userSignupRequest.getEmail());
 
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image,"updatedIntroduction",
-                "updatedName", "updatedPassword");
+                "updatedName", "!234Qwer");
         given().
                 port(port).
                 sessionId(sessionId).
                 multiPart("profileImage", new File("src/test/resources/static/images/user/profile/default.png")).
                 formParam("introduction", "updatedIntroduction").
                 formParam("name", "updatedName").
-                formParam("password", "updatedPassword").
+                formParam("password", "!234Qwer").
         when().
                 put("/api/users/" + userId).
         then().
@@ -149,7 +149,7 @@ class UserApiControllerTest extends ControllerTestHelper {
         Long userId = getId(userSignupRequest.getEmail());
 
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
-                "updatedName", "updatedPassword");
+                "updatedName", "!234Qwer");
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).

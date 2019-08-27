@@ -74,8 +74,8 @@ const App = (() => {
         if (files.length > 0) {
           req.append("profileImage", files[0])
         }
-        req.append("introduction", introduction)
-        req.append("name", name)
+        req.append("introduction", introduction.trim())
+        req.append("name", name.trim())
         req.append("password", password)
 
         const userInfo = (await axios.put(BASE_URL + "/api" + uri, req)).data

@@ -15,6 +15,7 @@ import techcourse.fakebook.service.user.dto.*;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,8 +67,8 @@ public class UserService {
         String password = userUpdateRequest.getPassword();
         User user = getUser(userId);
 
-        user.updateModifiableFields(userUpdateRequest.getName(), "a",
-                 userUpdateRequest.getIntroduction(), attachmentService.getProfileImage(userUpdateRequest.getProfileImage()));
+        user.updateModifiableFields(userUpdateRequest.getName(), password,
+                userUpdateRequest.getIntroduction(), attachmentService.getProfileImage(userUpdateRequest.getProfileImage()));
 
         log.debug("user: {}", user);
         return userAssembler.toResponse(user);
