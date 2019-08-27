@@ -122,7 +122,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 delete("/api/friendships" + "?friendId=" + notExistsFriendId).
         then().
@@ -139,7 +139,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 delete("/api/friendships" + "?friendId=" + friendId).
         then().
@@ -156,7 +156,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(friendshipRequest).
         when().
                 post("/api/friendships").
