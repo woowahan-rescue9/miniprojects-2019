@@ -20,11 +20,11 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     private int port;
 
     private LoginRequest loginRequest = new LoginRequest("van@van.com", "Password!1");
-    private String cookie;
+    private String sessionId;
 
     @BeforeEach
     void setUp() {
-        cookie = getCookie(login(loginRequest));
+        sessionId = getSessionId(login(loginRequest));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(commentRequest).
         when().
                 post("/api/articles/1/comments").
@@ -58,7 +58,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
     void 댓글을_잘_삭제하는지_확인한다() {
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 delete("/api/comments/2").
         then().
@@ -72,7 +72,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(commentRequest).
         when().
                 put("/api/comments/1").
@@ -87,7 +87,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 get("/api/comments/" + comment.getId() + "/like").
         then().
@@ -100,7 +100,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
@@ -113,7 +113,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
@@ -121,7 +121,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/comments/" + comment.getId() + "/like").
         then().
@@ -135,7 +135,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         //좋아요 등록
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 post("/api/comments/" + commentResponse.getId() + "/like").
         then().
@@ -143,7 +143,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                cookie(cookie).
+                sessionId(sessionId).
         when().
                 get("/api/comments/" + commentResponse.getId() + "/like/count").
         then().
@@ -175,7 +175,7 @@ public class CommentApiControllerTest extends ControllerTestHelper {
         return given().
                 port(port).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                cookie(cookie).
+                sessionId(sessionId).
                 body(commentRequest).
         when().
                 post("/api/articles/" + articleId + "/comments").as(CommentResponse.class);

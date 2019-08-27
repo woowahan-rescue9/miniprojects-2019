@@ -1,7 +1,7 @@
 package techcourse.fakebook.web.controller.user;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.web.reactive.function.BodyInserters;
+
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
 import techcourse.fakebook.web.controller.ControllerTestHelper;
@@ -9,33 +9,6 @@ import techcourse.fakebook.web.controller.ControllerTestHelper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserWebControllerTest extends ControllerTestHelper {
-    @Test
-    void 유저생성_올바른_입력() {
-        UserSignupRequest userSignupRequest = newUserSignupRequest();
-        signup(userSignupRequest).expectStatus()
-                .isFound();
-    }
-
-    @Test
-    void 로그인된_유저생성_올바른_입력() {
-        UserSignupRequest userSignupRequest = newUserSignupRequest();
-        String cookie = getCookie(signup(userSignupRequest));
-        login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
-
-        UserSignupRequest otherUserSignupRequest = newUserSignupRequest();
-
-        webTestClient.post().uri("/users")
-                .header("Cookie", cookie)
-                .body(BodyInserters.fromFormData("email", otherUserSignupRequest.getEmail())
-                        .with("password", otherUserSignupRequest.getPassword())
-                        .with("lastName", otherUserSignupRequest.getLastName())
-                        .with("firstName", otherUserSignupRequest.getFirstName())
-                        .with("gender", otherUserSignupRequest.getGender())
-                        .with("birth", otherUserSignupRequest.getBirth())
-                )
-                .exchange().expectHeader().valueMatches("location", ".*/newsfeed");
-    }
-
     @Test
     void 존재하는_유저조회() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
@@ -56,7 +29,7 @@ class UserWebControllerTest extends ControllerTestHelper {
     @Test
     void 로그인된_존재하는_유저삭제() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        String cookie = getCookie(signup(userSignupRequest));
+        String cookie = getSessionId(signup(userSignupRequest));
         Long userId = getId(userSignupRequest.getEmail());
 
         login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));

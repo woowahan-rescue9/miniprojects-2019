@@ -1,51 +1,58 @@
 package techcourse.fakebook.web.controller.user;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.web.reactive.function.BodyInserters;
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
 import techcourse.fakebook.web.controller.ControllerTestHelper;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
+import static io.restassured.RestAssured.given;
 
 class LoginControllerTest extends ControllerTestHelper {
+    @LocalServerPort
+    private int port;
 
     @Test
     void 로그인_성공() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
 
         signup(userSignupRequest)
-                .expectStatus()
-                .isFound().expectHeader().valueMatches("location", ".*/newsfeed.*");
+                .statusCode(HttpStatus.CREATED.value());
     }
 
     @Test
     void 로그인_후_로그인_시도() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        String cookie = getCookie(signup(userSignupRequest));
+        String sessionId = getSessionId(signup(userSignupRequest));
 
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
 
-        webTestClient.post().uri("/login")
-                .header("Cookie", cookie)
-                .body(BodyInserters.fromFormData("email", loginRequest.getEmail())
-                        .with("password", loginRequest.getPassword())
-                )
-                .exchange()
-                .expectStatus()
-                .isFound().expectHeader().valueMatches("location", ".*/newsfeed");
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                sessionId(sessionId).
+                body(loginRequest).
+        when().
+                post("/api/login").
+        then().
+                statusCode(HttpStatus.FOUND.value());
     }
 
     @Test
     void 로그아웃_성공() {
         UserSignupRequest userSignupRequest = newUserSignupRequest();
-        String cookie = getCookie(signup(userSignupRequest));
+        String cookie = getSessionId(signup(userSignupRequest));
 
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
 
         webTestClient.get().uri("/logout")
-                .header("Cookie", cookie)
+                .cookie("JSESSIONID", cookie)
                 .exchange()
                 .expectStatus()
-                .isFound().expectHeader().valueMatches("location", ".*/");
+                .isFound().expectHeader().
+                valueMatches("location", ".*/");
     }
 
     @Test
