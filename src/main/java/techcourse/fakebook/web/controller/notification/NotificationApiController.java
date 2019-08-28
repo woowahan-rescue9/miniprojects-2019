@@ -29,7 +29,7 @@ public class NotificationApiController {
         return this.notificationService._getChannelOf(destId).map(channel -> {
             this.notificationService.notifyTo(
                     destId,
-                    this.notificationService.chatFrom(destId, "Hello from the other side :)")
+                    this.notificationService.writeChatMessageFrom(destId, "Hello from the other side :)")
             );
             return ResponseEntity.ok().body(channel);
         }).orElseGet(() -> ResponseEntity.notFound().build());

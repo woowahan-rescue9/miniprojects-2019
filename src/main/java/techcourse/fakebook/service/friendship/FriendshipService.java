@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.friendship.Friendship;
 import techcourse.fakebook.domain.friendship.FriendshipRepository;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.UserService;
 
 import java.util.List;
@@ -19,10 +20,16 @@ public class FriendshipService {
 
     private final FriendshipRepository friendshipRepository;
     private final UserService userService;
+    private final NotificationService notificationService;
 
-    public FriendshipService(FriendshipRepository friendshipRepository, UserService userService) {
+    public FriendshipService(
+            FriendshipRepository friendshipRepository,
+            UserService userService,
+            NotificationService notificationService
+    ) {
         this.friendshipRepository = friendshipRepository;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     public List<Long> findFriendIds(Long userId) {
@@ -37,6 +44,10 @@ public class FriendshipService {
         log.debug("begin");
 
         friendshipRepository.save(makeFriendship(userId, friendId));
+        notificationService.notifyTo(
+                friendId,
+                notificationService.writeFriendRequestMessageFrom(userId)
+        );
     }
 
     public void breakFriendship(Long userId, Long friendId) {

@@ -13,6 +13,7 @@ import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
 import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 import techcourse.fakebook.service.attachment.AttachmentService;
+import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
@@ -30,14 +31,17 @@ public class ArticleService {
     private final UserService userService;
     private final ArticleAssembler articleAssembler;
     private final AttachmentService attachmentService;
+    private final NotificationService notificationService;
 
     public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository,
-                          UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService) {
+                          UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService,
+                          NotificationService notificationService) {
         this.articleRepository = articleRepository;
         this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
         this.articleAssembler = articleAssembler;
         this.attachmentService = attachmentService;
+        this.notificationService = notificationService;
     }
 
     public ArticleResponse findById(Long id) {
@@ -99,7 +103,12 @@ public class ArticleService {
             articleLikeRepository.delete(articleLike.get());
             return false;
         }
-        articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), getArticle(id)));
+        final Article article = getArticle(id);
+        articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), article));
+        notificationService.notifyTo(
+                article.getUser().getId(),
+                notificationService.writeLikeMessageFrom(userOutline.getId(), article)
+        );
         return true;
     }
 

@@ -2,6 +2,7 @@ package techcourse.fakebook.service.notification;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import techcourse.fakebook.domain.article.Article;
 
 import java.util.Optional;
 
@@ -31,20 +32,20 @@ public class NotificationService {
         );
     }
 
-    public NotificationMessage chatFrom(long sourceId, String content) {
+    public NotificationMessage writeChatMessageFrom(long sourceId, String content) {
         return this.notificationMessageFactory.chat(sourceId, content);
     }
 
-    public NotificationMessage friendRequestFrom(long sourceId) {
+    public NotificationMessage writeFriendRequestMessageFrom(long sourceId) {
         return this.notificationMessageFactory.friendRequest(sourceId);
     }
 
-    public NotificationMessage commentFrom(long sourceId) {
-        return this.notificationMessageFactory.comment(sourceId);
+    public NotificationMessage writeCommentMessageFrom(long sourceId, Article sourceArticle) {
+        return this.notificationMessageFactory.comment(sourceId, sourceArticle);
     }
 
-    public NotificationMessage likeFrom(long sourceId) {
-        return this.notificationMessageFactory.like(sourceId);
+    public NotificationMessage writeLikeMessageFrom(long sourceId, Article sourceArticle) {
+        return this.notificationMessageFactory.like(sourceId, sourceArticle);
     }
 
     public void closeChannelOf(long id) {
