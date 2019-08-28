@@ -63,12 +63,6 @@ public class AttachmentService {
         }
     }
 
-    private Path uploadFile(MultipartFile file, String hashingName, String path) throws IOException {
-        byte[] bytes = file.getBytes();
-        Path staticFilePath = Paths.get(path + hashingName);
-        return Files.write(staticFilePath, bytes);
-    }
-
     private String getHashedName(String originalFileName) {
         String hashCodeOfFile = UUID.randomUUID().toString();
 
