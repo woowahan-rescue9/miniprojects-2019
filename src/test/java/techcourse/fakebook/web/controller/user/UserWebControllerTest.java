@@ -1,7 +1,6 @@
 package techcourse.fakebook.web.controller.user;
 
 import org.junit.jupiter.api.Test;
-
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
 import techcourse.fakebook.web.controller.ControllerTestHelper;

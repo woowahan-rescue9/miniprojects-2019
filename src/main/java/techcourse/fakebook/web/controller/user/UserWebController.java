@@ -41,7 +41,6 @@ public class UserWebController {
 
         UserResponse userResponse = userService.findById(userId);
         model.addAttribute("user", userResponse);
-        model.addAttribute("articles", totalService.findArticlesByUser(userId));
 
         userOutline.ifPresent(loggedInUserOutline -> {
             log.debug("logged-in user..!!");

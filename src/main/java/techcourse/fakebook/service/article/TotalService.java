@@ -28,16 +28,6 @@ public class TotalService {
         this.articleAssembler = articleAssembler;
     }
 
-    public List<TotalArticleResponse> findAll() {
-        return articleService.findAll().stream()
-                .map(articleResponse ->
-                        articleAssembler.toTotalArticleResponse(articleResponse,
-                                commentService.getCommentsCountOf(articleResponse.getId()),
-                                articleService.getLikeCountOf(articleResponse.getId()),
-                                commentService.findAllByArticleId(articleResponse.getId())))
-                .collect(Collectors.toList());
-    }
-
     public List<TotalArticleResponse> findArticlesByUser(Long userId) {
         User user = userService.getUser(userId);
         return articleService.findByUser(user).stream()

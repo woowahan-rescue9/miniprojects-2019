@@ -8,10 +8,8 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.ServiceTestHelper;
-import techcourse.fakebook.service.article.ArticleService;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.io.File;
 import java.io.FileInputStream;

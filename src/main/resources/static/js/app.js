@@ -111,6 +111,34 @@ const App = (() => {
   }
 
   class ArticleService extends Service {
+    async showNewsfeed() {
+      this.show(BASE_URL + "/api/articles")
+    }
+
+    async showArticles(userId) {
+      this.show(BASE_URL + "/api/users/" + userId + "/articles")
+    }
+
+    async show(uri) {
+      const articles = (await axios.get(uri)).data
+      document.getElementById("articles").innerHTML = ""
+      articles.forEach(article => {
+        document.getElementById("articles").insertAdjacentHTML(
+            "beforeend",
+            templates.articleTemplate({
+              "id": article.articleResponse.id,
+              "content": article.articleResponse.content,
+              "date": super.formatDate(article.articleResponse.recentDate),
+              "user": article.articleResponse.userOutline,
+              "images": article.articleResponse.attachments,
+              "countOfComment": article.countOfComment,
+              "countOfLike": article.countOfLike
+            })
+        )
+        App.showComments(article.articleResponse.id)
+      })
+    }
+
     async write() {
       const textbox = document.getElementById("new-article")
       const content = textbox.value.trim()
@@ -131,7 +159,9 @@ const App = (() => {
                 "content": article.content,
                 "date": super.formatDate(article.recentDate),
                 "user": article.userOutline,
-                "images": article.attachments
+                "images": article.attachments,
+                "countOfComment": 0,
+                "countOfLike": 0
               })
           )
           document.getElementById("attachment").value = ""
@@ -191,6 +221,21 @@ const App = (() => {
   }
 
   class CommentService extends Service {
+    async show(articleId) {
+      const comments = (await axios.get("/api/articles/" + articleId + "/comments")).data
+      comments.forEach(comment => {
+        document.getElementById("comments-" + articleId).insertAdjacentHTML(
+            "beforeend",
+            templates.commentTemplate({
+              "id": comment.id,
+              "content": comment.content,
+              "date": super.formatDate(comment.createdDate),
+              "user": comment.userOutline
+            })
+        )
+      })
+    }
+
     async write(event, id) {
       event = event || window.event
       const textbox = document.getElementById("new-comment-" + id)
@@ -340,6 +385,14 @@ const App = (() => {
       this.profileService = profileService
     }
 
+    showNewsfeed() {
+      this.articleService.showNewsfeed()
+    }
+
+    showArticles(userId) {
+      this.articleService.showArticles(userId)
+    }
+
     writeArticle(event) {
       this.articleService.write(event)
     }
@@ -358,6 +411,10 @@ const App = (() => {
 
     likeArticle(id) {
       this.articleService.like(id)
+    }
+
+    showComments(articleId) {
+        this.commentService.show(articleId)
     }
 
     writeComment(event, id) {
