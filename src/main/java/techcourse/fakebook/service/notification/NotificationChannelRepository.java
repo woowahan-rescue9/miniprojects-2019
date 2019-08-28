@@ -1,22 +1,26 @@
 package techcourse.fakebook.service.notification;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class NotificationChannelRepository {
-    private final Map<Long, String> channels = new ConcurrentHashMap<>();
+    private final Map<Long, NotificationChannel> channels = new ConcurrentHashMap<>();
 
-    public Optional<String> retrieveAddressOf(long id) {
+    public NotificationChannel assignTo(long id) {
+        final NotificationChannel channel = new NotificationChannel();
+        this.channels.put(id, channel);
+        return channel;
+    }
+
+    public Optional<NotificationChannel> retrieveBy(long id) {
         return Optional.ofNullable(this.channels.get(id));
     }
 
-    public String assignTo(long id) {
-        return this.channels.put(id, UUID.randomUUID().toString().replaceAll("-", ""));
-    }
-
-    public void resetAll() {
-        this.channels.clear();
+    public void resetBy(long id) {
+        this.channels.remove(id);
     }
 }

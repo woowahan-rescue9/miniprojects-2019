@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class UserProfileImage {
-    public static String USER_STATIC_FILE_PATH = "file/user/profile/";
+    public static String USER_STATIC_FILE_PATH = "images/profile/";
     public static String DEFAULT_IMAGE_NAME = "default.png";
 
     @Column(nullable = false, name = "profile_image_name")

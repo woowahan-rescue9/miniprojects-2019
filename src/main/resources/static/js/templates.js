@@ -36,7 +36,7 @@ const templates = (() => {
           </ul>
         </div>
         <div id="article-${input.id}-content" class="feed-body no-pdd">` +
-          input.images.map(image => `<img class="vertical-align" src="/${image.path}">`) +
+          input.images.map(image => `<img class="vertical-align" src="/${image.path}">`).reduce((a, b) => a + b, "") +
           `<p>
             <span> ${this.escapeHtml(input.content)} </span> 
           </p>
