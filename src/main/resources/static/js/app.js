@@ -135,8 +135,16 @@ const App = (() => {
               "countOfLike": article.countOfLike
             })
         )
+        this.checkLike(article.articleResponse.id)
         App.showComments(article.articleResponse.id)
       })
+    }
+
+    async checkLike(articleId) {
+      const isLiked = (await axios.get(BASE_URL + "/api/articles/" + articleId + "/like")).status
+      if (isLiked === 200) {
+        document.getElementById("article-like-" + articleId).classList.toggle('liked')
+      }
     }
 
     async write() {

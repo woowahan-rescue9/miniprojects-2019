@@ -12,28 +12,28 @@ public class NotificationMessageFactory {
         this.userService = userService;
     }
 
-    public NotificationMessage chat(long sourceUserId, String content) {
-        return produce(NotificationMessage.Type.CHAT, sourceUserId, content);
+    public NotificationMessage chat(long srcUserId, String content) {
+        return produce(NotificationMessage.Type.CHAT, srcUserId, content);
     }
 
-    public NotificationMessage friendRequest(long sourceUserId) {
-        return produce(NotificationMessage.Type.FRIEND_REQUEST, sourceUserId, null);
+    public NotificationMessage friendRequest(long srcUserId) {
+        return produce(NotificationMessage.Type.FRIEND_REQUEST, srcUserId, null);
     }
 
-    public NotificationMessage comment(long sourceUserId, Article sourceArticle) {
-        return produce(NotificationMessage.Type.COMMENT, sourceUserId, articleSummary(sourceArticle));
+    public NotificationMessage comment(long srcUserId, Article srcArticle) {
+        return produce(NotificationMessage.Type.COMMENT, srcUserId, articleSummary(srcArticle));
     }
 
-    public NotificationMessage like(long sourceUserId, Article sourceArticle) {
-        return produce(NotificationMessage.Type.LIKE, sourceUserId, articleSummary(sourceArticle));
+    public NotificationMessage like(long srcUserId, Article srcArticle) {
+        return produce(NotificationMessage.Type.LIKE, srcUserId, articleSummary(srcArticle));
     }
 
-    private NotificationMessage produce(NotificationMessage.Type type, long sourceId, String content) {
-        return new NotificationMessage(type, this.userService.getUserOutline(sourceId), content);
+    private NotificationMessage produce(NotificationMessage.Type type, long srcUserId, String content) {
+        return new NotificationMessage(type, this.userService.getUserOutline(srcUserId), content);
     }
 
     private String articleSummary(Article article) {
         final String content = article.getContent();
-        return (content.length() > 10) ? content.substring(0, 7) + "..." : content;
+        return (content.length() > 10) ? content.substring(0, 6) + " ..." : content;
     }
 }

@@ -1,7 +1,9 @@
 (() => {
   "use strict"
 
-  const REFRESHINTERVAL = 600
+  const WEB_SOCKET_URI = "/websocket"
+  const MESSAGE_BROKER_URI = "/api/notification"
+  const REFRESH_INTERVAL = 600
 
   class ChatService {
     notify(message) {
@@ -17,9 +19,9 @@
           case "FRIEND_REQUEST":
             return "친구 요청을 보냈습니다."
           case "COMMENT":
-            return message.content + " 글에 댓글을 남겼습니다."
+            return "'" + message.content + "' 글에 댓글을 남겼습니다."
           case "LIKE":
-            return message.content + " 글에 좋아요를 눌렀습니다."
+            return "'" + message.content + "' 글에 좋아요를 눌렀습니다."
           default:
         }
       })())
@@ -32,18 +34,18 @@
       this.notificationService = notificationService
       this.init()
       this.connect()
-      setInterval(() => this.connect(), REFRESHINTERVAL * 1000)
+      setInterval(() => this.connect(), REFRESH_INTERVAL * 1000)
     }
 
     init() {
-      this.stompClient = Stomp.over(new SockJS("/websocket"))
+      this.stompClient = Stomp.over(new SockJS(WEB_SOCKET_URI))
     }
 
     async connect() {
-      const channelAddress = (await axios.get("http://" + window.location.host + "/api/notification")).data.address
+      const channelAddress = (await axios.get("http://" + window.location.host + MESSAGE_BROKER_URI)).data.address
       this.stompClient.connect(
         {},
-        frame => this.stompClient.subscribe("/api/notification/" + channelAddress, message => this.dispatch(JSON.parse(message.body)))
+        frame => this.stompClient.subscribe(MESSAGE_BROKER_URI + "/" + channelAddress, message => this.dispatch(JSON.parse(message.body)))
       )
     }
 
