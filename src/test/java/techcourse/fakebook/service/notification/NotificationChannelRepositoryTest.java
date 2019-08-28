@@ -16,7 +16,7 @@ class NotificationChannelRepositoryTest {
     @Test
     void assignTest() {
         assertThat(
-                notificationChannelRepository.assignTo(1).length()
+                notificationChannelRepository.assignTo(1).getAddress().length()
         ).isEqualTo(32);
     }
 
