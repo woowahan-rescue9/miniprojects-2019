@@ -135,6 +135,7 @@ const App = (() => {
               "countOfLike": article.countOfLike
             })
         )
+        App.showComments(article.articleResponse.id)
       })
     }
 
@@ -220,6 +221,21 @@ const App = (() => {
   }
 
   class CommentService extends Service {
+    async show(articleId) {
+      const comments = (await axios.get("/api/articles/" + articleId + "/comments")).data
+      comments.forEach(comment => {
+        document.getElementById("comments-" + articleId).insertAdjacentHTML(
+            "beforeend",
+            templates.commentTemplate({
+              "id": comment.id,
+              "content": comment.content,
+              "date": super.formatDate(comment.createdDate),
+              "user": comment.userOutline
+            })
+        )
+      })
+    }
+
     async write(event, id) {
       event = event || window.event
       const textbox = document.getElementById("new-comment-" + id)
@@ -395,6 +411,10 @@ const App = (() => {
 
     likeArticle(id) {
       this.articleService.like(id)
+    }
+
+    showComments(articleId) {
+        this.commentService.show(articleId)
     }
 
     writeComment(event, id) {
