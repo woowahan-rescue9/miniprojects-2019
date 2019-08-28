@@ -34,6 +34,6 @@ public class NotificationMessageFactory {
 
     private String articleSummary(Article article) {
         final String content = article.getContent();
-        return (content.length() > 10) ? content.substring(0, 7) + "..." : content;
+        return (content.length() > 10) ? content.substring(0, 6) + " ..." : content;
     }
 }

@@ -17,9 +17,9 @@
           case "FRIEND_REQUEST":
             return "친구 요청을 보냈습니다."
           case "COMMENT":
-            return message.content + " 글에 댓글을 남겼습니다."
+            return "'" + message.content + "' 글에 댓글을 남겼습니다."
           case "LIKE":
-            return message.content + " 글에 좋아요를 눌렀습니다."
+            return "'" + message.content + "' 글에 좋아요를 눌렀습니다."
           default:
         }
       })())

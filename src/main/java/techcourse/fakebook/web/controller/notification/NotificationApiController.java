@@ -22,16 +22,4 @@ public class NotificationApiController {
     public ResponseEntity<NotificationChannel> init(@SessionUser UserOutline user) {
         return ResponseEntity.ok().body(this.notificationService.issueNewChannelTo(user.getId()));
     }
-
-    @GetMapping("/test")
-    public ResponseEntity<NotificationChannel> test(@SessionUser UserOutline user) {
-        final long destId = user.getId();
-        return this.notificationService._getChannelOf(destId).map(channel -> {
-            this.notificationService.notifyTo(
-                    destId,
-                    this.notificationService.writeChatMessageFrom(destId, "Hello from the other side :)")
-            );
-            return ResponseEntity.ok().body(channel);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 }
