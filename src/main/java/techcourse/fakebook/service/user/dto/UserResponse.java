@@ -1,6 +1,6 @@
 package techcourse.fakebook.service.user.dto;
 
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 
 public class UserResponse {
     private Long id;

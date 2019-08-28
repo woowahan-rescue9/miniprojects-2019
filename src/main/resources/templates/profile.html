@@ -65,7 +65,7 @@
             <ul class="nav-right">
                 <li th:if="${session.user}" th:object="${session.user}" class="user-profile">
                     <a th:href="'/users/' + *{id}">
-                        <img class="profile-img img-fluid" th:src="'/' + *{profileImage.path}" alt="프로필 사진">
+                        <img class="profile-img img-fluid" th:src="*{profileImage.path}" alt="프로필 사진">
                         <div class="user-info mrg-left-5">
                             <span class="name pdd-right-5 text-white text-bold" th:text="*{name}"></span>
                         </div>
@@ -94,7 +94,7 @@
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                 <div class="card widget-compose">
                     <div id="profile-photo-container">
-                        <img th:src="'/' + ${user.profileImage.path}"
+                        <img th:src="${user.profileImage.path}"
                              alt="프로필 사진">
                         <p th:text="${user.name}">이름</p>
                     </div>
@@ -211,7 +211,7 @@
                             <ul class="list-unstyled list-info">
                                 <li>
                                     <img class="thumb-img img-circle"
-                                         th:src="'/' + ${article.articleResponse.userOutline.profileImage.path}"
+                                         th:src="${article.articleResponse.userOutline.profileImage.path}"
                                          th:alt="${article.articleResponse.userOutline.name}">
                                     <div class="info">
                                         <a th:href="'/users/' + ${article.articleResponse.userOutline.id}"
@@ -244,7 +244,7 @@
                             </ul>
                         </div>
                         <div th:id="'article-' + ${article.articleResponse.id} + '-content'" class="feed-body no-pdd">
-                            <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="'/' + ${attachment.path}">
+                            <img th:each="attachment : ${article.articleResponse.attachments}" class="vertical-align" th:src="${attachment.path}">
                             <p>
                                 <span th:text="${article.articleResponse.content}"></span>
                             </p>
@@ -282,7 +282,7 @@
                                 <ul th:id="'comments-' + ${article.articleResponse.id}" class="list-unstyled list-info">
                                     <li th:each="comment : ${article.comments}" class="comment-item">
                                         <img class="thumb-img img-circle"
-                                             th:src="'/' + ${comment.userOutline.profileImage.path}"
+                                             th:src="${comment.userOutline.profileImage.path}"
                                              th:alt="${comment.userOutline.name}">
                                         <div class="info">
                                             <div class="bg-lightgray border-radius-18 padding-10 max-width-100">

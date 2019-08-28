@@ -1,5 +1,6 @@
 package techcourse.fakebook.service.article.dto;
 
+import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.time.LocalDateTime;

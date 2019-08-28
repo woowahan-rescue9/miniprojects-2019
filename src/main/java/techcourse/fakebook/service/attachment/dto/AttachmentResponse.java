@@ -1,4 +1,4 @@
-package techcourse.fakebook.service.article.dto;
+package techcourse.fakebook.service.attachment.dto;
 
 public class AttachmentResponse {
     private String name;

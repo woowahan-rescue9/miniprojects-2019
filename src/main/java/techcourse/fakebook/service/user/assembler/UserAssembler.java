@@ -3,7 +3,7 @@ package techcourse.fakebook.service.user.assembler;
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserProfileImage;
-import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
+import techcourse.fakebook.service.attachment.assembler.AttachmentAssembler;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.dto.UserResponse;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;

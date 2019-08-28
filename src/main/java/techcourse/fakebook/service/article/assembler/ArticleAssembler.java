@@ -5,7 +5,7 @@ import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
