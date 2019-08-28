@@ -105,10 +105,12 @@ public class ArticleService {
         }
         final Article article = getArticle(id);
         articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), article));
-        notificationService.notifyTo(
-                article.getUser().getId(),
-                notificationService.writeLikeMessageFrom(userOutline.getId(), article)
-        );
+        if (article.isNotAuthor(userOutline.getId())) {
+            notificationService.notifyTo(
+                    article.getUser().getId(),
+                    notificationService.writeLikeMessageFrom(userOutline.getId(), article)
+            );
+        }
         return true;
     }
 
