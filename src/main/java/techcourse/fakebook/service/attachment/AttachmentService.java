@@ -52,7 +52,7 @@ public class AttachmentService {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
+            String filePath = s3Uploader.upload(file, UserProfileImage.USER_STATIC_FILE_PATH, hashingName);
 
             return new UserProfileImage(file.getOriginalFilename(), filePath);
         } catch (IOException e) {
