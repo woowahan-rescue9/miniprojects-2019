@@ -11,7 +11,8 @@ import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.article.assembler.ArticleAssembler;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
+import techcourse.fakebook.service.attachment.AttachmentService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 

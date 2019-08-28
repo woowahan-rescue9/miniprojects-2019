@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.service.article.AttachmentService;
+import techcourse.fakebook.service.attachment.AttachmentService;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.dto.UserResponse;

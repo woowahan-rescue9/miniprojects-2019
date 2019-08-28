@@ -1,4 +1,4 @@
-package techcourse.fakebook.service.article;
+package techcourse.fakebook.service.attachment;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,14 +8,11 @@ import techcourse.fakebook.domain.article.ArticleAttachment;
 import techcourse.fakebook.domain.article.ArticleAttachmentRepository;
 import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.exception.FileSaveException;
-import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
-import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.service.attachment.assembler.AttachmentAssembler;
+import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 import techcourse.fakebook.utils.s3.S3Uploader;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
