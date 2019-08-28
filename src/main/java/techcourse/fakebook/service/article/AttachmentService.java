@@ -10,6 +10,7 @@ import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.service.article.assembler.AttachmentAssembler;
 import techcourse.fakebook.service.article.dto.AttachmentResponse;
+import techcourse.fakebook.utils.s3.S3Uploader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,19 +25,21 @@ import java.util.UUID;
 public class AttachmentService {
     private final ArticleAttachmentRepository articleAttachmentRepository;
     private final AttachmentAssembler attachmentAssembler;
+    private final S3Uploader s3Uploader;
 
-    public AttachmentService(ArticleAttachmentRepository articleAttachmentRepository, AttachmentAssembler attachmentAssembler) {
+    public AttachmentService(ArticleAttachmentRepository articleAttachmentRepository, AttachmentAssembler attachmentAssembler, S3Uploader s3Uploader) {
         this.articleAttachmentRepository = articleAttachmentRepository;
         this.attachmentAssembler = attachmentAssembler;
+        this.s3Uploader = s3Uploader;
     }
 
     public AttachmentResponse saveAttachment(MultipartFile file, Article article) {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path filePath = writeFile(file, hashingName, ArticleAttachment.ARTICLE_STATIC_FILE_PATH);
+            String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
 
-            ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath.toString(), article);
+            ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
 
             return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
         } catch (IOException e) {
@@ -45,23 +48,22 @@ public class AttachmentService {
     }
 
     public UserProfileImage getDefaultProfileImage() {
-        Path filesPath = Paths.get(UserProfileImage.USER_STATIC_FILE_PATH + UserProfileImage.DEFAULT_IMAGE_NAME);
-        return new UserProfileImage(UserProfileImage.DEFAULT_IMAGE_NAME, filesPath.toString());
+        return new UserProfileImage(UserProfileImage.DEFAULT_IMAGE_NAME, UserProfileImage.DEFAULT_IMAGE_PATH);
     }
 
     public UserProfileImage getProfileImage(MultipartFile file) {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
 
-            Path filePath = writeFile(file, hashingName, UserProfileImage.USER_STATIC_FILE_PATH);
+            String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
 
-            return new UserProfileImage(file.getOriginalFilename(), filePath.toString());
+            return new UserProfileImage(file.getOriginalFilename(), filePath);
         } catch (IOException e) {
             throw new FileSaveException(e.getMessage());
         }
     }
 
-    private Path writeFile(MultipartFile file, String hashingName, String path) throws IOException {
+    private Path uploadFile(MultipartFile file, String hashingName, String path) throws IOException {
         byte[] bytes = file.getBytes();
         Path staticFilePath = Paths.get(path + hashingName);
         return Files.write(staticFilePath, bytes);

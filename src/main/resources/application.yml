@@ -29,6 +29,14 @@ spring:
   freemarker:
     cache: false
 
+cloud:
+  aws:
+    s3:
+      bucket: woowa-rescue9
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 logging:
   level:
