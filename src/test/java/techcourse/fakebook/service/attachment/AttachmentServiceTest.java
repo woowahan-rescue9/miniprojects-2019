@@ -10,7 +10,6 @@ import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.exception.NotImageTypeException;
-import techcourse.fakebook.service.attachment.AttachmentService;
 import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 
 import java.io.File;

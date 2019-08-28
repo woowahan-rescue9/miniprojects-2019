@@ -4,6 +4,7 @@ import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.article.Article;
@@ -36,6 +37,9 @@ public class AttachmentService {
         this.s3Uploader = s3Uploader;
     }
 
+
+
+    @Transactional
     public AttachmentResponse saveAttachment(MultipartFile file, Article article) {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());

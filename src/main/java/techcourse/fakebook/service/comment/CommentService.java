@@ -13,6 +13,7 @@ import techcourse.fakebook.service.article.ArticleService;
 import techcourse.fakebook.service.comment.assembler.CommentAssembler;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
+import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
@@ -29,14 +30,17 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final CommentLikeRepository commentLikeRepository;
     private final CommentAssembler commentAssembler;
+    private final NotificationService notificationService;
 
     public CommentService(ArticleService articleService, UserService userService,
-                          CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler) {
+                          CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler,
+                          NotificationService notificationService) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentRepository = commentRepository;
         this.commentLikeRepository = commentLikeRepository;
         this.commentAssembler = commentAssembler;
+        this.notificationService = notificationService;
     }
 
     public CommentResponse findById(Long id) {
@@ -54,6 +58,12 @@ public class CommentService {
         User user = userService.getUser(userOutline.getId());
         Article article = articleService.getArticle(articleId);
         Comment comment = commentRepository.save(commentAssembler.toEntity(commentRequest, article, user));
+        if (article.isNotAuthor(userOutline.getId())) {
+            this.notificationService.notifyTo(
+                    article.getUser().getId(),
+                    this.notificationService.writeCommentMessageFrom(userOutline.getId(), article)
+            );
+        }
         return commentAssembler.toResponse(comment);
     }
 

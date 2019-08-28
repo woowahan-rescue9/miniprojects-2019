@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.ServiceTestHelper;
-import techcourse.fakebook.service.comment.CommentService;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.util.List;
 

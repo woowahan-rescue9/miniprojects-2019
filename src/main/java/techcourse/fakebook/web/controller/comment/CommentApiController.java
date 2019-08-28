@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.comment.CommentService;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
+import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.web.argumentresolver.SessionUser;
 
