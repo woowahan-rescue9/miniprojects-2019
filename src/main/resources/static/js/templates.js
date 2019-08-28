@@ -44,10 +44,10 @@ const templates = (() => {
           <ul class="feed-action pdd-btm-5 border bottom">
             <li>
               <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
-              <span id="count-of-like-${input.id}" class="font-size-14 lh-2-1"> 0</span>
+              <span id="count-of-like-${input.id}" class="font-size-14 lh-2-1">${input.countOfLike}</span>
             </li>
             <li class="float-right mrg-right-15">
-              <span class="font-size-13">댓글 <span id="count-of-comment-${input.id}">0</span>개</span>
+              <span class="font-size-13">댓글 <span id="count-of-comment-${input.id}">${input.countOfComment}</span>개</span>
             </li>
           </ul>
           <ul class="feed-action border bottom d-flex">

@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.exception.InvalidSignupException;
+import techcourse.fakebook.service.article.TotalService;
+import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.*;
@@ -22,10 +24,12 @@ public class UserApiController {
 
     private final UserService userService;
     private final LoginService loginService;
+    private final TotalService totalService;
 
-    public UserApiController(UserService userService, LoginService loginService) {
+    public UserApiController(UserService userService, LoginService loginService, TotalService totalService) {
         this.userService = userService;
         this.loginService = loginService;
+        this.totalService = totalService;
     }
 
     @PostMapping
@@ -52,6 +56,12 @@ public class UserApiController {
         UserResponse userResponse = userService.findById(userId);
 
         return ResponseEntity.ok().body(userResponse);
+    }
+
+    @GetMapping("/{userId}/articles")
+    public ResponseEntity<List<TotalArticleResponse>> showArticles(@PathVariable Long userId) {
+        List<TotalArticleResponse> articles = totalService.findArticlesByUser(userId);
+        return ResponseEntity.ok().body(articles);
     }
 
     @PutMapping("/{userId}")

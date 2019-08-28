@@ -111,6 +111,33 @@ const App = (() => {
   }
 
   class ArticleService extends Service {
+    async showNewsfeed() {
+      this.show(BASE_URL + "/api/articles")
+    }
+
+    async showArticles(userId) {
+      this.show(BASE_URL + "/api/users/" + userId + "/articles")
+    }
+
+    async show(uri) {
+      const articles = (await axios.get(uri)).data
+      document.getElementById("articles").innerHTML = ""
+      articles.forEach(article => {
+        document.getElementById("articles").insertAdjacentHTML(
+            "beforeend",
+            templates.articleTemplate({
+              "id": article.articleResponse.id,
+              "content": article.articleResponse.content,
+              "date": super.formatDate(article.articleResponse.recentDate),
+              "user": article.articleResponse.userOutline,
+              "images": article.articleResponse.attachments,
+              "countOfComment": article.countOfComment,
+              "countOfLike": article.countOfLike
+            })
+        )
+      })
+    }
+
     async write() {
       const textbox = document.getElementById("new-article")
       const content = textbox.value.trim()
@@ -131,7 +158,9 @@ const App = (() => {
                 "content": article.content,
                 "date": super.formatDate(article.recentDate),
                 "user": article.userOutline,
-                "images": article.attachments
+                "images": article.attachments,
+                "countOfComment": 0,
+                "countOfLike": 0
               })
           )
           document.getElementById("attachment").value = ""
@@ -338,6 +367,14 @@ const App = (() => {
       this.searchService = searchService
       this.userService = userService
       this.profileService = profileService
+    }
+
+    showNewsfeed() {
+      this.articleService.showNewsfeed()
+    }
+
+    showArticles(userId) {
+      this.articleService.showArticles(userId)
     }
 
     writeArticle(event) {

@@ -34,6 +34,7 @@ public class ArticleApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
+                sessionId(sessionId).
         when().
                 get("/api/articles").
         then().

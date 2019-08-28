@@ -4,8 +4,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import techcourse.fakebook.service.article.ArticleService;
+import techcourse.fakebook.service.article.TotalService;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
+import techcourse.fakebook.service.article.dto.TotalArticleResponse;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.web.argumentresolver.SessionUser;
 
@@ -16,14 +18,16 @@ import java.util.List;
 @RequestMapping("/api/articles")
 public class ArticleApiController {
     private final ArticleService articleService;
+    private final TotalService totalService;
 
-    public ArticleApiController(ArticleService articleService) {
+    public ArticleApiController(ArticleService articleService, TotalService totalService) {
         this.articleService = articleService;
+        this.totalService = totalService;
     }
 
     @GetMapping
-    public ResponseEntity<List<ArticleResponse>> findAll() {
-        List<ArticleResponse> articles = articleService.findAll();
+    public ResponseEntity<List<TotalArticleResponse>> findAll(@SessionUser UserOutline userOutline) {
+        List<TotalArticleResponse> articles = totalService.findArticlesByUserIncludingFriendsArticles(userOutline.getId());
         return ResponseEntity.ok().body(articles);
     }
 
