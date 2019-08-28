@@ -1,12 +1,12 @@
 package techcourse.fakebook.web.controller.user;
 
 import org.junit.jupiter.api.Test;
-import techcourse.fakebook.service.user.dto.LoginRequest;
-import techcourse.fakebook.service.user.dto.UserSignupRequest;
-import techcourse.fakebook.web.controller.ControllerTestHelper;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import techcourse.fakebook.service.user.dto.LoginRequest;
+import techcourse.fakebook.service.user.dto.UserSignupRequest;
+import techcourse.fakebook.web.controller.ControllerTestHelper;
 
 import static io.restassured.RestAssured.given;
 
