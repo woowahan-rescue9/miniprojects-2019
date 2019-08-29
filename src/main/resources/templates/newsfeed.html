@@ -31,7 +31,6 @@
 
         <link rel="stylesheet" href="/css/app.css">
         <link rel="stylesheet" href="/css/index.css">
-        <link rel="stylesheet" href="/css/attachment.css">
         <link href="/css/search.css" rel="stylesheet">
     </head>
     <body>
@@ -125,17 +124,29 @@
                     <div class="social-feeds">
                         <div class="card widget-compose">
                             <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
-                            <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
-                            <div id="attachment-modal">
-                                <div id="modal-content">
-                                    <span id="attachment-close">&times;</span>
-                                    <p>
-                                        <input id="attachment" type="file" accept="file_extension|image/*|media_type">
-                                    </p>
+                            <textarea id="new-article" class="resize-none form-control border bottom resize-none"
+                                      th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
+
+                            <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title">사진 첨부</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input id="attachment" type="file" accept="file_extension|image/*|media_type">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="attachment-button" class="btn btn-default" data-dismiss="modal">확인</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                             <ul class="composor-tools pdd-top-15">
-                                <li id="attachment-open" class="bg-lightgray-button border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5"
+                                    data-toggle="modal" data-target="#attachment-modal">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
                                         <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>

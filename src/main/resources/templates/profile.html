@@ -36,8 +36,6 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
-    <link rel="stylesheet" href="/css/attachment.css">
-    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -110,30 +108,38 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
-                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()"><i
+                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
+                                onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
-                    <div id="edit-profile-modal">
-                        <div id="profile-modal-content">
-                            <span id="edit-profile-close">&times;</span>
-                            <div id="edit-profile-form">
-                                <h2>프로필 수정</h2>
+                    <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="myModalLabel">프로필 수정</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>사진 수정</h3>
+                                    <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
+                                    <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
 
-                                <h3>사진 수정</h3>
-                                <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
-                                <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
-                                <h3>소개 수정</h3>
-                                <input type="text" id="edit-introduction">
+                                    <h3>소개 수정</h3>
+                                    <input type="text" id="edit-introduction">
 
-                                <h3>이름 수정</h3>
-                                <input type="text" id="edit-name">
+                                    <h3>이름 수정</h3>
+                                    <input type="text" id="edit-name">
 
-                                <h3>비밀번호 수정</h3>
-                                <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
-                                <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
-
-                                <input type="button" id="edit-profile-button" value="수정하기" onclick="javascript:App.editProfile()">
+                                    <h3>비밀번호 수정</h3>
+                                    <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
+                                    <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" id="edit-profile-button" class="btn btn-primary"
+                                            onclick="javascript:App.editProfile()">Save changes</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,17 +172,27 @@
                             <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
                             <textarea id="new-article" class="resize-none form-control border bottom resize-none"
                                       th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
-                            <div id="attachment-modal">
-                                <div id="modal-content">
-                                    <span id="attachment-close">&times;</span>
-                                    <p>
-                                        <input id="attachment" type="file"
-                                               accept="file_extension|image/*|media_type">
-                                    </p>
+
+                            <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title">사진 첨부</h2>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input id="attachment" type="file" accept="file_extension|image/*|media_type">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="attachment-button" class="btn btn-default" data-dismiss="modal">확인</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                             <ul class="composor-tools pdd-top-15">
-                                <li id="attachment-open" class="bg-lightgray-button border-radius-round mrg-right-5">
+                                <li class="bg-lightgray-button border-radius-round mrg-right-5"
+                                    data-toggle="modal" data-target="#attachment-modal">
                                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                                         <div class="icons photo-video"></div>
                                         <span class="icon-name font-size-13 text-bold"> 사진 / 동영상</span>

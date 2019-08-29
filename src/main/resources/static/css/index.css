@@ -795,3 +795,38 @@ hr {
 body {
     overflow-y: scroll
 }
+
+.modal-dialog h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.modal-dialog h3 {
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+.modal-header {
+    border-bottom: #d4deee 1px solid;
+}
+
+.modal-dialog input {
+    display: block;
+    width: 99%;
+    border: #d4deee 1px solid;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 8px;
+}
+
+#edit-profile-modal #profile-image {
+    width: 200px;
+    border-radius: 100%;
+    margin: 8px 0;
+}
+
+#edit-profile-button, #attachment-button {
+    background-color: #42b29f;
+    border-color: #42b29f;
+    color: #fff;
+}
