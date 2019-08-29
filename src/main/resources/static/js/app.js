@@ -289,9 +289,9 @@ const App = (() => {
         const result = (await axios.get(BASE_URL + "/api/users/" + keyword)).data
         autoComplete.innerHTML = ""
         for (let i = 0; i < result.length; i++) {
-          autoComplete.innerHTML += `<span class="dropdown-item" onclick="App.visitResult('${result[i].name}', ${result[i].id})">${result[i].name}&nbsp;&nbsp;
-                                      <span style="color:grey"> (${result[i].email}) </span></span>`
-        }
+                   autoComplete.innerHTML += `<span class="dropdown-item" onclick="App.visitResult('${result[i].name}', ${result[i].id})">${result[i].name}&nbsp;&nbsp;
+                                               <span style="color:grey"> (${result[i].email}) </span></span>`
+                 }
       }
       document.getElementById("search").addEventListener("keyup", event => {
         const keyword = event.target.value
