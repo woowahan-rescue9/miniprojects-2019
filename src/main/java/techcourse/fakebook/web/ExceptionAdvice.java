@@ -39,6 +39,6 @@ public class ExceptionAdvice {
     public ResponseEntity<String> handleFileSaveException(RuntimeException e) {
         log.debug(e.getMessage());
 
-        return ResponseEntity.badRequest().body("파일을 다시한번 확인해 주세요.");
+        return ResponseEntity.badRequest().body("파일을 다시 한 번 확인해 주세요.");
     }
 }

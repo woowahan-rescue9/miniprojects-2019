@@ -2,10 +2,6 @@ package techcourse.fakebook.exception;
 
 public class NotImageTypeException extends RuntimeException{
     public NotImageTypeException() {
-        super();
-    }
-
-    public NotImageTypeException(String message) {
-        super(message);
+        super("이미지 파일 형식이 아닙니다.");
     }
 }

@@ -40,7 +40,7 @@ public class AttachmentServiceTest {
     }
 
     @Test
-    void 이미지_형식이_아닐_때_에러를_발생하는지_확인한다() throws IOException{
+    void 이미지_형식이_아닐_때_에러를_발생하는지_확인한다() throws IOException {
         File file = new File("src/test/resources/static/images/text.txt");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
