@@ -3,6 +3,8 @@ package techcourse.fakebook.service.notification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.notification.NotificationMessage;
+import techcourse.fakebook.domain.notification.NotificationMessageFactory;
 
 @Service
 public class NotificationService {

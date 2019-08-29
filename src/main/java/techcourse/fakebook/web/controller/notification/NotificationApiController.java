@@ -2,10 +2,9 @@ package techcourse.fakebook.web.controller.notification;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import techcourse.fakebook.service.notification.NotificationChannel;
-import techcourse.fakebook.service.notification.NotificationMessage;
+import techcourse.fakebook.domain.notification.NotificationMessage;
 import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.web.argumentresolver.SessionUser;

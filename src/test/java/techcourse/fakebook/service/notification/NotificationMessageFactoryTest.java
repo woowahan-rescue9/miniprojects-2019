@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.notification.NotificationMessage;
+import techcourse.fakebook.domain.notification.NotificationMessageFactory;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.user.UserService;
 
@@ -58,14 +60,14 @@ class NotificationMessageFactoryTest {
 
     @Test
     void 댓글_알림_메세지_25자_이하_글() {
-        final Article article = new Article("ㅎㅎㅎ", user);
+        final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         assertThat(
-                notificationMessageFactory.comment(user.getId(), article)
+                notificationMessageFactory.comment(user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationMessage(
                         NotificationMessage.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
-                        article.getContent()
+                        ARTICLE.getContent()
                 )
         );
     }
@@ -73,28 +75,31 @@ class NotificationMessageFactoryTest {
     @Test
     void 댓글_알림_메세지_25자_초과_글() {
         final String ARTICLE_CONTENT = "20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~";
-        final Article article = new Article(ARTICLE_CONTENT, user);
+        final Article ARTICLE = new Article(ARTICLE_CONTENT, user);
         assertThat(
-                notificationMessageFactory.comment(user.getId(), article)
+                notificationMessageFactory.comment(user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationMessage(
                         NotificationMessage.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE_CONTENT.substring(0, 21) + " ..."
+                        ARTICLE_CONTENT.substring(
+                                0,
+                                notificationMessageFactory.getMaxMessageLength() - 4
+                        ) + " ..."
                 )
         );
     }
 
     @Test
     void 좋아요_알림_메세지_25자_이하_글() {
-        final Article article = new Article("ㅎㅎㅎ", user);
+        final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         assertThat(
-                notificationMessageFactory.like(user.getId(), article)
+                notificationMessageFactory.like(user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationMessage(
                         NotificationMessage.Type.LIKE,
                         userService.getUserOutline(user.getId()),
-                        article.getContent()
+                        ARTICLE.getContent()
                 )
         );
     }
@@ -102,14 +107,17 @@ class NotificationMessageFactoryTest {
     @Test
     void 좋아요_알림_메세지_25자_초과_글() {
         final String ARTICLE_CONTENT = "20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~";
-        final Article article = new Article(ARTICLE_CONTENT, user);
+        final Article ARTICLE = new Article(ARTICLE_CONTENT, user);
         assertThat(
-                notificationMessageFactory.like(user.getId(), article)
+                notificationMessageFactory.like(user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationMessage(
                         NotificationMessage.Type.LIKE,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE_CONTENT.substring(0, 21) + " ..."
+                        ARTICLE_CONTENT.substring(
+                                0,
+                                notificationMessageFactory.getMaxMessageLength() - 4
+                        ) + " ..."
                 )
         );
     }

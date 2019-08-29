@@ -1,4 +1,4 @@
-package techcourse.fakebook.service.notification;
+package techcourse.fakebook.domain.notification;
 
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
@@ -6,6 +6,7 @@ import techcourse.fakebook.service.user.UserService;
 
 @Component
 public class NotificationMessageFactory {
+    private int maxMessageLength = 25;
     private final UserService userService;
 
     public NotificationMessageFactory(UserService userService) {
@@ -32,8 +33,19 @@ public class NotificationMessageFactory {
         return new NotificationMessage(type, this.userService.getUserOutline(srcUserId), content);
     }
 
+    private int setMaxMessageLength(int length) {
+        this.maxMessageLength = length;
+        return length;
+    }
+
+    public int getMaxMessageLength() {
+        return this.maxMessageLength;
+    }
+
     private String contentSummary(String content) {
-        return (content.length() > 25) ? content.substring(0, 21) + " ..." : content;
+        return (content.length() > this.maxMessageLength)
+                ? content.substring(0, this.maxMessageLength - 4) + " ..."
+                : content;
     }
 
     private String contentSummary(Article article) {

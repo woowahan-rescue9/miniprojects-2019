@@ -1,4 +1,4 @@
-package techcourse.fakebook.service.notification;
+package techcourse.fakebook.domain.notification;
 
 import techcourse.fakebook.service.user.dto.UserOutline;
 
