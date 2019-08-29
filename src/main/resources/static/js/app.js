@@ -110,7 +110,7 @@ const App = (() => {
     }
   }
 
-  class ArticleService extends Service {
+  class ArticleService extends Service {ㅅ
     async showNewsfeed() {
       this.show(BASE_URL + "/api/articles")
     }
@@ -459,29 +459,6 @@ const App = (() => {
     showFriends(userId) {
       this.profileService.showFriends(userId)
     }
-  }
-
-  const attachmentModal = document.getElementById("attachment-modal")
-  if (attachmentModal != null) {
-    attachmentModal.addEventListener("click", event => {
-      if (event.target != document.getElementById("attachment")) {
-        attachmentModal.style.display = "none"
-      }
-    })
-  document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
-  document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
-}
-
-  const editProfileButton = document.getElementById("edit-profile")
-  if (editProfileButton != null) {
-    const editProfileModal = document.getElementById("edit-profile-modal")
-    // editProfileModal.addEventListener("click", event => {
-    //   if (event.target != document.getElementById("edit-profile-form")) {
-    //     editProfileModal.style.display = "none"
-    //   }
-    // })
-    editProfileButton.addEventListener("click", () => editProfileModal.style.display = "block")
-    document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
   }
 
   const editImage = document.getElementById('profile-attachment');
