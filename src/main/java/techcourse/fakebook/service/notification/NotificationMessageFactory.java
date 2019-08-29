@@ -20,20 +20,23 @@ public class NotificationMessageFactory {
         return produce(NotificationMessage.Type.FRIEND_REQUEST, srcUserId, null);
     }
 
-    public NotificationMessage comment(long srcUserId, Article srcArticle) {
-        return produce(NotificationMessage.Type.COMMENT, srcUserId, articleSummary(srcArticle));
+    public NotificationMessage comment(long srcUserId, Article destArticle) {
+        return produce(NotificationMessage.Type.COMMENT, srcUserId, contentSummary(destArticle));
     }
 
-    public NotificationMessage like(long srcUserId, Article srcArticle) {
-        return produce(NotificationMessage.Type.LIKE, srcUserId, articleSummary(srcArticle));
+    public NotificationMessage like(long srcUserId, Article destArticle) {
+        return produce(NotificationMessage.Type.LIKE, srcUserId, contentSummary(destArticle));
     }
 
     private NotificationMessage produce(NotificationMessage.Type type, long srcUserId, String content) {
         return new NotificationMessage(type, this.userService.getUserOutline(srcUserId), content);
     }
 
-    private String articleSummary(Article article) {
-        final String content = article.getContent();
-        return (content.length() > 10) ? content.substring(0, 6) + " ..." : content;
+    private String contentSummary(String content) {
+        return (content.length() > 25) ? content.substring(0, 21) + " ..." : content;
+    }
+
+    private String contentSummary(Article article) {
+        return contentSummary(article.getContent());
     }
 }

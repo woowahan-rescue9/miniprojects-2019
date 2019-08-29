@@ -16,7 +16,7 @@ public class NotificationChannel {
 
     @Override
     public String toString() {
-        return this.address;
+        return "{ " + this.address + " } : NotificationChannel";
     }
 
     @Override

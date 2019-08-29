@@ -38,12 +38,12 @@ public class NotificationService {
         return this.notificationMessageFactory.friendRequest(srcUserId);
     }
 
-    public NotificationMessage writeCommentMessageFrom(long srcUserId, Article srcArticle) {
-        return this.notificationMessageFactory.comment(srcUserId, srcArticle);
+    public NotificationMessage writeCommentMessageFrom(long srcUserId, Article destArticle) {
+        return this.notificationMessageFactory.comment(srcUserId, destArticle);
     }
 
-    public NotificationMessage writeLikeMessageFrom(long srcUserId, Article srcArticle) {
-        return this.notificationMessageFactory.like(srcUserId, srcArticle);
+    public NotificationMessage writeLikeMessageFrom(long srcUserId, Article destArticle) {
+        return this.notificationMessageFactory.like(srcUserId, destArticle);
     }
 
     public void closeChannelOf(long userId) {

@@ -10,17 +10,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NotificationChannelRepository {
     private final Map<Long, NotificationChannel> channels = new ConcurrentHashMap<>();
 
-    public NotificationChannel assignTo(long id) {
+    public NotificationChannel assignTo(long userId) {
         final NotificationChannel channel = new NotificationChannel();
-        this.channels.put(id, channel);
+        this.channels.put(userId, channel);
         return channel;
     }
 
-    public Optional<NotificationChannel> retrieveBy(long id) {
-        return Optional.ofNullable(this.channels.get(id));
+    public Optional<NotificationChannel> retrieveBy(long userId) {
+        return Optional.ofNullable(this.channels.get(userId));
     }
 
-    public void resetBy(long id) {
-        this.channels.remove(id);
+    public void resetBy(long userId) {
+        this.channels.remove(userId);
     }
 }
