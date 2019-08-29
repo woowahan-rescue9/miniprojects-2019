@@ -110,7 +110,7 @@ const App = (() => {
     }
   }
 
-  class ArticleService extends Service {
+  class ArticleService extends Service {ㅅ
     async showNewsfeed() {
       this.show(BASE_URL + "/api/articles")
     }
@@ -460,17 +460,6 @@ const App = (() => {
       this.profileService.showFriends(userId)
     }
   }
-
-  const attachmentModal = document.getElementById("attachment-modal")
-  if (attachmentModal != null) {
-    attachmentModal.addEventListener("click", event => {
-      if (event.target != document.getElementById("attachment")) {
-        attachmentModal.style.display = "none"
-      }
-    })
-  document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
-  document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
-}
 
   const editImage = document.getElementById('profile-attachment');
   if(editImage != null) {
