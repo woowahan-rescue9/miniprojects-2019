@@ -472,18 +472,6 @@ const App = (() => {
   document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
 }
 
-  const editProfileButton = document.getElementById("edit-profile")
-  if (editProfileButton != null) {
-    const editProfileModal = document.getElementById("edit-profile-modal")
-    // editProfileModal.addEventListener("click", event => {
-    //   if (event.target != document.getElementById("edit-profile-form")) {
-    //     editProfileModal.style.display = "none"
-    //   }
-    // })
-    editProfileButton.addEventListener("click", () => editProfileModal.style.display = "block")
-    document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
-  }
-
   const editImage = document.getElementById('profile-attachment');
   if(editImage != null) {
     editImage.addEventListener('change', function () {

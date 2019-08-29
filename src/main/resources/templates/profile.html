@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/attachment.css">
-    <link rel="stylesheet" href="/css/profile.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -110,30 +109,38 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
-                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()"><i
+                        <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
+                                onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
-                    <div id="edit-profile-modal">
-                        <div id="profile-modal-content">
-                            <span id="edit-profile-close">&times;</span>
-                            <div id="edit-profile-form">
-                                <h2>프로필 수정</h2>
+                    <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="myModalLabel">프로필 수정</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>사진 수정</h3>
+                                    <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
+                                    <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
 
-                                <h3>사진 수정</h3>
-                                <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
-                                <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
-                                <h3>소개 수정</h3>
-                                <input type="text" id="edit-introduction">
+                                    <h3>소개 수정</h3>
+                                    <input type="text" id="edit-introduction">
 
-                                <h3>이름 수정</h3>
-                                <input type="text" id="edit-name">
+                                    <h3>이름 수정</h3>
+                                    <input type="text" id="edit-name">
 
-                                <h3>비밀번호 수정</h3>
-                                <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
-                                <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
-
-                                <input type="button" id="edit-profile-button" value="수정하기" onclick="javascript:App.editProfile()">
+                                    <h3>비밀번호 수정</h3>
+                                    <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
+                                    <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" id="edit-profile-button" class="btn btn-primary"
+                                            onclick="javascript:App.editProfile()">Save changes</button>
+                                </div>
                             </div>
                         </div>
                     </div>

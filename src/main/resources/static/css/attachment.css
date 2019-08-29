@@ -31,54 +31,36 @@
     cursor: pointer;
 }
 
-#edit-profile-modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-#profile-modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    width: 50%;
-    border-radius: 10px;
-}
-
-#edit-profile-form {
-    width: 95%;
-}
-
-#edit-profile-close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-#edit-profile-form > h2 {
+#edit-profile-modal h2 {
     font-size: 24px;
+    margin-bottom: 10px;
 }
 
-#edit-profile-form > h3 {
+#edit-profile-modal h3 {
     font-size: 20px;
+    margin: 20px 0;
 }
 
-#edit-profile-form > h2, #edit-profile-form > h3 {
-    margin: 20px 0
+.modal-header {
+    border-bottom: #d4deee 1px solid;
 }
 
-#edit-profile-form > input {
+#edit-profile-modal input {
     display: block;
-    width: 90%;
-    border: #ccc 1px solid;
+    width: 99%;
+    border: #d4deee 1px solid;
     border-radius: 5px;
     margin: 5px 0;
-    padding: 5px;
+    padding: 8px;
+}
+
+#edit-profile-modal #profile-image {
+    width: 200px;
+    border-radius: 100%;
+    margin: 8px 0;
+}
+
+#edit-profile-button {
+    background-color: #42b29f;
+    border-color: #42b29f;
 }
