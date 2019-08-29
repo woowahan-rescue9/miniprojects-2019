@@ -26,7 +26,10 @@ public class NotificationService {
 
     public void notifyTo(long destUserId, NotificationMessage message) {
         this.notificationChannelRepository.retrieveBy(destUserId).ifPresent(channel ->
-            this.messenger.convertAndSend(WebSocketConfig.MESSAGE_BROKER_URI + "/" + channel, message)
+            this.messenger.convertAndSend(
+                    WebSocketConfig.MESSAGE_BROKER_URI + "/" + channel.getAddress(),
+                    message
+            )
         );
     }
 

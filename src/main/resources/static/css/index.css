@@ -646,6 +646,10 @@ header ul.nav-right li, header ul.nav-left li {
     color: #0f9aee
 }
 
+.notification {
+  background-color: #35c1bb
+}
+
 footer {
     text-align: center;
     padding: 10px;
