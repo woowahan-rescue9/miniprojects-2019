@@ -381,6 +381,23 @@ const App = (() => {
       const removeFriend = document.getElementById('remove-friend');
       removeFriend.classList.toggle('already-friend');
     }
+
+    async makeFriendAndToggleTarget(friendId, target) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req);
+
+        this.toggleTarget(target);
+      } catch (e) {
+      }
+    }
+
+    toggleTarget(target) {
+      alert(target);
+      target.classList.toggle('already-friend');
+    }
   }
 
   class SearchService {
@@ -485,7 +502,12 @@ const App = (() => {
     }
 
     makeFriend(friendId) {
-      this.friendService.makeFriend(friendId);
+      this.friendService.makeFriend(friendId)
+    }
+
+    makeFriendAndToggleTarget(friendId, target) {
+      alert('called')
+      this.friendService.makeFriendAndToggleTarget(friendId, target)
     }
 
     breakWithFriend(friendId) {
