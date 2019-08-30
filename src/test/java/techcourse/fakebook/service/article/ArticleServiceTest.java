@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,12 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ArticleServiceTest extends ServiceTestHelper {
     @Autowired
     private ArticleService articleService;
-
-    @Test
-    void 게시글들을_잘_불러오는지_확인한다() {
-        List<ArticleResponse> articles = articleService.findAll();
-        assertThat(articles.size()).isGreaterThanOrEqualTo(1);
-    }
 
     @Test
     void 삭제된_게시글을_제외하고_불러오는지_확인한다() {
