@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.notification.assembler.NotificationAssembler;
 import techcourse.fakebook.service.notification.dto.NotificationResponse;
@@ -40,6 +41,7 @@ class NotificationAssemblerTest {
                 new NotificationResponse(
                         NotificationResponse.Type.CHAT,
                         userService.getUserOutline(user.getId()),
+                        null,
                         CHAT_MESSAGE
                 )
         );
@@ -53,6 +55,7 @@ class NotificationAssemblerTest {
                 new NotificationResponse(
                         NotificationResponse.Type.FRIEND_REQUEST,
                         userService.getUserOutline(user.getId()),
+                        null,
                         null
                 )
         );
@@ -61,13 +64,15 @@ class NotificationAssemblerTest {
     @Test
     void 댓글_알림_메세지_25자_이하_글() {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
+        final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
-                notificationAssembler.comment(user.getId(), ARTICLE)
+                notificationAssembler.comment(user.getId(), ARTICLE, COMMENT)
         ).isEqualTo(
                 new NotificationResponse(
                         NotificationResponse.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE.getContent()
+                        ARTICLE.getContent(),
+                        COMMENT.getContent()
                 )
         );
     }
@@ -75,16 +80,18 @@ class NotificationAssemblerTest {
     @Test
     void 댓글_알림_메세지_25자_초과_글() {
         final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
+        final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
-                notificationAssembler.comment(user.getId(), ARTICLE)
+                notificationAssembler.comment(user.getId(), ARTICLE, COMMENT)
         ).isEqualTo(
                 new NotificationResponse(
                         NotificationResponse.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent().substring(
                                 0,
-                                notificationAssembler.getMaxMessageLength() - 4
-                        ) + " ..."
+                                notificationAssembler.getMaxSummaryLength() - 4
+                        ) + " ...",
+                        COMMENT.getContent()
                 )
         );
     }
@@ -98,7 +105,8 @@ class NotificationAssemblerTest {
                 new NotificationResponse(
                         NotificationResponse.Type.LIKE,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE.getContent()
+                        ARTICLE.getContent(),
+                        null
                 )
         );
     }
@@ -114,8 +122,9 @@ class NotificationAssemblerTest {
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent().substring(
                                 0,
-                                notificationAssembler.getMaxMessageLength() - 4
-                        ) + " ..."
+                                notificationAssembler.getMaxSummaryLength() - 4
+                        ) + " ...",
+                        null
                 )
         );
     }

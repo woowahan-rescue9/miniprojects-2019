@@ -21,7 +21,7 @@ const notification = (() => {
           case "FRIEND_REQUEST":
             return "과 친구가 되었습니다."
           case "COMMENT":
-            return "이 '" + message.content + "' 글에 댓글을 남겼습니다."
+            return "이 '" + message.srcSummary + "' 글에 댓글을 남겼습니다 : " + message.content;
           case "LIKE":
             return "이 '" + message.content + "' 글에 좋아요를 눌렀습니다."
           default:
@@ -52,6 +52,7 @@ const notification = (() => {
 
     connect(channelAddress) {
       this.stompClient = Stomp.over(new SockJS(WEB_SOCKET_URI))
+      this.stompClient.debug = () => {}
       this.stompClient.connect(
         {},
         frame => this.stompClient.subscribe(MESSAGE_BROKER_URI + "/" + channelAddress, message => this.dispatch(JSON.parse(message.body)))

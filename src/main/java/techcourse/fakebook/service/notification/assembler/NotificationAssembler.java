@@ -2,12 +2,13 @@ package techcourse.fakebook.service.notification.assembler;
 
 import org.springframework.stereotype.Component;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.service.notification.dto.NotificationResponse;
 import techcourse.fakebook.service.user.UserService;
 
 @Component
 public class NotificationAssembler {
-    private int maxMessageLength = 25;
+    private int maxSummaryLength = 15;
     private final UserService userService;
 
     public NotificationAssembler(UserService userService) {
@@ -15,41 +16,46 @@ public class NotificationAssembler {
     }
 
     public NotificationResponse chat(long srcUserId, String content) {
-        return produce(NotificationResponse.Type.CHAT, srcUserId, content);
+        return toResponse(NotificationResponse.Type.CHAT, srcUserId, null, content);
     }
 
     public NotificationResponse friendRequest(long srcUserId) {
-        return produce(NotificationResponse.Type.FRIEND_REQUEST, srcUserId, null);
+        return toResponse(NotificationResponse.Type.FRIEND_REQUEST, srcUserId, null, null);
     }
 
-    public NotificationResponse comment(long srcUserId, Article destArticle) {
-        return produce(NotificationResponse.Type.COMMENT, srcUserId, contentSummary(destArticle));
+    public NotificationResponse comment(long srcUserId, Article destArticle, Comment comment) {
+        return toResponse(NotificationResponse.Type.COMMENT, srcUserId, summarize(destArticle), comment.getContent());
     }
 
     public NotificationResponse like(long srcUserId, Article destArticle) {
-        return produce(NotificationResponse.Type.LIKE, srcUserId, contentSummary(destArticle));
+        return toResponse(NotificationResponse.Type.LIKE, srcUserId, summarize(destArticle), null);
     }
 
-    private NotificationResponse produce(NotificationResponse.Type type, long srcUserId, String content) {
-        return new NotificationResponse(type, this.userService.getUserOutline(srcUserId), content);
+    private NotificationResponse toResponse(
+            NotificationResponse.Type type,
+            long srcUserId,
+            String srcSummary,
+            String content
+    ) {
+        return new NotificationResponse(type, this.userService.getUserOutline(srcUserId), srcSummary, content);
     }
 
-    private int setMaxMessageLength(int length) {
-        this.maxMessageLength = length;
+    public int getMaxSummaryLength() {
+        return this.maxSummaryLength;
+    }
+
+    public int setMaxSummaryLength(int length) {
+        this.maxSummaryLength = length;
         return length;
     }
 
-    public int getMaxMessageLength() {
-        return this.maxMessageLength;
-    }
-
-    private String contentSummary(String content) {
-        return (content.length() > this.maxMessageLength)
-                ? content.substring(0, this.maxMessageLength - 4) + " ..."
+    private String summarize(String content) {
+        return (content.length() > this.maxSummaryLength)
+                ? content.substring(0, this.maxSummaryLength - 4) + " ..."
                 : content;
     }
 
-    private String contentSummary(Article article) {
-        return contentSummary(article.getContent());
+    private String summarize(Article article) {
+        return summarize(article.getContent());
     }
 }

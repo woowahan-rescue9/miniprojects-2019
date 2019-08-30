@@ -16,11 +16,13 @@ public class NotificationResponse {
 
     private final Type type;
     private final UserOutline srcUser;
+    private final String srcSummary;
     private final String content;
 
-    public NotificationResponse(Type type, UserOutline srcUser, String content) {
+    public NotificationResponse(Type type, UserOutline srcUser, String srcSummary, String content) {
         this.type = type;
         this.srcUser = srcUser;
+        this.srcSummary = srcSummary;
         this.content = content;
     }
 
@@ -32,6 +34,10 @@ public class NotificationResponse {
         return this.srcUser;
     }
 
+    public String getSrcSummary() {
+        return this.srcSummary;
+    }
+
     public String getContent() {
         return this.content;
     }
@@ -40,8 +46,9 @@ public class NotificationResponse {
     public String toString() {
         return "{ " +
                     "type: " + this.type + ", " +
-                    "sourceId: " + this.srcUser + ", " +
-                    " content: " + this.content +
+                    "srcId: " + this.srcUser + ", " +
+                    "srcSummary: " + this.srcSummary + ", " +
+                    "content: " + this.content +
                 " } : NotificationResponse";
     }
 
@@ -56,11 +63,12 @@ public class NotificationResponse {
         final NotificationResponse rhs = (NotificationResponse) o;
         return this.type == rhs.type &&
                 Objects.equals(this.srcUser, rhs.srcUser) &&
+                Objects.equals(this.srcSummary, rhs.srcSummary) &&
                 Objects.equals(this.content, rhs.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.type, this.srcUser, this.content);
+        return Objects.hash(this.type, this.srcUser, this.srcSummary, this.content);
     }
 }

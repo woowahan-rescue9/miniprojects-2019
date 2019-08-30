@@ -3,6 +3,7 @@ package techcourse.fakebook.service.notification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
+import techcourse.fakebook.domain.comment.Comment;
 import techcourse.fakebook.service.notification.assembler.NotificationAssembler;
 import techcourse.fakebook.service.notification.dto.NotificationResponse;
 
@@ -34,8 +35,8 @@ public class NotificationService {
         notifyTo(destUserId, this.notificationAssembler.friendRequest(srcUserId));
     }
 
-    public void commentFromTo(long srcUserId, Article destArticle) {
-        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.comment(srcUserId, destArticle));
+    public void commentFromTo(long srcUserId, Article destArticle, Comment comment) {
+        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.comment(srcUserId, destArticle, comment));
     }
 
     public void likeFromTo(long srcUserId, Article destArticle) {
