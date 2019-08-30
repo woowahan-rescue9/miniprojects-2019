@@ -2,6 +2,7 @@ package techcourse.fakebook.service.chat;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.chat.Chat;
 import techcourse.fakebook.domain.chat.ChatRepository;
 import techcourse.fakebook.domain.user.User;
@@ -29,14 +30,16 @@ public class ChatService {
         this.messanger = messanger;
     }
 
+    @Transactional
     public List<ChatResponse> findByFromUserAndToUser(UserOutline userOutline, Long toUserId) {
-        User fromUser = userService.getUser(userOutline.getId());
-        User toUser = userService.getUser(toUserId);
+        chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
         List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
-        return chats
-                .stream()
-                .map(chat -> chatAssembler.toChatResponse(chat))
+        List<ChatResponse> chatResponses =
+                chats.stream()
+                .map(chatAssembler::toChatResponse)
                 .collect(Collectors.toList());
+        messanger.convertAndSend(("/api/chatting"), chatResponses);
+        return chatResponses;
     }
 
     public ChatResponse save(UserOutline userOutline, ChatRequest chatRequest) {
@@ -50,6 +53,5 @@ public class ChatService {
                 , findByFromUserAndToUser(userOutline, chatRequest.getUserId()));
 
         return chatAssembler.toChatResponse(savedChat);
-
     }
 }

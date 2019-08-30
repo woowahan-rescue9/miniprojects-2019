@@ -10,11 +10,27 @@ async function connect() {
         let json = JSON.parse(messages.body);
 
         if(json[0].userId == toUserId || json[0].userId == fromUserId){
+//            document.getElementById("messagearea").innerHTML="";
+//            for (let i = 0; i < json.length; i++) {
+//                let pos = !(json[i].userId == fromUserId);
+//                let read = (json[i].read) ? "" : "1";
+//                jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
+//            }
+        fetch(BASE_URL + "/api/chats/" + toUserId, {
+                              method : "GET",
+                              headers: {
+                                 "Accept": "application/json"
+                              }
+              })
+       .then(response => response.json())
+       .then(json => {
             document.getElementById("messagearea").innerHTML="";
             for (let i = 0; i < json.length; i++) {
-                let pos = !(json[i].userId == fromUserId);
-                jstalktheme_addmsg(pos, json[i].userName, 1, json[i].content);
+                  let pos = !(json[i].userId == fromUserId);
+                  let read = (json[i].read) ? "" : "1";
+                  jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
             }
+       });
         }
     });
   });
@@ -46,8 +62,8 @@ btn.onclick = function() {
         document.getElementById("messagearea").innerHTML="";
         for (let i = 0; i < json.length; i++) {
             let pos = !(json[i].userId == fromUserId);
-
-            jstalktheme_addmsg(pos, json[i].userName, 1, json[i].content);
+            let read = (json[i].read) ? "" : "1";
+            jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
         }
     });
     modal.style.display = "block";
@@ -101,11 +117,12 @@ const sendMessage = function sendMessage() {
               })
        .then(response => response.json())
        .then(json => {
-        document.getElementById("messagearea").innerHTML="";
-        for (let i = 0; i < json.length; i++) {
-          let pos = !(json[i].userId == fromUserId);
-          jstalktheme_addmsg(pos, json[i].userName, 1, json[i].content);
-        }
+            document.getElementById("messagearea").innerHTML="";
+            for (let i = 0; i < json.length; i++) {
+                  let pos = !(json[i].userId == fromUserId);
+                  let read = (json[i].read) ? "" : "1";
+                  jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
+            }
        });
        });
 })
@@ -121,10 +138,10 @@ function jstalktheme_addmsg(type, name, time, msg)
 
     if(type)
     {
-        let profileimg = document.getElementById('profileimg');
+        let imgsrc = document.getElementById('profileimg').src;
         onewmsg.className="othertalk";
         onewmsg.innerHTML =
-        profileimg.outerHTML +
+        "<div class=\"profile_image\" style=\"background: url(" + imgsrc + ") no-repeat; background-size: cover;\">\n"+
         "</div>\n"+
         "<div class=\"box\">\n"+
         "<div class=\"profile_name\">\n"+
