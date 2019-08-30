@@ -23,7 +23,7 @@ const notification = (() => {
           case "COMMENT":
             return "이 '" + message.srcSummary + "' 글에 댓글을 남겼습니다 : " + message.content;
           case "LIKE":
-            return "이 '" + message.content + "' 글에 좋아요를 눌렀습니다."
+            return "이 '" + message.srcSummary + "' 글에 좋아요를 눌렀습니다."
           default:
         }
       })()
