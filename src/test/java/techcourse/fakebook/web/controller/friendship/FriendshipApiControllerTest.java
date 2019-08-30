@@ -55,7 +55,6 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     void 친구_전부_불러오기() {
         int friendIndex = 3;
         Long friendId = userIds.get(friendIndex);
-        FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
 
         // 친구 요청
         친구_요청(friendIndex);
@@ -63,14 +62,13 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         // 친구 불러오기
         given().
                 port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 sessionId(sessionId).
         when().
                 get("/api/friendships/" + loginedUserId).
         then().
                 statusCode(HttpStatus.OK.value()).
                 body("size", greaterThanOrEqualTo(1)).
-                body("id", hasItem((int) (long) friendId));
+                body("id", hasItem(friendId));
     }
 
     @Test
