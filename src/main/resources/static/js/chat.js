@@ -4,19 +4,14 @@ async function connect() {
 
   stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
+
     stompClient.subscribe('/api/chatting', function (messages) {
         const fromUserId = document.getElementById('user-id').value;
         const toUserId = document.getElementById('friend-id').value;
         let json = JSON.parse(messages.body);
 
         if(json[0].userId == toUserId || json[0].userId == fromUserId){
-//            document.getElementById("messagearea").innerHTML="";
-//            for (let i = 0; i < json.length; i++) {
-//                let pos = !(json[i].userId == fromUserId);
-//                let read = (json[i].read) ? "" : "1";
-//                jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
-//            }
-        fetch(BASE_URL + "/api/chats/" + toUserId, {
+        fetch(BASE_URL + "/api/chats/" + toUserId + "?first=" + false, {
                               method : "GET",
                               headers: {
                                  "Accept": "application/json"
@@ -33,25 +28,26 @@ async function connect() {
        });
         }
     });
+
   });
 }
 
 // Get the modal
-var modal = document.getElementById('myModal');
+let modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+let btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal
 btn.onclick = function() {
-    connect();
+    modal.style.display = "block";
     const fromUserId = document.getElementById('user-id').value;
     const toUserId = document.getElementById('friend-id').value;
 
-    fetch(BASE_URL + "/api/chats/" + toUserId, {
+    fetch(BASE_URL + "/api/chats/" + toUserId + "?first=" + true, {
         method : "GET",
         headers: {
             "Accept": "application/json"
@@ -66,7 +62,7 @@ btn.onclick = function() {
             jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
         }
     });
-    modal.style.display = "block";
+    connect();
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -109,7 +105,7 @@ const sendMessage = function sendMessage() {
                },
                body: JSON.stringify(chatRequest)
        }).then(response => {
-        fetch(BASE_URL + "/api/chats/" + toUserId, {
+        fetch(BASE_URL + "/api/chats/" + toUserId + "?first=" + true, {
                               method : "GET",
                               headers: {
                                  "Accept": "application/json"
@@ -124,6 +120,23 @@ const sendMessage = function sendMessage() {
                   jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
             }
        });
+       }).
+       then(response => {setTimeout(function(){
+         fetch(BASE_URL + "/api/chats/" + toUserId + "?first=" + true, {
+                               method : "GET",
+                               headers: {
+                                  "Accept": "application/json"
+                               }
+               })
+        .then(response => response.json())
+        .then(json => {
+             document.getElementById("messagearea").innerHTML="";
+             for (let i = 0; i < json.length; i++) {
+                   let pos = !(json[i].userId == fromUserId);
+                   let read = (json[i].read) ? "" : "1";
+                   jstalktheme_addmsg(pos, json[i].userName, read, json[i].content);
+             }
+        });}, 100);
        });
 })
 }();
@@ -186,12 +199,12 @@ function jstalktheme_addmsg(type, name, time, msg)
 
 function jstalktheme_testfunc()
 {
-	var otxtmsg = document.getElementById("jstalktheme_testmsg");
+	let otxtmsg = document.getElementById("jstalktheme_testmsg");
 
-	var d = new Date();
-	var ampm = (d.getHours()>12 ?  "PM" : "AM");
-	var h = (d.getHours()>12 ? d.getHours()-12 : d.getHours());
-	var m = d.getMinutes();
+	let d = new Date();
+	let ampm = (d.getHours()>12 ?  "PM" : "AM");
+	let h = (d.getHours()>12 ? d.getHours()-12 : d.getHours());
+	let m = d.getMinutes();
 
 	test_type ^= 0x01;
 	jstalktheme_addmsg(test_type, "아무개", ampm+" "+h+":"+m, otxtmsg.value.replace("\n","<br />\n"));

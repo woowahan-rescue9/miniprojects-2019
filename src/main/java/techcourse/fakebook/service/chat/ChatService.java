@@ -1,5 +1,7 @@
 package techcourse.fakebook.service.chat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ public class ChatService {
     private final UserService userService;
     private final SimpMessagingTemplate messanger;
 
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
+
+
     public ChatService(ChatRepository chatRepository, ChatAssembler chatAssembler, UserService userService, SimpMessagingTemplate messanger) {
         this.chatRepository = chatRepository;
         this.chatAssembler = chatAssembler;
@@ -30,26 +35,29 @@ public class ChatService {
     }
 
     @Transactional
-    public List<ChatResponse> findByFromUserAndToUser(UserOutline userOutline, Long toUserId) {
+    public List<ChatResponse> findByFromUserAndToUser(Boolean first, UserOutline userOutline, Long toUserId) {
+        log.debug("begin");
+
         chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
         List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
         List<ChatResponse> chatResponses =
                 chats.stream()
-                .map(chatAssembler::toChatResponse)
-                .collect(Collectors.toList());
-        messanger.convertAndSend(("/api/chatting"), chatResponses);
+                        .map(chatAssembler::toChatResponse)
+                        .collect(Collectors.toList());
+        if(first){
+            messanger.convertAndSend(("/api/chatting"), chatResponses);
+        }
         return chatResponses;
     }
 
     public ChatResponse save(UserOutline userOutline, ChatRequest chatRequest) {
+        log.debug("begin");
+
         User fromUser = userService.getUser(userOutline.getId());
         User toUser = userService.getUser(chatRequest.getUserId());
         Chat chat = chatAssembler.toEntity(chatRequest, fromUser, toUser);
 
         Chat savedChat = chatRepository.save(chat);
-
-        messanger.convertAndSend(("/api/chatting")
-                , findByFromUserAndToUser(userOutline, chatRequest.getUserId()));
 
         return chatAssembler.toChatResponse(savedChat);
     }
