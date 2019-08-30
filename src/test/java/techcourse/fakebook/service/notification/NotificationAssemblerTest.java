@@ -66,7 +66,7 @@ class NotificationAssemblerTest {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
-                notificationAssembler.comment(user.getId(), ARTICLE, COMMENT)
+                notificationAssembler.comment(COMMENT, user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationResponse(
                         NotificationResponse.Type.COMMENT,
@@ -82,7 +82,7 @@ class NotificationAssemblerTest {
         final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
         final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
-                notificationAssembler.comment(user.getId(), ARTICLE, COMMENT)
+                notificationAssembler.comment(COMMENT, user.getId(), ARTICLE)
         ).isEqualTo(
                 new NotificationResponse(
                         NotificationResponse.Type.COMMENT,

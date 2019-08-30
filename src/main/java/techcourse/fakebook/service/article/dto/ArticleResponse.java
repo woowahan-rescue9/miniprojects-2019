@@ -9,24 +9,24 @@ import java.util.List;
 public class ArticleResponse {
     private Long id;
     private String content;
-    private LocalDateTime recentDate;
+    private LocalDateTime createdDate;
     private UserOutline userOutline;
     private List<AttachmentResponse> attachments;
 
     private ArticleResponse() {
     }
 
-    public ArticleResponse(Long id, String content, LocalDateTime recentDate, UserOutline userOutline) {
+    public ArticleResponse(Long id, String content, LocalDateTime createdDate, UserOutline userOutline) {
         this.id = id;
         this.content = content;
-        this.recentDate = recentDate;
+        this.createdDate = createdDate;
         this.userOutline = userOutline;
     }
 
-    public ArticleResponse(Long id, String content, LocalDateTime recentDate, UserOutline userOutline, List<AttachmentResponse> attachments) {
+    public ArticleResponse(Long id, String content, LocalDateTime createdDate, UserOutline userOutline, List<AttachmentResponse> attachments) {
         this.id = id;
         this.content = content;
-        this.recentDate = recentDate;
+        this.createdDate = createdDate;
         this.userOutline = userOutline;
         this.attachments = attachments;
     }
@@ -39,8 +39,8 @@ public class ArticleResponse {
         return content;
     }
 
-    public LocalDateTime getRecentDate() {
-        return recentDate;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
     public UserOutline getUserOutline() {
@@ -59,8 +59,8 @@ public class ArticleResponse {
         this.content = content;
     }
 
-    public void setRecentDate(LocalDateTime recentDate) {
-        this.recentDate = recentDate;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public void setUserOutline(UserOutline userOutline) {

@@ -35,8 +35,8 @@ public class NotificationService {
         notifyTo(destUserId, this.notificationAssembler.friendRequest(srcUserId));
     }
 
-    public void commentFromTo(long srcUserId, Article destArticle, Comment comment) {
-        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.comment(srcUserId, destArticle, comment));
+    public void commentFromTo(Comment comment, long srcUserId, Article destArticle) {
+        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.comment(comment, srcUserId, destArticle));
     }
 
     public void likeFromTo(long srcUserId, Article destArticle) {

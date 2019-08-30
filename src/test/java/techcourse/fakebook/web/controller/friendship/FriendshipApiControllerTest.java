@@ -68,7 +68,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         then().
                 statusCode(HttpStatus.OK.value()).
                 body("size", greaterThanOrEqualTo(1)).
-                body("id", hasItem(friendId));
+                body("id", hasItem((int) (long) friendId));
     }
 
     @Test

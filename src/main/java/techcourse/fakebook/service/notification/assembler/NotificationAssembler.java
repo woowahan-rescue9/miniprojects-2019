@@ -23,7 +23,7 @@ public class NotificationAssembler {
         return toResponse(NotificationResponse.Type.FRIEND_REQUEST, srcUserId, null, null);
     }
 
-    public NotificationResponse comment(long srcUserId, Article destArticle, Comment comment) {
+    public NotificationResponse comment(Comment comment, long srcUserId, Article destArticle) {
         return toResponse(NotificationResponse.Type.COMMENT, srcUserId, summarize(destArticle), comment.getContent());
     }
 

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: local
 
 ---
 
@@ -41,3 +41,4 @@ cloud:
 logging:
   level:
     root: INFO
+    techcource: DEBUG

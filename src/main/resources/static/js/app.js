@@ -128,7 +128,7 @@ const App = (() => {
             templates.articleTemplate({
               "id": article.articleResponse.id,
               "content": article.articleResponse.content,
-              "date": super.formatDate(article.articleResponse.recentDate),
+              "date": super.formatDate(article.articleResponse.createdDate),
               "user": article.articleResponse.userOutline,
               "images": article.articleResponse.attachments,
               "countOfComment": article.countOfComment,
@@ -165,7 +165,7 @@ const App = (() => {
               templates.articleTemplate({
                 "id": article.id,
                 "content": article.content,
-                "date": super.formatDate(article.recentDate),
+                "date": super.formatDate(article.createdDate),
                 "user": article.userOutline,
                 "images": article.attachments,
                 "countOfComment": 0,
@@ -200,7 +200,7 @@ const App = (() => {
           const editedArticle = (await axios.put(BASE_URL + "/api/articles/" + id, {
             "content": editedContent
           })).data
-          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.recentDate)
+          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.createdDate)
           contentArea.innerHTML = ""
           contentArea.insertAdjacentHTML("afterbegin", "<span> " + templates.escapeHtml(editedArticle.content) + " </span>")
         } catch (e) {
@@ -243,7 +243,26 @@ const App = (() => {
               "user": comment.userOutline
             })
         )
+          this.checkLike(comment.id)
       })
+    }
+
+    async checkLike(commentId) {
+        const countOfLike = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like/count")).data
+        if (countOfLike >= 1) {
+            document.getElementById("comment-item-" + commentId).insertAdjacentHTML(
+                "beforeend",
+                templates.commentLikeTemplate({
+                    "id": commentId
+                })
+            )
+            document.getElementById("count-of-comment-like-" + commentId).innerText = " " + countOfLike
+        }
+
+        const isLiked = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like")).status
+        if (isLiked === 200) {
+            document.getElementById("comment-like-" + commentId).classList.toggle('liked')
+        }
     }
 
     async write(event, id) {
@@ -278,6 +297,33 @@ const App = (() => {
         document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
       } catch (e) {
       }
+    }
+
+    async like(id) {
+        try {
+            let countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+            if (countOfLike === 0) {
+                document.getElementById("comment-item-" + id).insertAdjacentHTML(
+                    "beforeend",
+                    templates.commentLikeTemplate({
+                        "id": id
+                    })
+                )
+            }
+
+            await axios.post(BASE_URL + "/api/comments/" + id + "/like")
+            countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+
+            if (countOfLike === 0) {
+                document.getElementById("comment-like-" + id).remove()
+            }
+
+            if (countOfLike >= 1) {
+                document.getElementById("count-of-comment-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+                document.getElementById("comment-like-" + id).classList.toggle('liked')
+            }
+        } catch (e) {
+        }
     }
   }
 
@@ -334,6 +380,22 @@ const App = (() => {
 
       const removeFriend = document.getElementById('remove-friend');
       removeFriend.classList.toggle('already-friend');
+    }
+
+    async makeFriendAndToggleTarget(friendId, target) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req);
+
+        this.toggleTarget(target);
+      } catch (e) {
+      }
+    }
+
+    toggleTarget(target) {
+      target.classList.toggle('already-friend');
     }
   }
 
@@ -434,8 +496,16 @@ const App = (() => {
       this.commentService.remove(id)
     }
 
+    likeComment(id) {
+      this.commentService.like(id)
+    }
+
     makeFriend(friendId) {
-      this.friendService.makeFriend(friendId);
+      this.friendService.makeFriend(friendId)
+    }
+
+    makeFriendAndToggleTarget(friendId, target) {
+      this.friendService.makeFriendAndToggleTarget(friendId, target)
     }
 
     breakWithFriend(friendId) {
