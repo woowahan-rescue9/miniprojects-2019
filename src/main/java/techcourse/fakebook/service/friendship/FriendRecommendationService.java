@@ -8,9 +8,10 @@ import techcourse.fakebook.service.friendship.dto.FriendRecommendation;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class FriendRecommendationService {
@@ -36,20 +37,25 @@ public class FriendRecommendationService {
         log.debug("candidates: {}", friendCandidates);
 
         List<FriendCandidate> rankedFriendCandidates = friendRankingStrategy.rank(userId, friendCandidates);
-        List<Long> rankedIndirectFriendIds = rankedFriendCandidates.stream()
-                .mapToLong(FriendCandidate::getFriendId)
-                .boxed()
-                .collect(Collectors.toList());
-        List<UserOutline> userOutlines = userService.findFriends(rankedIndirectFriendIds);
 
-        return IntStream.range(0, userOutlines.size())
-                .mapToObj(i -> newFriendRecommendation(rankedFriendCandidates, userOutlines, i))
+        Map<Long, UserOutline> userOutlines = initUserOutlines(rankedFriendCandidates);
+
+        return rankedFriendCandidates.stream()
+                .filter(candidate -> userOutlines.containsKey(candidate.getFriendId()))
+                .map(candidate -> new FriendRecommendation(userOutlines.get(candidate.getFriendId()), candidate.getMutualFriendIds()))
                 .collect(Collectors.toList());
     }
 
-    private FriendRecommendation newFriendRecommendation(List<FriendCandidate> rankedFriendCandidates, List<UserOutline> userOutlines, int idx) {
-        UserOutline userOutline = userOutlines.get(idx);
-        FriendCandidate friendCandidate  = rankedFriendCandidates.get(idx);
-        return new FriendRecommendation(userOutline, friendCandidate.getMutualFriendIds());
+    public Map<Long, UserOutline> initUserOutlines(List<FriendCandidate> rankedFriendCandidates) {
+        List<Long> candidateIds = rankedFriendCandidates.stream()
+                .map(candidate -> candidate.getFriendId())
+                .collect(Collectors.toList());
+
+        Map<Long, UserOutline> userOutlines = new HashMap<>();
+        for (UserOutline outline : userService.findFriends(candidateIds)) {
+            userOutlines.put(outline.getId(), outline);
+        }
+
+        return userOutlines;
     }
 }

@@ -63,7 +63,7 @@
             <ul class="nav-right">
                 <li th:if="${session.user}" th:object="${session.user}" class="user-profile">
                     <a th:href="'/users/' + *{id}">
-                        <img class="profile-img img-fluid" th:src="'/images/profile/' + *{coverUrl}" alt="프로필 사진">
+                        <img class="profile-img img-fluid" th:src="*{profileImage.path}" alt="프로필 사진">
                         <div class="user-info mrg-left-5">
                             <span class="name pdd-right-5 text-white text-bold" th:text="*{name}"></span>
                         </div>
@@ -95,26 +95,6 @@
 
                     <span class="border bottom width-100 pdd-btm-5 text-bold"> 알수도 있는 사람 </span>
 
-                    <!-- class 만들기 -->
-                    <!--<div class="feed-header">-->
-                    <!--<ul class="list-unstyled list-info">-->
-                    <!--<li th:each="friendCandidate : ${friendCandidates}">-->
-                    <!--<div>-->
-                    <!--<img class="thumb-img img-circle"-->
-                    <!--th:src="'/images/profile/' + ${friendCandidate.friendOutline.coverUrl}">-->
-                    <!--<div class="info">-->
-                    <!--<a th:href="'/users/' + ${friendCandidate.friendOutline.id}"-->
-                    <!--class="title no-pdd-vertical text-semibold inline-block"-->
-                    <!--th:text="${friendCandidate.friendOutline.name}"></a>-->
-                    <!--<span>님이 게시물을 작성하였습니다.</span>-->
-                    <!--<span th:if="${#lists.size(friendCandidate.mutualFriendIds)} != 0"-->
-                    <!--th:text="'함께 알 수도 있는 친구 ' + ${#lists.size(friendCandidate.mutualFriendIds)} + '명'"-->
-                    <!--class="sub-title"> </span>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</li>-->
-                    <!--</ul>-->
-                    <!--</div>-->
                     <ul>
                         <li th:each="friendCandidate : ${friendCandidates}" class="friend-browser-list-unit border bottom">
                             <div class="container">
