@@ -58,15 +58,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
 
         // 친구 요청
-        given().
-                port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
-                sessionId(sessionId).
-                body(friendshipRequest).
-        when().
-                post("/api/friendships").
-        then().
-                statusCode(HttpStatus.OK.value());
+        친구_요청(friendIndex);
 
         // 친구 불러오기
         given().
