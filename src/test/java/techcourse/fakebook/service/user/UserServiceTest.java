@@ -1,10 +1,8 @@
 package techcourse.fakebook.service.user;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.domain.user.UserRepository;
@@ -12,7 +10,9 @@ import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.ServiceTestHelper;
 import techcourse.fakebook.service.attachment.AttachmentService;
 import techcourse.fakebook.service.user.assembler.UserAssembler;
-import techcourse.fakebook.service.user.dto.*;
+import techcourse.fakebook.service.user.dto.UserResponse;
+import techcourse.fakebook.service.user.dto.UserSignupRequest;
+import techcourse.fakebook.service.user.dto.UserUpdateRequest;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.Arrays;
@@ -25,7 +25,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(SpringExtension.class)
 class UserServiceTest extends ServiceTestHelper {
     @InjectMocks
     private UserService userService;
