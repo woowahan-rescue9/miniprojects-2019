@@ -38,6 +38,8 @@ public class FriendRecommendationService {
 
         List<FriendCandidate> rankedFriendCandidates = friendRankingStrategy.rank(userId, friendCandidates);
 
+        log.debug("ranked candidates: {}", rankedFriendCandidates);
+
         Map<Long, UserOutline> userOutlines = initUserOutlines(rankedFriendCandidates);
 
         return rankedFriendCandidates.stream()
@@ -46,7 +48,7 @@ public class FriendRecommendationService {
                 .collect(Collectors.toList());
     }
 
-    public Map<Long, UserOutline> initUserOutlines(List<FriendCandidate> rankedFriendCandidates) {
+    private Map<Long, UserOutline> initUserOutlines(List<FriendCandidate> rankedFriendCandidates) {
         List<Long> candidateIds = rankedFriendCandidates.stream()
                 .map(candidate -> candidate.getFriendId())
                 .collect(Collectors.toList());

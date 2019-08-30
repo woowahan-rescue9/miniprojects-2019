@@ -98,8 +98,8 @@
                     <ul>
                         <li th:each="friendCandidate : ${friendCandidates}" class="friend-browser-list-unit border bottom">
                             <div class="container">
-                                <img class="thumb-img img-circle" src="/images/profile/default.png">
-                                <!--<img class="thumb-img img-circle" th:src="'/images/profile/' + ${friendCandidate.friendOutline.coverUrl}">-->
+                                <!--<img class="thumb-img img-circle" src="/images/profile/default.png">-->
+                                <img class="thumb-img img-circle" th:src="${friendCandidate.friendOutline.profileImage.path}">
                                 <div class="content">
                                     <a th:href="'/users/' + ${friendCandidate.friendOutline.id}" class="title no-pdd-vertical text-semibold inline-block" th:text="${friendCandidate.friendOutline.name}"></a>
                                     <div th:if="${#lists.size(friendCandidate.mutualFriendIds)} != 0" class="sub-title" >

@@ -9,7 +9,6 @@ import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.exception.NotMatchPasswordException;
-import techcourse.fakebook.service.ServiceTestHelper;
 import techcourse.fakebook.service.attachment.AttachmentService;
 import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 import techcourse.fakebook.service.user.dto.LoginRequest;
@@ -70,7 +69,7 @@ class LoginServiceTest {
                 .willReturn(Optional.of(user));
         given(encryptor.matches(loginRequest.getPassword(), user.getEncryptedPassword()))
                 .willReturn(true);
-        UserOutline expectedUserOutline = new UserOutline(1l, "name", new AttachmentResponse("a","a"));
+        UserOutline expectedUserOutline = new UserOutline(1l, "name", new AttachmentResponse("a", "a"));
         given(user.getId()).willReturn(expectedUserOutline.getId());
         given(user.getName()).willReturn(expectedUserOutline.getName());
         given(attachmentService.getAttachmentResponse(user.getProfileImage())).willReturn(expectedUserOutline.getProfileImage());

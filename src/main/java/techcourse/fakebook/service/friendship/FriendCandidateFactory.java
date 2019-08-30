@@ -21,14 +21,18 @@ public class FriendCandidateFactory {
         this.friendshipService = friendshipService;
     }
 
+    // TODO: 이름을 좀 더 명확하게
     public List<FriendCandidate> createCandidates(Long userId) {
         Set<FriendCandidate> candidates = new HashSet<>(indirectFriendService.retrieve(userId));
+        Set<Long> candidateIds = candidates.stream()
+                .map(FriendCandidate::getFriendId)
+                .collect(Collectors.toSet());
         Set<Long> friendIds = new HashSet<>(friendshipService.findFriendIds(userId));
 
         List<Long> candidateIdsForAdd = visitorTrackingService.currentCounter(userId).keySet().stream()
                 .filter(visitorId -> !visitorId.equals(userId))
                 .filter(visitorId -> !friendIds.contains(visitorId))
-                .filter(visitorId -> !candidates.contains(visitorId))
+                .filter(visitorId -> !candidateIds.contains(visitorId))
                 .collect(Collectors.toList());
         for (Long candidateIdForAdd : candidateIdsForAdd) {
             candidates.add(FriendCandidate.withNoMutualFriends(userId, candidateIdForAdd));

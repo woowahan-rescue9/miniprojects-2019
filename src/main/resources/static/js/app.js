@@ -395,7 +395,6 @@ const App = (() => {
     }
 
     toggleTarget(target) {
-      alert(target);
       target.classList.toggle('already-friend');
     }
   }
@@ -506,7 +505,6 @@ const App = (() => {
     }
 
     makeFriendAndToggleTarget(friendId, target) {
-      alert('called')
       this.friendService.makeFriendAndToggleTarget(friendId, target)
     }
 

@@ -1,14 +1,13 @@
 package techcourse.fakebook.domain.friendship;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class FriendCandidate {
-    private Long userId;
-    private Long friendId;
-    private Set<Long> mutualFriendIds;
+    private final Long userId;
+    private final Long friendId;
+    private final Set<Long> mutualFriendIds;
 
     public FriendCandidate(Long userId, Long friendId, Set<Long> mutualFriendIds) {
         this.userId = userId;

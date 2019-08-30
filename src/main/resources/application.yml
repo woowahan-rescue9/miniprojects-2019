@@ -41,3 +41,4 @@ cloud:
 logging:
   level:
     root: INFO
+    techcource: DEBUG
