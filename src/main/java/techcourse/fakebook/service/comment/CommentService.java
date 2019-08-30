@@ -59,10 +59,7 @@ public class CommentService {
         Article article = articleService.getArticle(articleId);
         Comment comment = commentRepository.save(commentAssembler.toEntity(commentRequest, article, user));
         if (article.isNotAuthor(userOutline.getId())) {
-            this.notificationService.notifyTo(
-                    article.getUser().getId(),
-                    this.notificationService.writeCommentMessageFrom(userOutline.getId(), article)
-            );
+            notificationService.commentFromTo(userOutline.getId(), article);
         }
         return commentAssembler.toResponse(comment);
     }

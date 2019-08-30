@@ -1,10 +1,12 @@
-package techcourse.fakebook.domain.notification;
+package techcourse.fakebook.service.notification.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.util.Objects;
 
-public class NotificationMessage {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class NotificationResponse {
     public enum Type {
         CHAT,
         FRIEND_REQUEST,
@@ -16,7 +18,7 @@ public class NotificationMessage {
     private final UserOutline srcUser;
     private final String content;
 
-    public NotificationMessage(Type type, UserOutline srcUser, String content) {
+    public NotificationResponse(Type type, UserOutline srcUser, String content) {
         this.type = type;
         this.srcUser = srcUser;
         this.content = content;
@@ -40,7 +42,7 @@ public class NotificationMessage {
                     "type: " + this.type + ", " +
                     "sourceId: " + this.srcUser + ", " +
                     " content: " + this.content +
-                " } : NotificationMessage";
+                " } : NotificationResponse";
     }
 
     @Override
@@ -48,10 +50,10 @@ public class NotificationMessage {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof NotificationMessage)) {
+        if (!(o instanceof NotificationResponse)) {
             return false;
         }
-        final NotificationMessage rhs = (NotificationMessage) o;
+        final NotificationResponse rhs = (NotificationResponse) o;
         return this.type == rhs.type &&
                 Objects.equals(this.srcUser, rhs.srcUser) &&
                 Objects.equals(this.content, rhs.content);

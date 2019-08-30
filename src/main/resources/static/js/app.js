@@ -110,7 +110,7 @@ const App = (() => {
     }
   }
 
-  class ArticleService extends Service {ㅅ
+  class ArticleService extends Service {
     async showNewsfeed() {
       this.show(BASE_URL + "/api/articles")
     }
@@ -383,7 +383,6 @@ const App = (() => {
   }
 
   class Controller {
-
     constructor(articleService, commentService, friendService, searchService, userService, profileService) {
       this.articleService = articleService
       this.commentService = commentService

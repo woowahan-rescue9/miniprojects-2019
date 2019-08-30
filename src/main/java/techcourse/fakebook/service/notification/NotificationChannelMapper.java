@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class NotificationChannelRepository {
+public class NotificationChannelMapper {
     private final Map<Long, NotificationChannel> channels = new ConcurrentHashMap<>();
 
     public NotificationChannel assignTo(long userId) {

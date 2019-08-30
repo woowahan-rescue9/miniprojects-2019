@@ -103,13 +103,10 @@ public class ArticleService {
             articleLikeRepository.delete(articleLike.get());
             return false;
         }
-        final Article article = getArticle(id);
+        Article article = getArticle(id);
         articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), article));
         if (article.isNotAuthor(userOutline.getId())) {
-            notificationService.notifyTo(
-                    article.getUser().getId(),
-                    notificationService.writeLikeMessageFrom(userOutline.getId(), article)
-            );
+            notificationService.likeFromTo(userOutline.getId(), article);
         }
         return true;
     }

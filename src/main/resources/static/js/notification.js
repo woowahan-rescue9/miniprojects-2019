@@ -16,14 +16,14 @@ const notification = (() => {
 
   class NotificationService {
     notify(message) {
-      const notificationText = message.srcUser.name + " 님이 " + (() => {
+      const notificationText = message.srcUser.name + " 님" + (() => {
         switch(message.type) {
           case "FRIEND_REQUEST":
-            return "친구 요청을 보냈습니다."
+            return "과 친구가 되었습니다."
           case "COMMENT":
-            return "'" + message.content + "' 글에 댓글을 남겼습니다."
+            return "이 '" + message.content + "' 글에 댓글을 남겼습니다."
           case "LIKE":
-            return "'" + message.content + "' 글에 좋아요를 눌렀습니다."
+            return "이 '" + message.content + "' 글에 좋아요를 눌렀습니다."
           default:
         }
       })()

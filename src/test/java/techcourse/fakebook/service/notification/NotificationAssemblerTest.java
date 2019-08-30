@@ -7,20 +7,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.notification.NotificationMessage;
-import techcourse.fakebook.domain.notification.NotificationMessageFactory;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.service.notification.assembler.NotificationAssembler;
+import techcourse.fakebook.service.notification.dto.NotificationResponse;
 import techcourse.fakebook.service.user.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class NotificationMessageFactoryTest {
+class NotificationAssemblerTest {
     static final long USER_ID = 1L;
 
     @InjectMocks
-    private NotificationMessageFactory notificationMessageFactory;
+    private NotificationAssembler notificationAssembler;
     @Mock
     private UserService userService;
     @Mock
@@ -35,10 +35,10 @@ class NotificationMessageFactoryTest {
     void 채팅_알림_메세지() {
         final String CHAT_MESSAGE = "ㅎㅇㅎㅇ";
         assertThat(
-                notificationMessageFactory.chat(user.getId(), CHAT_MESSAGE)
+                notificationAssembler.chat(user.getId(), CHAT_MESSAGE)
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.CHAT,
+                new NotificationResponse(
+                        NotificationResponse.Type.CHAT,
                         userService.getUserOutline(user.getId()),
                         CHAT_MESSAGE
                 )
@@ -48,10 +48,10 @@ class NotificationMessageFactoryTest {
     @Test
     void 친구_요청_알림_메세지() {
         assertThat(
-                notificationMessageFactory.friendRequest(user.getId())
+                notificationAssembler.friendRequest(user.getId())
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.FRIEND_REQUEST,
+                new NotificationResponse(
+                        NotificationResponse.Type.FRIEND_REQUEST,
                         userService.getUserOutline(user.getId()),
                         null
                 )
@@ -62,10 +62,10 @@ class NotificationMessageFactoryTest {
     void 댓글_알림_메세지_25자_이하_글() {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         assertThat(
-                notificationMessageFactory.comment(user.getId(), ARTICLE)
+                notificationAssembler.comment(user.getId(), ARTICLE)
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.COMMENT,
+                new NotificationResponse(
+                        NotificationResponse.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent()
                 )
@@ -74,17 +74,16 @@ class NotificationMessageFactoryTest {
 
     @Test
     void 댓글_알림_메세지_25자_초과_글() {
-        final String ARTICLE_CONTENT = "20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~";
-        final Article ARTICLE = new Article(ARTICLE_CONTENT, user);
+        final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
         assertThat(
-                notificationMessageFactory.comment(user.getId(), ARTICLE)
+                notificationAssembler.comment(user.getId(), ARTICLE)
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.COMMENT,
+                new NotificationResponse(
+                        NotificationResponse.Type.COMMENT,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE_CONTENT.substring(
+                        ARTICLE.getContent().substring(
                                 0,
-                                notificationMessageFactory.getMaxMessageLength() - 4
+                                notificationAssembler.getMaxMessageLength() - 4
                         ) + " ..."
                 )
         );
@@ -94,10 +93,10 @@ class NotificationMessageFactoryTest {
     void 좋아요_알림_메세지_25자_이하_글() {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         assertThat(
-                notificationMessageFactory.like(user.getId(), ARTICLE)
+                notificationAssembler.like(user.getId(), ARTICLE)
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.LIKE,
+                new NotificationResponse(
+                        NotificationResponse.Type.LIKE,
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent()
                 )
@@ -106,17 +105,16 @@ class NotificationMessageFactoryTest {
 
     @Test
     void 좋아요_알림_메세지_25자_초과_글() {
-        final String ARTICLE_CONTENT = "20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~";
-        final Article ARTICLE = new Article(ARTICLE_CONTENT, user);
+        final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
         assertThat(
-                notificationMessageFactory.like(user.getId(), ARTICLE)
+                notificationAssembler.like(user.getId(), ARTICLE)
         ).isEqualTo(
-                new NotificationMessage(
-                        NotificationMessage.Type.LIKE,
+                new NotificationResponse(
+                        NotificationResponse.Type.LIKE,
                         userService.getUserOutline(user.getId()),
-                        ARTICLE_CONTENT.substring(
+                        ARTICLE.getContent().substring(
                                 0,
-                                notificationMessageFactory.getMaxMessageLength() - 4
+                                notificationAssembler.getMaxMessageLength() - 4
                         ) + " ..."
                 )
         );

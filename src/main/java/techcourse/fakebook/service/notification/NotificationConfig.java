@@ -8,7 +8,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+public class NotificationConfig implements WebSocketMessageBrokerConfigurer {
     private static final String WEB_SOCKET_URI = "/websocket";
     public static final String MESSAGE_BROKER_URI = "/api/notification";
 
