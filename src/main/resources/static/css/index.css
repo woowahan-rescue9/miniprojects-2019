@@ -834,3 +834,23 @@ body {
     border-color: #42b29f;
     color: #fff;
 }
+
+.count-of-comment-like {
+    position: absolute;
+    top: 15px;
+    left: 485px;
+    width: 40px;
+    height: 25px;
+    padding: 4px 4px 2px 2px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.comment-like-button:hover {
+    text-decoration: underline;
+}
+
+.count-of-comment-like.liked {
+    color: #0f9aee;
+}

@@ -243,7 +243,26 @@ const App = (() => {
               "user": comment.userOutline
             })
         )
+          this.checkLike(comment.id)
       })
+    }
+
+    async checkLike(commentId) {
+        const countOfLike = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like/count")).data
+        if (countOfLike >= 1) {
+            document.getElementById("comment-item-" + commentId).insertAdjacentHTML(
+                "beforeend",
+                templates.commentLikeTemplate({
+                    "id": commentId
+                })
+            )
+            document.getElementById("count-of-comment-like-" + commentId).innerText = " " + countOfLike
+        }
+
+        const isLiked = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like")).status
+        if (isLiked === 200) {
+            document.getElementById("comment-like-" + commentId).classList.toggle('liked')
+        }
     }
 
     async write(event, id) {
@@ -278,6 +297,33 @@ const App = (() => {
         document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
       } catch (e) {
       }
+    }
+
+    async like(id) {
+        try {
+            let countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+            if (countOfLike === 0) {
+                document.getElementById("comment-item-" + id).insertAdjacentHTML(
+                    "beforeend",
+                    templates.commentLikeTemplate({
+                        "id": id
+                    })
+                )
+            }
+
+            await axios.post(BASE_URL + "/api/comments/" + id + "/like")
+            countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+
+            if (countOfLike === 0) {
+                document.getElementById("comment-like-" + id).remove()
+            }
+
+            if (countOfLike >= 1) {
+                document.getElementById("count-of-comment-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+                document.getElementById("comment-like-" + id).classList.toggle('liked')
+            }
+        } catch (e) {
+        }
     }
   }
 
@@ -432,6 +478,10 @@ const App = (() => {
 
     removeComment(id) {
       this.commentService.remove(id)
+    }
+
+    likeComment(id) {
+      this.commentService.like(id)
     }
 
     makeFriend(friendId) {
