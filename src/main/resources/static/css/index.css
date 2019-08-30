@@ -327,7 +327,14 @@ header ul.nav-right li, header ul.nav-left li {
     background-size: 16px
 }
 
-.left-group-title{
+.icons.messenger {
+    width: 16px;
+    height: 16px;
+    background-image: url('/images/default/message.png');
+    background-size: 16px
+}
+
+.left-group-title {
     font-weight: bold;
     color: #616770
 }
@@ -586,7 +593,7 @@ header ul.nav-right li, header ul.nav-left li {
     height: 144px
 }
 
-#add-friend, #remove-friend, #edit-profile {
+#add-friend, #remove-friend, #messenger, #edit-profile {
     border-color: #8b8b8b;
     border-style: solid;
     border-width: thin;
@@ -596,7 +603,12 @@ header ul.nav-right li, header ul.nav-left li {
     float: right;
     vertical-align: middle;
     width: 100px;
-    height: 26px
+    height: 26px;
+    margin: 0 3px
+}
+
+#messenger {
+    width: 80px;
 }
 
 #add-friend.already-friend {
@@ -829,4 +841,95 @@ body {
     background-color: #42b29f;
     border-color: #42b29f;
     color: #fff;
+}
+
+/** messenger **/
+
+#messenger-modal .modal-content {
+    min-width: 300px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #42b29f, #2fa5a5);
+}
+
+#messenger-modal .modal-header {
+    padding: 0;
+    border: 0;
+}
+
+#messenger-modal .modal-body {
+    overflow: auto;
+    height: 400px;
+    margin: 10px 0;
+}
+
+#messenger-modal .modal-footer {
+    padding: 0;
+    border: 0;
+}
+
+.modal-content .yours {
+    margin: 20px 0;
+}
+
+.your-profile-image {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    background-image: url("/images/default/eastjun_profile.jpg");
+    background-size: cover;
+    margin-right: 3px;
+}
+
+.your-profile-name {
+    vertical-align: top;
+    line-height: 32px;
+    color: #fff;
+    text-shadow: 2px 2px 2px gray;
+}
+
+.your-message {
+    max-width: 280px;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 8px;
+    margin: 3px 0;
+    display: inline-block;
+}
+
+.modal-content .mine {
+    margin: 20px 0;
+}
+
+.modal-content .mine:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.my-message {
+    float: right;
+    max-width: 280px;
+    border-radius: 8px;
+    background-color: #ffec42;
+    padding: 8px;
+    margin: 3px 0;
+    display: inline-block;
+}
+
+#messenger-modal input {
+    height: 80px;
+    border-radius: 8px;
+    border: 0;
+    padding: 8px;
+}
+
+#messenger-modal input[type = "text"] {
+    width: 78%;
+}
+
+#messenger-modal input[type = "submit"] {
+    width: 20%;
+    background-color: #ffec42;
+    cursor: pointer;
 }

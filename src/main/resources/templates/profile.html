@@ -108,11 +108,59 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
+                        <button th:if="${session.user.id} != ${user.id}" id="messenger" type="button"
+                                data-toggle="modal" data-target="#messenger-modal"><i
+                                class="icons messenger"></i> 메시지
+                        </button>
                         <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
                                 onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
+
+                    <div class="modal fade" id="messenger-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="yours">
+                                        <div class="your-profile">
+                                            <span class="your-profile-image"></span>
+                                            <span class="your-profile-name">코니</span>
+                                        </div>
+                                        <div class="your-message">안녕하세요~</div>
+                                    </div>
+
+                                    <div class="mine">
+                                        <div class="my-message">안녕하세요!</div>
+                                    </div>
+
+                                    <div class="yours">
+                                        <div class="your-profile">
+                                            <span class="your-profile-image"></span>
+                                            <span class="your-profile-name">코니</span>
+                                        </div>
+                                        <div class="your-message">안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~
+                                            안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~</div>
+                                    </div>
+
+                                    <div class="mine">
+                                        <div class="my-message">안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~
+                                            안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~안녕하세요~</div>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="text">
+                                    <input type="submit" value="전송">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -143,6 +191,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
