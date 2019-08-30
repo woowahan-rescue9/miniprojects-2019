@@ -1,6 +1,6 @@
-const App = (() => {
-  "use strict"
+"use strict";
 
+const App = (() => {
   const BASE_URL = "http://" + window.location.host
 
   class Api {
@@ -111,6 +111,42 @@ const App = (() => {
   }
 
   class ArticleService extends Service {
+    async showNewsfeed() {
+      this.show(BASE_URL + "/api/articles")
+    }
+
+    async showArticles(userId) {
+      this.show(BASE_URL + "/api/users/" + userId + "/articles")
+    }
+
+    async show(uri) {
+      const articles = (await axios.get(uri)).data
+      document.getElementById("articles").innerHTML = ""
+      articles.forEach(article => {
+        document.getElementById("articles").insertAdjacentHTML(
+            "beforeend",
+            templates.articleTemplate({
+              "id": article.articleResponse.id,
+              "content": article.articleResponse.content,
+              "date": super.formatDate(article.articleResponse.createdDate),
+              "user": article.articleResponse.userOutline,
+              "images": article.articleResponse.attachments,
+              "countOfComment": article.countOfComment,
+              "countOfLike": article.countOfLike
+            })
+        )
+        this.checkLike(article.articleResponse.id)
+        App.showComments(article.articleResponse.id)
+      })
+    }
+
+    async checkLike(articleId) {
+      const isLiked = (await axios.get(BASE_URL + "/api/articles/" + articleId + "/like")).status
+      if (isLiked === 200) {
+        document.getElementById("article-like-" + articleId).classList.toggle('liked')
+      }
+    }
+
     async write() {
       const textbox = document.getElementById("new-article")
       const content = textbox.value.trim()
@@ -129,13 +165,17 @@ const App = (() => {
               templates.articleTemplate({
                 "id": article.id,
                 "content": article.content,
-                "date": super.formatDate(article.recentDate),
+                "date": super.formatDate(article.createdDate),
                 "user": article.userOutline,
-                "images": article.attachments
+                "images": article.attachments,
+                "countOfComment": 0,
+                "countOfLike": 0
               })
           )
           document.getElementById("attachment").value = ""
         } catch (e) {
+          alert(e.toString())
+          alert("이미지를 다시 한번 확인해 주세요")
         }
       }
     }
@@ -160,7 +200,7 @@ const App = (() => {
           const editedArticle = (await axios.put(BASE_URL + "/api/articles/" + id, {
             "content": editedContent
           })).data
-          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.recentDate)
+          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.createdDate)
           contentArea.innerHTML = ""
           contentArea.insertAdjacentHTML("afterbegin", "<span> " + templates.escapeHtml(editedArticle.content) + " </span>")
         } catch (e) {
@@ -191,6 +231,40 @@ const App = (() => {
   }
 
   class CommentService extends Service {
+    async show(articleId) {
+      const comments = (await axios.get("/api/articles/" + articleId + "/comments")).data
+      comments.forEach(comment => {
+        document.getElementById("comments-" + articleId).insertAdjacentHTML(
+            "beforeend",
+            templates.commentTemplate({
+              "id": comment.id,
+              "content": comment.content,
+              "date": super.formatDate(comment.createdDate),
+              "user": comment.userOutline
+            })
+        )
+          this.checkLike(comment.id)
+      })
+    }
+
+    async checkLike(commentId) {
+        const countOfLike = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like/count")).data
+        if (countOfLike >= 1) {
+            document.getElementById("comment-item-" + commentId).insertAdjacentHTML(
+                "beforeend",
+                templates.commentLikeTemplate({
+                    "id": commentId
+                })
+            )
+            document.getElementById("count-of-comment-like-" + commentId).innerText = " " + countOfLike
+        }
+
+        const isLiked = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like")).status
+        if (isLiked === 200) {
+            document.getElementById("comment-like-" + commentId).classList.toggle('liked')
+        }
+    }
+
     async write(event, id) {
       event = event || window.event
       const textbox = document.getElementById("new-comment-" + id)
@@ -223,6 +297,33 @@ const App = (() => {
         document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
       } catch (e) {
       }
+    }
+
+    async like(id) {
+        try {
+            let countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+            if (countOfLike === 0) {
+                document.getElementById("comment-item-" + id).insertAdjacentHTML(
+                    "beforeend",
+                    templates.commentLikeTemplate({
+                        "id": id
+                    })
+                )
+            }
+
+            await axios.post(BASE_URL + "/api/comments/" + id + "/like")
+            countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+
+            if (countOfLike === 0) {
+                document.getElementById("comment-like-" + id).remove()
+            }
+
+            if (countOfLike >= 1) {
+                document.getElementById("count-of-comment-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+                document.getElementById("comment-like-" + id).classList.toggle('liked')
+            }
+        } catch (e) {
+        }
     }
   }
 
@@ -280,6 +381,22 @@ const App = (() => {
       const removeFriend = document.getElementById('remove-friend');
       removeFriend.classList.toggle('already-friend');
     }
+
+    async makeFriendAndToggleTarget(friendId, target) {
+      try {
+        const req = {friendId: friendId}
+
+        // 일단 성공한다고 가정
+        await axios.post(BASE_URL + "/api/friendships", req);
+
+        this.toggleTarget(target);
+      } catch (e) {
+      }
+    }
+
+    toggleTarget(target) {
+      target.classList.toggle('already-friend');
+    }
   }
 
   class SearchService {
@@ -330,7 +447,6 @@ const App = (() => {
   }
 
   class Controller {
-
     constructor(articleService, commentService, friendService, searchService, userService, profileService) {
       this.articleService = articleService
       this.commentService = commentService
@@ -338,6 +454,14 @@ const App = (() => {
       this.searchService = searchService
       this.userService = userService
       this.profileService = profileService
+    }
+
+    showNewsfeed() {
+      this.articleService.showNewsfeed()
+    }
+
+    showArticles(userId) {
+      this.articleService.showArticles(userId)
     }
 
     writeArticle(event) {
@@ -360,6 +484,10 @@ const App = (() => {
       this.articleService.like(id)
     }
 
+    showComments(articleId) {
+        this.commentService.show(articleId)
+    }
+
     writeComment(event, id) {
       this.commentService.write(event, id)
     }
@@ -368,8 +496,16 @@ const App = (() => {
       this.commentService.remove(id)
     }
 
+    likeComment(id) {
+      this.commentService.like(id)
+    }
+
     makeFriend(friendId) {
-      this.friendService.makeFriend(friendId);
+      this.friendService.makeFriend(friendId)
+    }
+
+    makeFriendAndToggleTarget(friendId, target) {
+      this.friendService.makeFriendAndToggleTarget(friendId, target)
     }
 
     breakWithFriend(friendId) {
@@ -394,29 +530,6 @@ const App = (() => {
     showFriends(userId) {
       this.profileService.showFriends(userId)
     }
-  }
-
-  const attachmentModal = document.getElementById("attachment-modal")
-  if (attachmentModal != null) {
-    attachmentModal.addEventListener("click", event => {
-      if (event.target != document.getElementById("attachment")) {
-        attachmentModal.style.display = "none"
-      }
-    })
-  document.getElementById("attachment-open").addEventListener("click", () => attachmentModal.style.display = "block")
-  document.getElementById("attachment-close").addEventListener("click", () => attachmentModal.style.display = "none")
-}
-
-  const editProfileButton = document.getElementById("edit-profile")
-  if (editProfileButton != null) {
-    const editProfileModal = document.getElementById("edit-profile-modal")
-    // editProfileModal.addEventListener("click", event => {
-    //   if (event.target != document.getElementById("edit-profile-form")) {
-    //     editProfileModal.style.display = "none"
-    //   }
-    // })
-    editProfileButton.addEventListener("click", () => editProfileModal.style.display = "block")
-    document.getElementById("edit-profile-close").addEventListener("click", () => editProfileModal.style.display = "none")
   }
 
   const editImage = document.getElementById('profile-attachment');

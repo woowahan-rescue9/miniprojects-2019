@@ -6,26 +6,26 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class NotificationChannelRepositoryTest {
-    private NotificationChannelRepository notificationChannelRepository;
+    private NotificationChannelMapper notificationChannelMapper;
 
     @BeforeEach
     void setUp() {
-        notificationChannelRepository = new NotificationChannelRepository();
+        notificationChannelMapper = new NotificationChannelMapper();
     }
 
     @Test
     void assignTest() {
         assertThat(
-                notificationChannelRepository.assignTo(1).getAddress().length()
+                notificationChannelMapper.assignTo(1).getAddress().length()
         ).isEqualTo(32);
     }
 
     @Test
     void assignAndRetrieveTest() {
         assertThat(
-                notificationChannelRepository.assignTo(1)
+                notificationChannelMapper.assignTo(1)
         ).isEqualTo(
-                notificationChannelRepository.retrieveBy(1).get()
+                notificationChannelMapper.retrieveBy(1).get()
         );
     }
 }

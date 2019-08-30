@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.article.ArticleRepository;
 import techcourse.fakebook.exception.NotFoundArticleException;
-import techcourse.fakebook.service.attachment.AttachmentService;
+import techcourse.fakebook.exception.NotImageTypeException;
 import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
 
 import java.io.File;
@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AttachmentServiceTest {
@@ -36,5 +37,14 @@ public class AttachmentServiceTest {
 
         assertThat(attachmentResponse.getName()).isEqualTo("res9-logo.gif");
         assertThat(attachmentResponse.getPath()).contains(".gif");
+    }
+
+    @Test
+    void 이미지_형식이_아닐_때_에러를_발생하는지_확인한다() throws IOException {
+        File file = new File("src/test/resources/static/images/text.txt");
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
+        Article article = articleRepository.findById(1L).orElseThrow(NotFoundArticleException::new);
+        assertThrows(NotImageTypeException.class, () -> attachmentService.saveAttachment(multipartFile, article));
     }
 }

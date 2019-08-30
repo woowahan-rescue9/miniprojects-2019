@@ -9,7 +9,6 @@ import techcourse.fakebook.domain.user.User;
 import techcourse.fakebook.service.chat.assembler.ChatAssembler;
 import techcourse.fakebook.service.chat.dto.ChatRequest;
 import techcourse.fakebook.service.chat.dto.ChatResponse;
-import techcourse.fakebook.service.notification.NotificationChannelRepository;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 

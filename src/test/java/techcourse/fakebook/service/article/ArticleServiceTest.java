@@ -3,35 +3,24 @@ package techcourse.fakebook.service.article;
 import io.restassured.internal.util.IOUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.ServiceTestHelper;
-import techcourse.fakebook.service.article.ArticleService;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.user.dto.UserOutline;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ArticleServiceTest extends ServiceTestHelper {
     @Autowired
     private ArticleService articleService;
-
-    @Test
-    void 게시글들을_잘_불러오는지_확인한다() {
-        List<ArticleResponse> articles = articleService.findAll();
-        assertThat(articles.size()).isGreaterThanOrEqualTo(1);
-    }
 
     @Test
     void 삭제된_게시글을_제외하고_불러오는지_확인한다() {

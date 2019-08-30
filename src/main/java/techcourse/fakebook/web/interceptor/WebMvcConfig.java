@@ -13,15 +13,15 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     private final AlreadyLoginedInterceptor alreadyLoginedInterceptor;
     private final NotLoginedInterceptor notLoginedInterceptor;
+    private final VisitorTrackingInterceptor visitorTrackingInterceptor;
+
     private final SessionUserArgumentResolver sessionUserArgumentResolver;
     private final OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver;
 
-    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor,
-                        NotLoginedInterceptor notLoginedInterceptor,
-                        SessionUserArgumentResolver sessionUserArgumentResolver,
-                        OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver) {
+    public WebMvcConfig(AlreadyLoginedInterceptor alreadyLoginedInterceptor, NotLoginedInterceptor notLoginedInterceptor, VisitorTrackingInterceptor visitorTrackingInterceptor, SessionUserArgumentResolver sessionUserArgumentResolver, OptionalSessionUserArgumentResolver optionalSessionUserArgumentResolver) {
         this.alreadyLoginedInterceptor = alreadyLoginedInterceptor;
         this.notLoginedInterceptor = notLoginedInterceptor;
+        this.visitorTrackingInterceptor = visitorTrackingInterceptor;
         this.sessionUserArgumentResolver = sessionUserArgumentResolver;
         this.optionalSessionUserArgumentResolver = optionalSessionUserArgumentResolver;
     }
@@ -38,7 +38,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/users/**")
                 .addPathPatterns("/api/users/**")
                 .addPathPatterns("/newsfeed")
-                .addPathPatterns("/logout");
+                .addPathPatterns("/logout")
+                .addPathPatterns("/friendships/candidates");
+
+        registry.addInterceptor(visitorTrackingInterceptor)
+                .addPathPatterns("/users/**");
     }
 
     @Override

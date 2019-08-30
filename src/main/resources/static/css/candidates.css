@@ -1,0 +1,77 @@
+.card {
+    width: 660px;
+}
+
+.friend-browser-list-unit {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.friend-browser-list-unit .container {
+    display:flex;
+    margin: 0px;
+    padding: 0px;
+}
+.friend-browser-list-unit .content {
+    padding-left: 10px;
+}
+.friend-browser-list-unit .content .title {
+    display: block;
+    color: #3aaba1;
+    line-height: 2;
+    font-size: 14px;
+    font-weight: 700;
+}
+.friend-browser-list-unit .content .sub-title {
+    display: block;
+    font-size: 12px;
+    color: #b4b7c8;
+    max-width: 100%;
+}
+.friend-browser-list-unit .content .sub-title .pdd-top-4{
+    padding-top: 4px;
+}
+.friend-browser-list-unit .thumb-img{line-height:48px;width:48px;text-align:center;font-size:17px;border-radius:50px;float:left}
+.friend-browser-list-unit img.thumb-img{height:48px;width:48px}
+
+.friend-icon {
+    background-image: url('/images/default/icons.png');
+    background-repeat: no-repeat;
+    height: 24px;
+    width: 24px;
+    opacity: 0.4;
+}
+.friend-icon {
+    background-size: 283px 396px;
+    background-position: 0 -354px
+}
+
+#add-friend {
+    border-color: #4bbcb2;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 2px;
+    background: #3aaba1;
+    cursor: pointer;
+    float: right;
+    vertical-align: middle;
+    width: 100px;
+    height: 26px;
+    color: #f8fbfa;
+    font-weight: 700
+}
+
+.icons {
+    height: 20px;
+    width: 20px;
+    margin: 3.5px;
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url('/images/default/icons2.png');
+    background-repeat: no-repeat
+}
+.icons.add-friend {
+    width: 16px;
+    height: 16px;
+    background-position: 0px -1522px;
+    background-size: 37px 1608px
+}

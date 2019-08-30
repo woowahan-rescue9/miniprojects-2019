@@ -3,56 +3,56 @@ package techcourse.fakebook.service.notification;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
-
-import java.util.Optional;
+import techcourse.fakebook.domain.comment.Comment;
+import techcourse.fakebook.service.notification.assembler.NotificationAssembler;
+import techcourse.fakebook.service.notification.dto.NotificationResponse;
 
 @Service
 public class NotificationService {
-    private final NotificationChannelRepository notificationChannelRepository;
-    private final NotificationMessageFactory notificationMessageFactory;
+    private final NotificationChannelMapper notificationChannelMapper;
+    private final NotificationAssembler notificationAssembler;
     private final SimpMessagingTemplate messenger;
 
     public NotificationService(
-            NotificationChannelRepository notificationChannelRepository,
-            NotificationMessageFactory notificationMessageFactory,
+            NotificationChannelMapper notificationChannelMapper,
+            NotificationAssembler notificationAssembler,
             SimpMessagingTemplate messenger
     ) {
-        this.notificationChannelRepository = notificationChannelRepository;
-        this.notificationMessageFactory = notificationMessageFactory;
+        this.notificationChannelMapper = notificationChannelMapper;
+        this.notificationAssembler = notificationAssembler;
         this.messenger = messenger;
     }
 
-    public NotificationChannel issueNewChannelTo(long id) {
-        return this.notificationChannelRepository.assignTo(id);
+    public NotificationChannel issueNewChannelTo(long userId) {
+        return this.notificationChannelMapper.assignTo(userId);
     }
 
-    public void notifyTo(long id, NotificationMessage message) {
-        this.notificationChannelRepository.retrieveBy(id).ifPresent(channel ->
-            this.messenger.convertAndSend("/api/notification/" + channel, message)
+    public void chatFromTo(long srcUserId, long destUserId, String content) {
+        notifyTo(destUserId, this.notificationAssembler.chat(srcUserId, content));
+    }
+
+    public void friendRequestFromTo(long srcUserId, long destUserId) {
+        notifyTo(destUserId, this.notificationAssembler.friendRequest(srcUserId));
+    }
+
+    public void commentFromTo(Comment comment, long srcUserId, Article destArticle) {
+        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.comment(comment, srcUserId, destArticle));
+    }
+
+    public void likeFromTo(long srcUserId, Article destArticle) {
+        notifyTo(destArticle.getUser().getId(), this.notificationAssembler.like(srcUserId, destArticle));
+    }
+
+    private void notifyTo(long destUserId, NotificationResponse message) {
+        this.notificationChannelMapper.retrieveBy(destUserId).ifPresent(channel ->
+                this.messenger.convertAndSend(
+                        NotificationConfig.MESSAGE_BROKER_URI + "/" + channel.getAddress(),
+                        message
+                )
         );
     }
 
-    public NotificationMessage writeChatMessageFrom(long sourceId, String content) {
-        return this.notificationMessageFactory.chat(sourceId, content);
-    }
-
-    public NotificationMessage writeFriendRequestMessageFrom(long sourceId) {
-        return this.notificationMessageFactory.friendRequest(sourceId);
-    }
-
-    public NotificationMessage writeCommentMessageFrom(long sourceId, Article sourceArticle) {
-        return this.notificationMessageFactory.comment(sourceId, sourceArticle);
-    }
-
-    public NotificationMessage writeLikeMessageFrom(long sourceId, Article sourceArticle) {
-        return this.notificationMessageFactory.like(sourceId, sourceArticle);
-    }
-
-    public void closeChannelOf(long id) {
-        this.notificationChannelRepository.resetBy(id);
-    }
-
-    public Optional<NotificationChannel> _getChannelOf(long id) {
-        return this.notificationChannelRepository.retrieveBy(id);
+    public void closeChannelOf(long userId) {
+        this.notificationChannelMapper.resetBy(userId);
     }
 }

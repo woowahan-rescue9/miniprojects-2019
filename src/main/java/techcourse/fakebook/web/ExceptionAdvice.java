@@ -8,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import techcourse.fakebook.exception.InvalidSignupException;
-import techcourse.fakebook.exception.NotFoundUserException;
-import techcourse.fakebook.exception.NotMatchPasswordException;
+import techcourse.fakebook.exception.*;
 
 @ControllerAdvice(annotations = Controller.class)
 public class ExceptionAdvice {
@@ -35,5 +33,12 @@ public class ExceptionAdvice {
         log.debug("begin");
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    @ExceptionHandler({FileSaveException.class, NotImageTypeException.class})
+    public ResponseEntity<String> handleFileSaveException(RuntimeException e) {
+        log.debug(e.getMessage());
+
+        return ResponseEntity.badRequest().body("파일을 다시 한 번 확인해 주세요.");
     }
 }

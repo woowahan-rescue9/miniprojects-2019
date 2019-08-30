@@ -18,8 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 class UserApiControllerTest extends ControllerTestHelper {
     @LocalServerPort
@@ -31,7 +30,6 @@ class UserApiControllerTest extends ControllerTestHelper {
         File file = new File("src/test/resources/static/images/user/profile/default.png");
         FileInputStream input = new FileInputStream(file);
         MultipartFile image = new MockMultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));
-
     }
 
     @Test
@@ -110,8 +108,8 @@ class UserApiControllerTest extends ControllerTestHelper {
 
         given().
                 port(port).
-                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 sessionId(sessionId).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
                 body(otherUserSignupRequest).
         when().
                 post("/api/users").
@@ -159,6 +157,21 @@ class UserApiControllerTest extends ControllerTestHelper {
                 put("/api/users/" + userId).
         then().
                 statusCode(HttpStatus.FOUND.value());
+    }
+
+    @Test
+    void 유저가_작성한_글_조회() {
+        writeArticle();
+
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+        when().
+                get("/api/users/1/articles").
+        then().
+                statusCode(HttpStatus.OK.value()).
+                body("size", greaterThanOrEqualTo(1)).
+                body("articleResponse.content", hasItem("hello"));
     }
 
     @Test

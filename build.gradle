@@ -16,7 +16,6 @@ ext {
     set('springCloudVersion', "Greenwich.BUILD-SNAPSHOT")
 }
 
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -24,6 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+	implementation 'org.apache.tika:tika-core:1.22'
 	runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.springframework:spring-jdbc:+'
@@ -49,6 +49,3 @@ dependencyManagement {
 	imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"	}
 }
-
-
-

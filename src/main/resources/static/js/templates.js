@@ -36,7 +36,7 @@ const templates = (() => {
           </ul>
         </div>
         <div id="article-${input.id}-content" class="feed-body no-pdd">` +
-          input.images.map(image => `<img class="vertical-align" src="/${image.path}">`).reduce((a, b) => a + b, "") +
+          input.images.map(image => `<img class="vertical-align" src="${image.path}">`).reduce((a, b) => a + b, "") +
           `<p>
             <span> ${this.escapeHtml(input.content)} </span> 
           </p>
@@ -44,10 +44,10 @@ const templates = (() => {
           <ul class="feed-action pdd-btm-5 border bottom">
             <li>
               <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
-              <span id="count-of-like-${input.id}" class="font-size-14 lh-2-1"> 0</span>
+              <span id="count-of-like-${input.id}" class="font-size-14 lh-2-1">${input.countOfLike}</span>
             </li>
             <li class="float-right mrg-right-15">
-              <span class="font-size-13">댓글 <span id="count-of-comment-${input.id}">0</span>개</span>
+              <span class="font-size-13">댓글 <span id="count-of-comment-${input.id}">${input.countOfComment}</span>개</span>
             </li>
           </ul>
           <ul class="feed-action border bottom d-flex">
@@ -76,7 +76,7 @@ const templates = (() => {
     }
 
     commentTemplate(input) {
-        return `<li class="comment-item">
+        return `<li id="comment-item-${input.id}" class="comment-item">
           <img class="thumb-img img-circle" src="${input.user.profileImage.path}" alt="${input.user.name}">
           <div class="info">
             <div class="bg-lightgray border-radius-18 padding-10 max-width-100">
@@ -84,12 +84,18 @@ const templates = (() => {
               <span> ${this.escapeHtml(input.content)}</span>
             </div>
             <div class="font-size-12 pdd-left-10 pdd-top-5">
-              <span class="pointer text-link-color">좋아요</span>
+              <span class="pointer text-link-color comment-like-button" onclick="App.likeComment(${input.id})">좋아요</span>
               <span> · </span>
               <span>${input.date}</span>
             </div>
           </div>
         </li>`
+    }
+
+    commentLikeTemplate(input) {
+      return `<div id="comment-like-${input.id}" class="count-of-comment-like">
+        <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
+        <span id="count-of-comment-like-${input.id}"></span></div>`
     }
 
     friendTemplate(input) {

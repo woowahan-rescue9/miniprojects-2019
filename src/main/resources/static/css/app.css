@@ -1246,7 +1246,7 @@ blockquote:before{font-family:themify;content:"\E67F";position:absolute;left:0;c
 .widget-feed .feed-action>li{display:inline-block}
 .widget-feed .feed-action>li>a{display:block;color:#333;font-size:16px;font-weight:500;padding:10px 25px 10px 0}
 .widget-feed .feed-action>li.active a,.widget-feed .feed-action>li>a:focus,.widget-feed .feed-action>li>a:hover{color:#333}
-.widget-feed .comment .comment-item{padding:10px 0}
+.widget-feed .comment .comment-item{padding:10px 0;position:relative}
 .widget-feed .comment .add-comment textarea{min-height:50px;resize:none;border:0;padding:20px 10px 5px;border-top:1px solid #e6ecf5}
 .widget-feed .comment .list-info .info{height:auto}
 .widget-feed .comment .list-info .info p{margin-bottom:0}

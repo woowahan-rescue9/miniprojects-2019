@@ -44,10 +44,7 @@ public class FriendshipService {
         log.debug("begin");
 
         friendshipRepository.save(makeFriendship(userId, friendId));
-        notificationService.notifyTo(
-                friendId,
-                notificationService.writeFriendRequestMessageFrom(userId)
-        );
+        notificationService.friendRequestFromTo(userId, friendId);
     }
 
     public void breakFriendship(Long userId, Long friendId) {
