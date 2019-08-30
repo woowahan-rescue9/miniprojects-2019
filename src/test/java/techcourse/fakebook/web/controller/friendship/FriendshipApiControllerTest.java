@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 
 class FriendshipApiControllerTest extends ControllerTestHelper {
     private static final Logger log = LoggerFactory.getLogger(FriendshipApiControllerTest.class);
@@ -27,7 +28,6 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     private int numUsers = 6;
     private List<UserSignupRequest> userSignupRequests;
     private List<Long> userIds;
-
 
     private Long loginedUserId;
     private String sessionId;
@@ -51,9 +51,38 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         log.debug("sessionId: {}", sessionId);
     }
 
+    @Test
+    void 친구_전부_불러오기() {
+        int friendIndex = 3;
+        Long friendId = userIds.get(friendIndex);
+        FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
+
+        // 친구 요청
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                sessionId(sessionId).
+                body(friendshipRequest).
+        when().
+                post("/api/friendships").
+        then().
+                statusCode(HttpStatus.OK.value());
+
+        // 친구 불러오기
+        given().
+                port(port).
+                contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
+                sessionId(sessionId).
+        when().
+                get("/api/friendships/" + loginedUserId).
+        then().
+                statusCode(HttpStatus.OK.value()).
+                body("size", greaterThanOrEqualTo(1)).
+                body("id", hasItem((int) (long) friendId));
+    }
 
     @Test
-    void 로그인_안_된_상태에서_친구요청() {
+    void 로그인_안_된_상태에서_친구_요청() {
         int friendIndex = 5;
         Long friendId = userIds.get(friendIndex);
         FriendshipRequest friendshipRequest = new FriendshipRequest(friendId);
@@ -69,7 +98,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 존재하지_않는_friendId로_친구요청() {
+    void 존재하지_않는_friendId로_친구_요청() {
         Long notExistsFriendId = -1L;
         FriendshipRequest friendshipRequest = new FriendshipRequest(notExistsFriendId);
 
@@ -102,7 +131,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 로그인_안_된_상태에서_친구제거() {
+    void 로그인_안_된_상태에서_친구_제거() {
         int friendIndex = 5;
         Long friendId = userIds.get(friendIndex);
 
@@ -116,7 +145,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 존재하지_않는_friendId로_친구제거() {
+    void 존재하지_않는_friendId로_친구_제거() {
         Long notExistsFriendId = -1L;
 
         given().
@@ -130,7 +159,7 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
     }
 
     @Test
-    void 친구요청후_친구제거() {
+    void 친구_요청_후_친구_제거() {
         int friendIndex = 5;
         친구_요청(friendIndex);
 
@@ -161,6 +190,6 @@ class FriendshipApiControllerTest extends ControllerTestHelper {
         when().
                 post("/api/friendships").
         then().
-                statusCode(HttpStatus.OK.value());;
+                statusCode(HttpStatus.OK.value());
     }
 }
