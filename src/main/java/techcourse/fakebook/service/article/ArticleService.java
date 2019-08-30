@@ -105,8 +105,13 @@ public class ArticleService {
         }
         final Article article = getArticle(id);
         articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), article));
-        notify(article, userOutline);
 
+        if (article.isNotAuthor(userOutline.getId())) {
+            notificationService.notifyTo(
+                    article.getUser().getId(),
+                    notificationService.writeLikeMessageFrom(userOutline.getId(), article)
+            );
+        }
         return true;
     }
 
@@ -124,15 +129,6 @@ public class ArticleService {
             throw new NotFoundArticleException();
         }
         return article;
-    }
-
-    private void notify(Article article, UserOutline userOutline) {
-        if (article.isNotAuthor(userOutline.getId())) {
-            notificationService.notifyTo(
-                    article.getUser().getId(),
-                    notificationService.writeLikeMessageFrom(userOutline.getId(), article)
-            );
-        }
     }
 
     private void checkAuthor(UserOutline userOutline, Article article) {
