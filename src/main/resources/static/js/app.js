@@ -128,7 +128,7 @@ const App = (() => {
             templates.articleTemplate({
               "id": article.articleResponse.id,
               "content": article.articleResponse.content,
-              "date": super.formatDate(article.articleResponse.recentDate),
+              "date": super.formatDate(article.articleResponse.createdDate),
               "user": article.articleResponse.userOutline,
               "images": article.articleResponse.attachments,
               "countOfComment": article.countOfComment,
@@ -165,7 +165,7 @@ const App = (() => {
               templates.articleTemplate({
                 "id": article.id,
                 "content": article.content,
-                "date": super.formatDate(article.recentDate),
+                "date": super.formatDate(article.createdDate),
                 "user": article.userOutline,
                 "images": article.attachments,
                 "countOfComment": 0,
@@ -200,7 +200,7 @@ const App = (() => {
           const editedArticle = (await axios.put(BASE_URL + "/api/articles/" + id, {
             "content": editedContent
           })).data
-          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.recentDate)
+          document.getElementById("article-" + id).querySelector(".sub-title").innerText = super.formatDate(editedArticle.createdDate)
           contentArea.innerHTML = ""
           contentArea.insertAdjacentHTML("afterbegin", "<span> " + templates.escapeHtml(editedArticle.content) + " </span>")
         } catch (e) {
