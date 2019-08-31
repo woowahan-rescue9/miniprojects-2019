@@ -1,6 +1,6 @@
 "use strict";
 
-const notification = (() => {
+(() => {
   const WEB_SOCKET_URI = "/websocket"
   const MESSAGE_BROKER_URI = "/api/notification"
   const REFRESH_INTERVAL = 600
@@ -98,9 +98,8 @@ const notification = (() => {
       this.stompClient.disconnect(async () => this.connect(await this.requestNewChannelAddress()))
     }
   }(new NotificationService())
-
-  return new Notifications(".notification", {
-    startTopPosition: 50
-  })
 })()
+const notification = new Notifications(".notification", {
+  startTopPosition: 50
+})
 notification.init()

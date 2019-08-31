@@ -1,1 +1,1 @@
-App.showNewsfeed()
+window.App.showNewsfeed()

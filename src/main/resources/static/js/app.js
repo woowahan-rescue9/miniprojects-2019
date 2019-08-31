@@ -1,6 +1,6 @@
-"use strict";
+import templates from "./templates.js";
 
-const App = (() => {
+window.App = (() => {
   const BASE_URL = "http://" + window.location.host
 
   class Api {
