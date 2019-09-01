@@ -53,7 +53,7 @@ public class User extends BaseEntity {
     }
 
     public static void validatePassword(String password) {
-        if(!password.matches(USER_PASSWORD_REGEX)) {
+        if (!password.matches(USER_PASSWORD_REGEX)) {
             throw new InvalidUserPasswordException();
         }
     }

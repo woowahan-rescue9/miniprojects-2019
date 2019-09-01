@@ -62,7 +62,7 @@ public class AttachmentServiceTest {
     }
 
     @Test
-    void 유저_프로필_저장_시_이미지_형식이_아닐_띠_에러를_발생하는지_확인한다2() throws IOException {
+    void 유저_프로필_저장_시_이미지_형식이_아닐_때_에러를_발생하는지_확인한다2() throws IOException {
         File file = new File("src/test/resources/static/images/text.txt");
         FileInputStream input = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
