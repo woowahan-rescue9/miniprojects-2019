@@ -64,7 +64,7 @@ const App = (() => {
       const password = document.getElementById('edit-password').value
       const check_password = document.getElementById('edit-password-confirm').value
       if(password !== check_password) {
-        alert("패스워드를 다시 확인해 주세요.");
+        alert("패스워드를 다시 확인해 주세요.")
         exit()
       }
 
@@ -77,8 +77,9 @@ const App = (() => {
         }
         req.append("introduction", introduction.trim())
         req.append("name", name.trim())
-        req.append("password", password)
-
+        if(password.length > 0) {
+          req.append("password", password)
+        }
         const userInfo = (await axios.put(BASE_URL + "/api" + uri, req)).data
         alert("수정이 완료 되었습니다.")
         const editProfileModal = document.getElementById("edit-profile-modal")

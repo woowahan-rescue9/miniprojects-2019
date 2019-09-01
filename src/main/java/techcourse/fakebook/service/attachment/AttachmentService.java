@@ -44,7 +44,6 @@ public class AttachmentService {
             checkImageType(file);
 
             String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
-
             ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
 
             return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
@@ -67,12 +66,12 @@ public class AttachmentService {
         return new UserProfileImage(UserProfileImage.DEFAULT_IMAGE_NAME, UserProfileImage.DEFAULT_IMAGE_PATH);
     }
 
-    public UserProfileImage getProfileImage(MultipartFile file) {
+    public UserProfileImage saveProfileImage(MultipartFile file) {
         try {
             String hashingName = getHashedName(file.getOriginalFilename());
+            checkImageType(file);
 
             String filePath = s3Uploader.upload(file, UserProfileImage.USER_STATIC_FILE_PATH, hashingName);
-
             return new UserProfileImage(file.getOriginalFilename(), filePath);
         } catch (IOException e) {
             throw new FileSaveException();
