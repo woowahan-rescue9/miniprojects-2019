@@ -174,8 +174,7 @@ const App = (() => {
           )
           document.getElementById("attachment").value = ""
         } catch (e) {
-          alert(e.toString())
-          alert("이미지를 다시 한번 확인해 주세요")
+          alert("게시글을 다시 한번 확인해 주세요")
         }
       }
     }
