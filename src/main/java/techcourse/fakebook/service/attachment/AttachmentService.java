@@ -24,6 +24,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class AttachmentService {
+    public static final String IMAGE = "image";
     private static final Logger log = LoggerFactory.getLogger(AttachmentService.class);
 
     private final ArticleAttachmentRepository articleAttachmentRepository;
@@ -36,29 +37,29 @@ public class AttachmentService {
         this.s3Uploader = s3Uploader;
     }
 
-    @Transactional
     public AttachmentResponse saveAttachment(MultipartFile file, Article article) {
-        try {
-            String hashingName = getHashedName(file.getOriginalFilename());
+        String hashingName = getHashedName(file.getOriginalFilename());
 
-            checkImageType(file);
+        checkImageType(file);
 
-            String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
-            ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
+        String filePath = s3Uploader.upload(file, ArticleAttachment.ARTICLE_STATIC_FILE_PATH, hashingName);
+        ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
 
-            return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
-        } catch (IOException e) {
-            throw new FileSaveException();
-        }
+        return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
     }
 
-    public void checkImageType(MultipartFile file) throws IOException {
+    public void checkImageType(MultipartFile file) {
         Tika tika = new Tika();
 
-        String mimeType = tika.detect(file.getBytes());
-        log.debug("### MIME Type = {}", mimeType);
-        if (!mimeType.startsWith("image")) {
-            throw new NotImageTypeException();
+        try {
+            String mimeType = tika.detect(file.getBytes());
+            log.debug("### MIME Type = {}", mimeType);
+            if (!mimeType.startsWith(IMAGE)) {
+                throw new NotImageTypeException();
+            }
+        } catch (IOException e) {
+            log.error("FileSaveError : file.getByte 실패");
+            throw new FileSaveException();
         }
     }
 
@@ -67,15 +68,11 @@ public class AttachmentService {
     }
 
     public UserProfileImage saveProfileImage(MultipartFile file) {
-        try {
-            String hashingName = getHashedName(file.getOriginalFilename());
-            checkImageType(file);
+        String hashingName = getHashedName(file.getOriginalFilename());
+        checkImageType(file);
 
-            String filePath = s3Uploader.upload(file, UserProfileImage.USER_STATIC_FILE_PATH, hashingName);
-            return new UserProfileImage(file.getOriginalFilename(), filePath);
-        } catch (IOException e) {
-            throw new FileSaveException();
-        }
+        String filePath = s3Uploader.upload(file, UserProfileImage.USER_STATIC_FILE_PATH, hashingName);
+        return new UserProfileImage(file.getOriginalFilename(), filePath);
     }
 
     private String getHashedName(String originalFileName) {
@@ -83,6 +80,7 @@ public class AttachmentService {
 
         List<String> splits = Arrays.asList(originalFileName.split("\\."));
         if (splits.size() < 1) {
+            log.error("FileSaveError : 파일의 확장자를 확인할 수 없습니다.");
             throw new FileSaveException();
         }
         String extension = splits.get(splits.size() - 1);

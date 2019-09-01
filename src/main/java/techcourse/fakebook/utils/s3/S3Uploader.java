@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import techcourse.fakebook.exception.FileSaveException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,11 +28,16 @@ public class S3Uploader {
         this.amazonS3Client = amazonS3Client;
     }
 
-    public String upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException {
-        File uploadFile = convert(multipartFile, fileName)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+    public String upload(MultipartFile multipartFile, String dirName, String fileName) {
+        try {
+            File uploadFile = convert(multipartFile, fileName)
+                    .orElseThrow(FileSaveException::new);
 
-        return upload(uploadFile, dirName, fileName);
+            return upload(uploadFile, dirName, fileName);
+        } catch (IOException e) {
+            log.error("FileSaveError : file write 실패");
+            throw new FileSaveException();
+        }
     }
 
     private String upload(File uploadFile, String dirName, String fileName) {
@@ -63,6 +69,7 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
 
+        log.error("FileSaveError : convert 실패");
         return Optional.empty();
     }
 }
