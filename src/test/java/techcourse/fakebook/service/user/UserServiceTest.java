@@ -87,7 +87,7 @@ class UserServiceTest extends ServiceTestHelper {
         User user = mock(User.class);
         UserProfileImage profileImage = mock(UserProfileImage.class);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
-                "updatedName", "updatedPassword");
+                "updatedName", "!234Qwer");
         Long existUserId = 1L;
         given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
         given(attachmentService.saveProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);

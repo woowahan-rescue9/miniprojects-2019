@@ -1,12 +1,15 @@
 package techcourse.fakebook.domain.article;
 
 import org.hibernate.annotations.Where;
+import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.BaseEntity;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.exception.InvalidArticleCreateException;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Where(clause = "deleted = 'false'")
@@ -16,7 +19,6 @@ public class Article extends BaseEntity {
     private Long id;
 
     @Lob
-    @Column(nullable = false)
     private String content;
 
     @ManyToOne
@@ -35,6 +37,12 @@ public class Article extends BaseEntity {
         this.content = content;
         this.user = user;
         this.deleted = false;
+    }
+
+    public static void validateArticle(String content, Optional<List<MultipartFile>> files) {
+        if (content.length() == 0 && !files.isPresent()) {
+            throw new InvalidArticleCreateException();
+        }
     }
 
     public void update(String content) {

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
+import techcourse.fakebook.exception.InvalidArticleCreateException;
 import techcourse.fakebook.exception.NotFoundArticleException;
 import techcourse.fakebook.service.ServiceTestHelper;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
@@ -60,6 +61,25 @@ class ArticleServiceTest extends ServiceTestHelper {
     }
 
     @Test
+    void 글_없이_이미지만_올려도_글을_작성하는지_확인한다() throws IOException {
+        File file = new File("src/test/resources/static/images/logo/res9-logo.gif");
+        FileInputStream input = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "image/gif", IOUtils.toByteArray(input));
+        ArticleRequest articleRequest = new ArticleRequest("", Arrays.asList(multipartFile));
+
+        ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
+        assertThat(articleResponse.getAttachments().size()).isEqualTo(1);
+        assertThat(articleResponse.getContent()).isEqualTo("");
+    }
+
+    @Test
+    void 이미지와_글이_모두_없는_요청일_때_예외를_던지는지_확인한다() {
+        ArticleRequest articleRequest = new ArticleRequest("", null);
+
+        assertThrows(InvalidArticleCreateException.class, () -> articleService.save(articleRequest, userOutline));
+    }
+
+    @Test
     void 글을_잘_삭제하는지_확인한다() {
         ArticleRequest articleRequest = new ArticleRequest("내용입니다.");
         ArticleResponse articleResponse = articleService.save(articleRequest, userOutline);
@@ -69,6 +89,7 @@ class ArticleServiceTest extends ServiceTestHelper {
 
         assertThrows(NotFoundArticleException.class, () -> articleService.findById(deletedId));
     }
+
 
     @Test
     void 글을_잘_수정하는지_확인한다() {

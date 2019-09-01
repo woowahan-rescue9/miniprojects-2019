@@ -63,7 +63,7 @@ const App = (() => {
       const name = document.getElementById('edit-name').value
       const password = document.getElementById('edit-password').value
       const check_password = document.getElementById('edit-password-confirm').value
-      if(password !== check_password) {
+      if (password !== check_password) {
         alert("패스워드를 다시 확인해 주세요.")
         exit()
       }
@@ -77,7 +77,7 @@ const App = (() => {
         }
         req.append("introduction", introduction.trim())
         req.append("name", name.trim())
-        if(password.length > 0) {
+        if (password.length > 0) {
           req.append("password", password)
         }
         const userInfo = (await axios.put(BASE_URL + "/api" + uri, req)).data
@@ -104,10 +104,10 @@ const App = (() => {
     }
 
     async userInfo() {
-        const uri = document.getElementsByClassName('user-profile')[0].firstElementChild.getAttribute('href')
-        const userInfo = (await axios.get(BASE_URL + "/api" + uri + "/info")).data
-        document.getElementById('edit-introduction').setAttribute('value',userInfo.introduction)
-        document.getElementById('edit-name').setAttribute('value',userInfo.name)
+      const uri = document.getElementsByClassName('user-profile')[0].firstElementChild.getAttribute('href')
+      const userInfo = (await axios.get(BASE_URL + "/api" + uri + "/info")).data
+      document.getElementById('edit-introduction').setAttribute('value', userInfo.introduction)
+      document.getElementById('edit-name').setAttribute('value', userInfo.name)
     }
   }
 
@@ -125,16 +125,16 @@ const App = (() => {
       document.getElementById("articles").innerHTML = ""
       articles.forEach(article => {
         document.getElementById("articles").insertAdjacentHTML(
-            "beforeend",
-            templates.articleTemplate({
-              "id": article.articleResponse.id,
-              "content": article.articleResponse.content,
-              "date": super.formatDate(article.articleResponse.createdDate),
-              "user": article.articleResponse.userOutline,
-              "images": article.articleResponse.attachments,
-              "countOfComment": article.countOfComment,
-              "countOfLike": article.countOfLike
-            })
+          "beforeend",
+          templates.articleTemplate({
+            "id": article.articleResponse.id,
+            "content": article.articleResponse.content,
+            "date": super.formatDate(article.articleResponse.createdDate),
+            "user": article.articleResponse.userOutline,
+            "images": article.articleResponse.attachments,
+            "countOfComment": article.countOfComment,
+            "countOfLike": article.countOfLike
+          })
         )
         this.checkLike(article.articleResponse.id)
         App.showComments(article.articleResponse.id)
@@ -151,32 +151,34 @@ const App = (() => {
     async write() {
       const textbox = document.getElementById("new-article")
       const content = textbox.value.trim()
-      if (content.length != 0) {
+      const req = new FormData()
+      req.append("content", content)
+      const files = document.getElementById(
+        "attachment").files;
+      if (files.length > 0) {
+        req.append("files", files[0])
+      }
+      if (!(content.length === 0 && files.length === 0)) {
         try {
-          const req = new FormData()
-          req.append("content", content)
-          const files = document.getElementById("attachment").files;
-          if (files.length > 0) {
-            req.append("files", files[0])
-          }
           const article = (await axios.post(BASE_URL + "/api/articles", req)).data
           textbox.value = ""
           document.getElementById("articles").insertAdjacentHTML(
-              "afterbegin",
-              templates.articleTemplate({
-                "id": article.id,
-                "content": article.content,
-                "date": super.formatDate(article.createdDate),
-                "user": article.userOutline,
-                "images": article.attachments,
-                "countOfComment": 0,
-                "countOfLike": 0
-              })
+            "afterbegin",
+            templates.articleTemplate({
+              "id": article.id,
+              "content": article.content,
+              "date": super.formatDate(article.createdDate),
+              "user": article.userOutline,
+              "images": article.attachments,
+              "countOfComment": 0,
+              "countOfLike": 0
+            })
           )
           document.getElementById("attachment").value = ""
         } catch (e) {
           alert("게시글을 다시 한번 확인해 주세요")
         }
+
       }
     }
 
@@ -185,8 +187,8 @@ const App = (() => {
       const originalContent = contentArea.firstElementChild.innerText
       contentArea.innerHTML = ""
       contentArea.insertAdjacentHTML(
-          "beforeend",
-          '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
+        "beforeend",
+        '<textarea class="resize-none form-control border bottom resize-none" onkeydown="App.confirmEditArticle(event, ' + id + ')">' + originalContent + '</textarea>'
       )
       super.editBackup[id] = originalContent
     }
@@ -235,34 +237,34 @@ const App = (() => {
       const comments = (await axios.get("/api/articles/" + articleId + "/comments")).data
       comments.forEach(comment => {
         document.getElementById("comments-" + articleId).insertAdjacentHTML(
-            "beforeend",
-            templates.commentTemplate({
-              "id": comment.id,
-              "content": comment.content,
-              "date": super.formatDate(comment.createdDate),
-              "user": comment.userOutline
-            })
+          "beforeend",
+          templates.commentTemplate({
+            "id": comment.id,
+            "content": comment.content,
+            "date": super.formatDate(comment.createdDate),
+            "user": comment.userOutline
+          })
         )
-          this.checkLike(comment.id)
+        this.checkLike(comment.id)
       })
     }
 
     async checkLike(commentId) {
-        const countOfLike = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like/count")).data
-        if (countOfLike >= 1) {
-            document.getElementById("comment-item-" + commentId).insertAdjacentHTML(
-                "beforeend",
-                templates.commentLikeTemplate({
-                    "id": commentId
-                })
-            )
-            document.getElementById("count-of-comment-like-" + commentId).innerText = " " + countOfLike
-        }
+      const countOfLike = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like/count")).data
+      if (countOfLike >= 1) {
+        document.getElementById("comment-item-" + commentId).insertAdjacentHTML(
+          "beforeend",
+          templates.commentLikeTemplate({
+            "id": commentId
+          })
+        )
+        document.getElementById("count-of-comment-like-" + commentId).innerText = " " + countOfLike
+      }
 
-        const isLiked = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like")).status
-        if (isLiked === 200) {
-            document.getElementById("comment-like-" + commentId).classList.toggle('liked')
-        }
+      const isLiked = (await axios.get(BASE_URL + "/api/comments/" + commentId + "/like")).status
+      if (isLiked === 200) {
+        document.getElementById("comment-like-" + commentId).classList.toggle('liked')
+      }
     }
 
     async write(event, id) {
@@ -276,13 +278,13 @@ const App = (() => {
           })).data
           textbox.value = ""
           document.getElementById("comments-" + id).insertAdjacentHTML(
-              "beforeend",
-              templates.commentTemplate({
-                "id": comment.id,
-                "content": comment.content,
-                "date": super.formatDate(comment.createdDate),
-                "user": comment.userOutline
-              })
+            "beforeend",
+            templates.commentTemplate({
+              "id": comment.id,
+              "content": comment.content,
+              "date": super.formatDate(comment.createdDate),
+              "user": comment.userOutline
+            })
           )
           document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
         } catch (e) {
@@ -300,37 +302,37 @@ const App = (() => {
     }
 
     async like(id) {
-        try {
-            let countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
-            if (countOfLike === 0) {
-                document.getElementById("comment-item-" + id).insertAdjacentHTML(
-                    "beforeend",
-                    templates.commentLikeTemplate({
-                        "id": id
-                    })
-                )
-            }
-
-            await axios.post(BASE_URL + "/api/comments/" + id + "/like")
-            countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
-
-            if (countOfLike === 0) {
-                document.getElementById("comment-like-" + id).remove()
-            }
-
-            if (countOfLike >= 1) {
-                document.getElementById("count-of-comment-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
-                document.getElementById("comment-like-" + id).classList.toggle('liked')
-            }
-        } catch (e) {
+      try {
+        let countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+        if (countOfLike === 0) {
+          document.getElementById("comment-item-" + id).insertAdjacentHTML(
+            "beforeend",
+            templates.commentLikeTemplate({
+              "id": id
+            })
+          )
         }
+
+        await axios.post(BASE_URL + "/api/comments/" + id + "/like")
+        countOfLike = (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+
+        if (countOfLike === 0) {
+          document.getElementById("comment-like-" + id).remove()
+        }
+
+        if (countOfLike >= 1) {
+          document.getElementById("count-of-comment-like-" + id).innerText = " " + (await axios.get(BASE_URL + "/api/comments/" + id + "/like/count")).data
+          document.getElementById("comment-like-" + id).classList.toggle('liked')
+        }
+      } catch (e) {
+      }
     }
   }
 
   class FriendService extends Service {
     constructor() {
       if (typeof document.getElementById('user-id') === 'undefined'
-          || document.getElementById('user-id') === null) {
+        || document.getElementById('user-id') === null) {
         super();
         return;
       }
@@ -435,12 +437,12 @@ const App = (() => {
       document.getElementById("friend-list").innerHTML = ""
       friends.forEach(friend => {
         document.getElementById("friend-list").insertAdjacentHTML(
-            "beforeend",
-            templates.friendTemplate({
-              "id": friend.id,
-              "name": friend.name,
-              "profileImage": friend.profileImage.path
-            })
+          "beforeend",
+          templates.friendTemplate({
+            "id": friend.id,
+            "name": friend.name,
+            "profileImage": friend.profileImage.path
+          })
         )
       })
     }
@@ -485,7 +487,7 @@ const App = (() => {
     }
 
     showComments(articleId) {
-        this.commentService.show(articleId)
+      this.commentService.show(articleId)
     }
 
     writeComment(event, id) {
@@ -527,13 +529,14 @@ const App = (() => {
     profileImagePreview(input) {
       this.userService.profileImagePreview(input)
     }
+
     showFriends(userId) {
       this.profileService.showFriends(userId)
     }
   }
 
   const editImage = document.getElementById('profile-attachment');
-  if(editImage != null) {
+  if (editImage != null) {
     editImage.addEventListener('change', function () {
       App.profileImagePreview(this)
     })
