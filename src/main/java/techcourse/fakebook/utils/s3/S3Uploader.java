@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.FileSaveException;
@@ -16,16 +17,28 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
+@PropertySource("classpath:s3.properties")
 public class S3Uploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
 
     private final AmazonS3 amazonS3Client;
+    private final String bucket;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+    @Value("${s3.article.path}")
+    public String articlePath;
 
-    public S3Uploader(AmazonS3 amazonS3Client) {
+    @Value("${s3.user.profile.path}")
+    public String userProfilePath;
+
+    @Value("${s3.user.profile.default-path}")
+    public String userProfileDefaultPath;
+
+    @Value("${s3.user.profile.default-name}")
+    public String userProfileDefaultName;
+
+    public S3Uploader(AmazonS3 amazonS3Client, String bucket) {
         this.amazonS3Client = amazonS3Client;
+        this.bucket = bucket;
     }
 
     public String upload(MultipartFile multipartFile, String dirName, String fileName) {
