@@ -35,7 +35,7 @@ public class AttachmentService {
     private final UploaderConfig uploaderConfig;
 
     public AttachmentService(ArticleAttachmentRepository articleAttachmentRepository, AttachmentAssembler attachmentAssembler,
-                             Uploader uploader, UploaderConfig uploaderConfig) {
+                             S3Uploader uploader, UploaderConfig uploaderConfig) {
         this.articleAttachmentRepository = articleAttachmentRepository;
         this.attachmentAssembler = attachmentAssembler;
         this.uploader = uploader;
