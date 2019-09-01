@@ -14,7 +14,9 @@ import techcourse.fakebook.exception.FileSaveException;
 import techcourse.fakebook.exception.NotImageTypeException;
 import techcourse.fakebook.service.attachment.assembler.AttachmentAssembler;
 import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
-import techcourse.fakebook.utils.s3.S3Uploader;
+import techcourse.fakebook.utils.uploader.Uploader;
+import techcourse.fakebook.utils.uploader.UploaderConfig;
+import techcourse.fakebook.utils.uploader.s3.S3Uploader;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -24,17 +26,20 @@ import java.util.UUID;
 @Service
 @Transactional
 public class AttachmentService {
-    public static final String IMAGE = "image";
+    private static final String IMAGE = "image";
     private static final Logger log = LoggerFactory.getLogger(AttachmentService.class);
 
     private final ArticleAttachmentRepository articleAttachmentRepository;
     private final AttachmentAssembler attachmentAssembler;
-    private final S3Uploader s3Uploader;
+    private final Uploader uploader;
+    private final UploaderConfig uploaderConfig;
 
-    public AttachmentService(ArticleAttachmentRepository articleAttachmentRepository, AttachmentAssembler attachmentAssembler, S3Uploader s3Uploader) {
+    public AttachmentService(ArticleAttachmentRepository articleAttachmentRepository, AttachmentAssembler attachmentAssembler,
+                             Uploader uploader, UploaderConfig uploaderConfig) {
         this.articleAttachmentRepository = articleAttachmentRepository;
         this.attachmentAssembler = attachmentAssembler;
-        this.s3Uploader = s3Uploader;
+        this.uploader = uploader;
+        this.uploaderConfig = uploaderConfig;
     }
 
     public AttachmentResponse saveAttachment(MultipartFile file, Article article) {
@@ -42,7 +47,7 @@ public class AttachmentService {
 
         checkImageType(file);
 
-        String filePath = s3Uploader.upload(file, s3Uploader.articlePath, hashingName);
+        String filePath = uploader.upload(file, uploaderConfig.articlePath, hashingName);
         ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
 
         return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
@@ -64,14 +69,14 @@ public class AttachmentService {
     }
 
     public UserProfileImage getDefaultProfileImage() {
-        return new UserProfileImage(s3Uploader.userProfileDefaultName, s3Uploader.userProfileDefaultPath);
+        return new UserProfileImage(uploaderConfig.userProfileDefaultName, uploaderConfig.userProfileDefaultPath);
     }
 
     public UserProfileImage saveProfileImage(MultipartFile file) {
         String hashingName = getHashedName(file.getOriginalFilename());
         checkImageType(file);
 
-        String filePath = s3Uploader.upload(file, s3Uploader.userProfilePath, hashingName);
+        String filePath = uploader.upload(file, uploaderConfig.userProfilePath, hashingName);
         return new UserProfileImage(file.getOriginalFilename(), filePath);
     }
 

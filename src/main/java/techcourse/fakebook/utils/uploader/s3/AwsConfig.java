@@ -1,4 +1,4 @@
-package techcourse.fakebook.utils.s3;
+package techcourse.fakebook.utils.uploader.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;

@@ -1,15 +1,14 @@
-package techcourse.fakebook.utils.s3;
+package techcourse.fakebook.utils.uploader.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.exception.FileSaveException;
+import techcourse.fakebook.utils.uploader.Uploader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,30 +16,18 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
-@PropertySource("classpath:s3.properties")
-public class S3Uploader {
+public class S3Uploader implements Uploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
 
     private final AmazonS3 amazonS3Client;
     private final String bucket;
-
-    @Value("${s3.article.path}")
-    public String articlePath;
-
-    @Value("${s3.user.profile.path}")
-    public String userProfilePath;
-
-    @Value("${s3.user.profile.default-path}")
-    public String userProfileDefaultPath;
-
-    @Value("${s3.user.profile.default-name}")
-    public String userProfileDefaultName;
 
     public S3Uploader(AmazonS3 amazonS3Client, String bucket) {
         this.amazonS3Client = amazonS3Client;
         this.bucket = bucket;
     }
 
+    @Override
     public String upload(MultipartFile multipartFile, String dirName, String fileName) {
         try {
             File uploadFile = convert(multipartFile, fileName)
