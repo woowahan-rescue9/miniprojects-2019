@@ -1,233 +1,93 @@
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+#messenger-modal .modal-content {
+	min-width: 300px;
+	padding: 20px;
+	background: linear-gradient(to bottom, #42b29f, #2fa5a5);
 }
 
-/* Modal Content/Box */
-.modal-content {
-    background: linear-gradient(to bottom, #42b29f, #2fa5a5);
-    border-bottom: 1px solid #33a38b;
-    margin: 7% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 35%;
-    height: 70%;
-}
-}
-/* The Close Button */
-.close {
-    color: #585858;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 10px;
+#messenger-modal .modal-header {
+	padding: 0;
+	border: 0;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+#messenger-modal .modal-body {
+	overflow: auto;
+	height: 400px;
+	margin: 10px 0;
 }
 
-.jstalktheme
-{
-    margin-top: auto;
-    padding: 4px 4px 0px 4px;
-    margin: 5px 5px 5px 5px;
-    height: 100%;
+#messenger-modal .modal-footer {
+	padding: 0;
+	border: 0;
 }
 
-.jstalktheme .clear
-{
+.modal-content .yours {
+	margin: 10px 0;
+}
+
+.your-profile-image {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	background-size: cover;
+	margin-right: 3px;
+}
+
+.your-profile-name {
+	vertical-align: top;
+	line-height: 32px;
+	color: #fff;
+	text-shadow: 2px 2px 2px gray;
+}
+
+.your-message {
+	max-width: 280px;
+	border-radius: 8px;
+	background-color: #fff;
+	padding: 8px;
+	margin: 3px 0;
+	display: inline-block;
+}
+
+.modal-content .mine {
+	margin: 3px 0;
+}
+
+.modal-content .mine:after {
+	display: block;
+	content: '';
 	clear: both;
 }
 
-.jstalktheme .blank
-{
-	clear: both;
-	height: 4px;
-}
-
-.msg
-{
-    overflow-y: scroll;
-    font-size: 12px;
-    height: 90%;
-}
-
-.jstalktheme .msg
-{
-    overflow-y: scroll;
-    font-size: 12px;
-}
-
-.jstalktheme .msg .time
-{
-	font-size: 10px;
-}
-
-.jstalktheme .msg .mytalk
-{
+.read {
+	color: #ffec42;
 	float: right;
-	width: 100%;
+	margin: 5px 5px 0 0;
 }
 
-.jstalktheme .msg .mytalk .time
-{
+.my-message {
 	float: right;
-	bottom: 0;
-}
-
-.jstalktheme .msg .mytalk .a
-{
-	float: right;
-	position: relative;
-	min-height: 24px;
-	max-width: calc(100% - 64px);
-	left: 2px;
+	max-width: 280px;
+	border-radius: 8px;
 	background-color: #ffec42;
-	border-radius: 3px;
-	z-index: 2;
-	padding: 0px 4px 0px 4px;
-	word-break: break-all;
+	padding: 8px;
+	margin: 3px 0;
+	display: inline-block;
 }
 
-.jstalktheme .msg .mytalk .b
-{
-	float: right;
-	position: relative;
-	width: 8px;
-	height: 22px;
-	background: url(./chat_balloon_yellow.right.png) no-repeat;
-	z-index: 1;
+#messenger-modal input {
+	height: 80px;
+	border-radius: 8px;
+	border: 0;
+	padding: 8px;
 }
 
-.jstalktheme .msg .othertalk
-{
-	float: left;
-	width: 100%;
+#messenger-modal input[type = "text"] {
+	width: 78%;
 }
 
-.jstalktheme .msg .othertalk .profile_image
-{
-	float: left;
-	width: 40px;
-	height: 40px;
-    border-radius: 100%;
-}
-
-.jstalktheme .msg .othertalk .box
-{
-	float: left;
-	width: calc(100% - 48px);
-}
-
-.jstalktheme .msg .othertalk .box .profile_name
-{
-	font-size: 12px;
-}
-
-.jstalktheme .msg .othertalk .box .a
-{
-	float: left;
-	position: relative;
-	width: 8px;
-	height: 22px;
-	background: url(./chat_balloon_white.left.png) no-repeat;
-	z-index: 1;
-}
-
-.jstalktheme .msg .othertalk .box .b
-{
-	float: left;
-	position: relative;
-	min-height: 24px;
-	max-width: calc(100% - 64px);
-	left: -2px;
-	background-color: #ffffff;
-	border-radius: 3px;
-	z-index: 2;
-	padding: 0px 4px 0px 4px;
-	word-break: break-all;
-}
-
-.jstalktheme .msg .othertalk .box .time
-{
-	float: left;
-}
-
-.jstalktheme .sendmsg
-{
-
-}
-
-.jstalktheme .sendmsg .textarea
-{
-	float: left;
-	width: calc(100% - 68px);
-	height: 64px;
-	border-radius: 8px 8px 8px 8px;
-	margin: 0px 0px 0px 0px;
-	padding: 2px 2px 2px 2px;
-	resize: none;
-}
-
-.jstalktheme .sendmsg .button
-{
-	float: right;
-	width: 62px;
-	height: 64px;
+#messenger-modal input[type = "submit"] {
+	width: 20%;
 	background-color: #ffec42;
-	border-radius: 8px 8px 8px 8px;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
-	text-align: center;
-	display: table;
 	cursor: pointer;
-}
-
-.jstalktheme .sendmsg .button p
-{
-  display: table-cell;
-  vertical-align: middle;
-}
-
-#myBtn
-{
-    border-color: #8b8b8b;
-    border-style: solid;
-    border-width: thin;
-    border-radius: 2px;
-    background: #f3f3f3;
-    cursor: pointer;
-    float: right;
-    vertical-align: middle;
-    width: 100px;
-    height: 26px;
-}
-
-.proimg
-{
-    width: 28px;
-    height: 28px;
-    border-radius: 100%;
-}
-
-.profile_name
-{
-    margin-left: 7px;
-}
-
-.time
-{
-    color: yellow;
 }

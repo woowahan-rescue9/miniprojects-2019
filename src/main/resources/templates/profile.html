@@ -106,30 +106,32 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
+                        <button th:if="${session.user.id} != ${user.id}" id="messenger" type="button"
+                                data-toggle="modal" data-target="#messenger-modal"><i
+                                class="icons messenger"></i> 메시지
+                        </button>
                         <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
                                 onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
-                        <button id="myBtn" th:if="${session.user.id} != ${user.id}">메세지</button>
                     </div>
-                    <!-- The Modal -->
-                    <div id="myModal" class="modal">
 
-                        <!-- Modal content -->
-                        <div class="modal-content">
-                            <span id="messageclose" class="close">&times;</span>
-                            <div class="jstalktheme" id="jstalktheme_test">
-                                <div id="messagearea" class="msg">
+                    <div class="modal fade" id="messenger-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" id="messenger-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <div class="sendmsg">
-                                      <textarea class="textarea" id="messagecontent" onkeypress="if(event.keyCode==13){ jstalktheme_testfunc(); this.value=''; return false; }else if(event.keyCode==10){ this.value+='\n'; }"></textarea>
-                                    <div id="sendmessage" class="button">
-                                        <p>전송</p>
-                                    </div>
+                                <div class="modal-body" id="message-area">
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="text" id="message-content">
+                                    <input type="submit" id="send-message" value="전송">
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">

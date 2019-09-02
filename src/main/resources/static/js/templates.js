@@ -104,6 +104,23 @@ const templates = (() => {
           <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
         </div>`
     }
+
+    yourMessage(name, imageSrc, read, msg) {
+      return `<div class="yours msg">
+                        <div class="your-profile">
+                            <span class="your-profile-image" style="background-image: url('${imageSrc}');"></span>
+                            <span class="your-profile-name">${name}</span>
+                        </div>
+                        <div class="your-message">${msg}</div>
+                    </div>`;
+    }
+
+    myMessage(read, msg) {
+      return `<div class="mine msg">
+                        <div class="my-message">${msg}</div>
+                        <div class="read">${read}</div>
+                    </div>`;
+    }
   }
 
   return new Templates()
