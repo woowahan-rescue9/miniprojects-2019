@@ -30,71 +30,48 @@ import java.util.stream.Collectors;
 public class ArticleService {
     private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
 
-    private final ArticleRepository articleRepository;
-    private final UserService userService;
-    private final ArticleAssembler articleAssembler;
-    private final AttachmentService attachmentService;
+    private final ArticleInnerService articleInnerService;
     private final ArticleLikeService articleLikeService;
+    private final UserService userService;
 
-    public ArticleService(ArticleRepository articleRepository, UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService, ArticleLikeService articleLikeService) {
-        this.articleRepository = articleRepository;
-        this.userService = userService;
-        this.articleAssembler = articleAssembler;
-        this.attachmentService = attachmentService;
+    public ArticleService(ArticleInnerService articleInnerService, ArticleLikeService articleLikeService, UserService userService) {
+        this.articleInnerService = articleInnerService;
         this.articleLikeService = articleLikeService;
+        this.userService = userService;
     }
 
     public ArticleResponse findById(Long id) {
-        Article article = getArticle(id);
-        return getArticleResponse(article);
+        log.debug("articleService.findById : {}", id);
+        return articleInnerService.findById(id);
     }
 
     public List<ArticleResponse> findByUser(User user) {
-        return articleRepository.findArticlesByUserOrderByCreatedDateDesc(user).stream()
-                .map(this::getArticleResponse)
-                .collect(Collectors.toList());
+        log.debug("articleService.findByUser : {}", user);
+        return articleInnerService.findByUser(user);
     }
 
     public List<ArticleResponse> findByUserIn(List<User> users) {
-        return articleRepository.findByUserInOrderByCreatedDateDesc(users).stream()
-                .map(this::getArticleResponse)
-                .collect(Collectors.toList());
-    }
-
-    private ArticleResponse getArticleResponse(Article article) {
-        List<AttachmentResponse> attachments = article.getAttachments().stream()
-                .map(attachmentService::getAttachmentResponse)
-                .collect(Collectors.toList());
-        return articleAssembler.toResponse(article, attachments);
+        log.debug("articleService.findByUserIn : {}", users);
+        return articleInnerService.findByUserIn(users);
     }
 
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
-        Article.validateArticle(articleRequest.getContent(), Optional.ofNullable(articleRequest.getFiles()));
-        User user = userService.getUser(userOutline.getId());
-        Article article = articleRepository.save(articleAssembler.toEntity(articleRequest, user));
-
-        List<AttachmentResponse> files = Optional.ofNullable(articleRequest.getFiles()).orElse(new ArrayList<>()).stream()
-                .map(file -> attachmentService.saveAttachment(file, article))
-                .collect(Collectors.toList());
-
-        return articleAssembler.toResponse(article, files);
+        log.debug("articleService.save : (article : {}, user : {})", articleRequest, userOutline);
+        return articleInnerService.save(articleRequest, userService.getUser(userOutline.getId()));
     }
 
     public ArticleResponse update(Long id, ArticleRequest updatedRequest, UserOutline userOutline) {
-        Article article = getArticle(id);
-        checkAuthor(userOutline, article);
-        article.update(updatedRequest.getContent());
-        return articleAssembler.toResponse(article);
+        log.debug("articleService.update : (id : {}, article : {}, user : {})", id, updatedRequest, userOutline);
+        return articleInnerService.update(id, updatedRequest, userOutline);
     }
 
     public void deleteById(Long id, UserOutline userOutline) {
-        Article article = getArticle(id);
-        checkAuthor(userOutline, article);
-        article.delete();
+        log.debug("articleService.deleteById : (id : {}, user : {})", id, userOutline);
+        articleInnerService.deleteById(id, userOutline);
     }
 
     public boolean like(Long articleId, UserOutline userOutline) {
-        if (articleLikeService.isLiked(userOutline.getId(), articleId)) {
+        if (isLiked(articleId, userOutline)) {
             articleLikeService.cancelLike(userOutline.getId(), articleId);
             return false;
         }
@@ -113,16 +90,6 @@ public class ArticleService {
     }
 
     public Article getArticle(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(NotFoundArticleException::new);
-        if (article.isDeleted()) {
-            throw new NotFoundArticleException();
-        }
-        return article;
-    }
-
-    private void checkAuthor(UserOutline userOutline, Article article) {
-        if (article.isNotAuthor(userOutline.getId())) {
-            throw new InvalidAuthorException();
-        }
+        return articleInnerService.getArticle(id);
     }
 }
