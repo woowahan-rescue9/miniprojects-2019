@@ -55,8 +55,4 @@ public class Chat extends BaseEntity {
     public Boolean getRead() {
         return read;
     }
-
-    public void read() {
-        read = true;
-    }
 }

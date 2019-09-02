@@ -33,22 +33,6 @@ public class ChatService {
         this.messanger = messanger;
     }
 
-    @Transactional
-    public List<ChatResponse> findByFromUserAndToUser(Boolean first, UserOutline userOutline, Long toUserId) {
-        log.debug("begin");
-
-        chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
-        List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
-        List<ChatResponse> chatResponses =
-                chats.stream()
-                        .map(chatAssembler::toChatResponse)
-                        .collect(Collectors.toList());
-        if (first) {
-            messanger.convertAndSend(("/api/chatting"), chatResponses);
-        }
-        return chatResponses;
-    }
-
     public ChatResponse save(UserOutline userOutline, ChatRequest chatRequest) {
         log.debug("begin");
 
@@ -59,5 +43,22 @@ public class ChatService {
         Chat savedChat = chatRepository.save(chat);
 
         return chatAssembler.toChatResponse(savedChat);
+    }
+
+    @Transactional
+    public List<ChatResponse> findByFromUserAndToUser(Boolean first, UserOutline userOutline, Long toUserId) {
+        log.debug("begin");
+
+        chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
+        List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
+        List<ChatResponse> chatResponses =
+                chats.stream()
+                        .map(chatAssembler::toChatResponse)
+                        .collect(Collectors.toList());
+
+        if (first) {
+            messanger.convertAndSend(("/api/chatting"), chatResponses);
+        }
+        return chatResponses;
     }
 }

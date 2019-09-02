@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/chats")
 public class ChatApiController {
-    private final ChatService chatService;
-
     private static final Logger log = LoggerFactory.getLogger(ChatApiController.class);
+
+    private final ChatService chatService;
 
     public ChatApiController(ChatService chatService) {
         this.chatService = chatService;
