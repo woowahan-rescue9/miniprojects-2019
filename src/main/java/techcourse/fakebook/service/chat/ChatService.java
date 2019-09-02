@@ -19,13 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
+
     private final ChatRepository chatRepository;
     private final ChatAssembler chatAssembler;
     private final UserService userService;
     private final SimpMessagingTemplate messanger;
-
-    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
-
 
     public ChatService(ChatRepository chatRepository, ChatAssembler chatAssembler, UserService userService, SimpMessagingTemplate messanger) {
         this.chatRepository = chatRepository;
@@ -44,7 +43,7 @@ public class ChatService {
                 chats.stream()
                         .map(chatAssembler::toChatResponse)
                         .collect(Collectors.toList());
-        if(first){
+        if (first) {
             messanger.convertAndSend(("/api/chatting"), chatResponses);
         }
         return chatResponses;

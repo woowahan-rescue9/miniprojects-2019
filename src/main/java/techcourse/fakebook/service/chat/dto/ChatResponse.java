@@ -22,16 +22,16 @@ public class ChatResponse {
         return id;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public String getUserName() {
         return userName;
     }
 
     public String getContent() {
         return content;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 
     public Boolean getRead() {
