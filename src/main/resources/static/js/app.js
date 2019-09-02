@@ -545,3 +545,7 @@ window.App = (() => {
   const api = new Api()
   return new Controller(new ArticleService(api), new CommentService(api), new FriendService(), new SearchService(), new UserService(api), new ProfileService(api))
 })()
+const userId = window.location.pathname.replace("/users/", "")
+window.App.showNewsfeed()
+window.App.showFriends(userId)
+window.App.showArticles(userId)
