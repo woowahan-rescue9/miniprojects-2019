@@ -1,0 +1,93 @@
+#messenger-modal .modal-content {
+	min-width: 300px;
+	padding: 20px;
+	background: linear-gradient(to bottom, #42b29f, #2fa5a5);
+}
+
+#messenger-modal .modal-header {
+	padding: 0;
+	border: 0;
+}
+
+#messenger-modal .modal-body {
+	overflow: auto;
+	height: 400px;
+	margin: 10px 0;
+}
+
+#messenger-modal .modal-footer {
+	padding: 0;
+	border: 0;
+}
+
+.modal-content .yours {
+	margin: 10px 0;
+}
+
+.your-profile-image {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	border-radius: 100%;
+	background-size: cover;
+	margin-right: 3px;
+}
+
+.your-profile-name {
+	vertical-align: top;
+	line-height: 32px;
+	color: #fff;
+	text-shadow: 2px 2px 2px gray;
+}
+
+.your-message {
+	max-width: 280px;
+	border-radius: 8px;
+	background-color: #fff;
+	padding: 8px;
+	margin: 3px 0;
+	display: inline-block;
+}
+
+.modal-content .mine {
+	margin: 3px 0;
+}
+
+.modal-content .mine:after {
+	display: block;
+	content: '';
+	clear: both;
+}
+
+.read {
+	color: #ffec42;
+	float: right;
+	margin: 5px 5px 0 0;
+}
+
+.my-message {
+	float: right;
+	max-width: 280px;
+	border-radius: 8px;
+	background-color: #ffec42;
+	padding: 8px;
+	margin: 3px 0;
+	display: inline-block;
+}
+
+#messenger-modal input {
+	height: 80px;
+	border-radius: 8px;
+	border: 0;
+	padding: 8px;
+}
+
+#messenger-modal input[type = "text"] {
+	width: 78%;
+}
+
+#messenger-modal input[type = "submit"] {
+	width: 20%;
+	background-color: #ffec42;
+	cursor: pointer;
+}

@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import techcourse.fakebook.service.notification.NotificationChannel;
-import techcourse.fakebook.service.notification.dto.NotificationResponse;
 import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.web.argumentresolver.SessionUser;

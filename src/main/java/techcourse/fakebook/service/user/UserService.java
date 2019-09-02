@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import techcourse.fakebook.domain.user.User;
+import techcourse.fakebook.domain.user.UserProfileImage;
 import techcourse.fakebook.domain.user.UserRepository;
 import techcourse.fakebook.exception.NotFoundUserException;
 import techcourse.fakebook.service.attachment.AttachmentService;
@@ -16,6 +18,7 @@ import techcourse.fakebook.service.user.dto.UserUpdateRequest;
 import techcourse.fakebook.service.user.encryptor.Encryptor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,14 +72,35 @@ public class UserService {
 
     public UserResponse update(Long userId, UserUpdateRequest userUpdateRequest) {
         log.debug("begin");
-        String password = userUpdateRequest.getPassword();
         User user = getUser(userId);
+        UserProfileImage profileImage = getUpdatedPofileImage(userUpdateRequest, user);
+        String password = getUpdatedPassword(userUpdateRequest, user);
 
-        user.updateModifiableFields(userUpdateRequest.getName(), encryptor.encrypt(password),
-                userUpdateRequest.getIntroduction(), attachmentService.getProfileImage(userUpdateRequest.getProfileImage()));
+        user.updateModifiableFields(userUpdateRequest.getName(), password,
+                userUpdateRequest.getIntroduction(), profileImage);
 
         log.debug("user: {}", user);
         return userAssembler.toResponse(user);
+    }
+
+    private UserProfileImage getUpdatedPofileImage(UserUpdateRequest userUpdateRequest, User user) {
+        Optional<MultipartFile> maybeProfileImage = Optional.ofNullable(userUpdateRequest.getProfileImage());
+        if (maybeProfileImage.isPresent()) {
+            MultipartFile profileImage = maybeProfileImage.get();
+            return attachmentService.saveProfileImage(profileImage);
+        }
+
+        return user.getProfileImage();
+    }
+
+    private String getUpdatedPassword(UserUpdateRequest userUpdateRequest, User user) {
+        Optional<String> maybePassword = Optional.ofNullable(userUpdateRequest.getPassword());
+        if (maybePassword.isPresent()) {
+            String password = maybePassword.get();
+            User.validatePassword(password);
+            return encryptor.encrypt(password);
+        }
+        return user.getEncryptedPassword();
     }
 
     public void deleteById(Long userId) {

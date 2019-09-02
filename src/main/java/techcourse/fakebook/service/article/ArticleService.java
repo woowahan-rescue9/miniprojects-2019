@@ -72,8 +72,8 @@ public class ArticleService {
         return articleAssembler.toResponse(article, attachments);
     }
 
-    @Transactional
     public ArticleResponse save(ArticleRequest articleRequest, UserOutline userOutline) {
+        Article.validateArticle(articleRequest.getContent(), Optional.ofNullable(articleRequest.getFiles()));
         User user = userService.getUser(userOutline.getId());
         Article article = articleRepository.save(articleAssembler.toEntity(articleRequest, user));
 

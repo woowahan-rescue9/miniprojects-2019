@@ -38,7 +38,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/users/**")
                 .addPathPatterns("/api/users/**")
                 .addPathPatterns("/newsfeed")
-                .addPathPatterns("/logout");
+                .addPathPatterns("/logout")
+                .addPathPatterns("/friendships/candidates")
+                .addPathPatterns("/api/chats");
+
+//        registry.addInterceptor(visitorTrackingInterceptor)
+//                .addPathPatterns("/users/**");
     }
 
     @Override

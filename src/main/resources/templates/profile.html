@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/chat.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -89,7 +90,7 @@
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
                 <div class="card widget-compose">
                     <div id="profile-photo-container">
-                        <img th:src="${user.profileImage.path}"
+                        <img id="profileimg" th:src="${user.profileImage.path}"
                              alt="프로필 사진">
                         <p th:text="${user.name}">이름</p>
                     </div>
@@ -105,11 +106,32 @@
                                 th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
                                 class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
                         </button>
+                        <button th:if="${session.user.id} != ${user.id}" id="messenger" type="button"
+                                data-toggle="modal" data-target="#messenger-modal"><i
+                                class="icons messenger"></i> 메시지
+                        </button>
                         <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
                                 onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
                                 class="icons edit-profile"></i> 프로필 수정
                         </button>
                     </div>
+
+                    <div class="modal fade" id="messenger-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" id="messenger-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body" id="message-area">
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="text" id="message-content">
+                                    <input type="submit" id="send-message" value="전송">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -241,5 +263,6 @@
 <script src="/js/app.js"></script>
 <script src="/js/profile.js"></script>
 <script src="/js/notification.js"></script>
+<script src="/js/chat.js"></script>
 </body>
 </html>

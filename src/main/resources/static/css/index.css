@@ -320,6 +320,13 @@ header ul.nav-right li, header ul.nav-left li {
     background-size: 37px 1608px
 }
 
+.icons.messenger {
+    width: 16px;
+    height: 16px;
+    background-image: url('/images/default/message.png');
+    background-size: 16px
+}
+
 .icons.edit-profile {
     width: 16px;
     height: 16px;
@@ -586,7 +593,7 @@ header ul.nav-right li, header ul.nav-left li {
     height: 144px
 }
 
-#add-friend, #remove-friend, #edit-profile {
+#add-friend, #remove-friend, #edit-profile, #messenger {
     border-color: #8b8b8b;
     border-style: solid;
     border-width: thin;
@@ -613,6 +620,11 @@ header ul.nav-right li, header ul.nav-left li {
 
 #edit-profile {
     width: 105px;
+}
+
+#messenger {
+    width: 80px;
+    margin-right: 8px;
 }
 
 .friend {

@@ -1,48 +1,10 @@
 # miniprojects-2019
 
-## Controller 
-- [ ] ResponseEntity static factory method
-- [ ] UserApiController api uri 추가
-
-## Domain
-- [x] DateTime Entity rename
-- [ ] Article
-    - [ ] isPresent rename
-    - [ ] equals, hashcode, toString
-- [ ] User
-    - [ ] gender enum 처리
-    - [ ] validation
-- [ ] Comment
-    - [ ] equals, hashcode, toString
-- [ ] ArticleLike
-    - [ ] equals, hashcode, toString
-- [ ] CommentLike
-    - [ ] equals, hashcode, toString
-
-
-## Service
-- [ ] ArticleService
-    - [ ] getArticle() : JPA @Where 어노테이션 적용 or JPA쿼리에서 값만가져오기
-    - [ ] like() : delete가 정상적으로 되는지 확인 필요(영속성 등록이 안된 객체임)
-- [ ] LoginService
-    - [ ] checkEncryptedPassword 확인
-- [ ] UserDto
-    - [ ] validation
-- [ ] CommentLikeResponse
-    - [ ] isLiked 대신에 HttpStatus로 응답
-- [x] Assembler 통일성 맞추기(빈으로 생성하던지, static method로 생성하던지)
-
-
-## Test
-- [ ] Article, Comment Controller
-    - [ ] Like 테스트 추가
-    - [ ] CRUD 공통 로직 추상화
-- [ ] Article, Comment Service
-    - [ ] like 테스트 다시 수정
-    
-
-## pakage
-- [ ] service, controller 도에민 별 패키지 분리
-
-
-    
+- [x] 서버 시간 설정
+- [x] 프로필 사진 png 안들어가짐, 이미지 외의 파일 업로드 가능
+- [x] 프로필 수정시에 빈칸빼고 수정 가능하게
+- [x] 게시글 작성시 이미지만 업로드 가능하게
+- [x] 이미지 업로드 시 alert 두번
+- [x] 메소드 단위 Transactional 삭제
+- [x] 공통 exception에 대한 error logging 및 예외 포장 위치 변경
+- [x] Uploader 인터페이스 선언 및 상수 프로퍼티 관리
