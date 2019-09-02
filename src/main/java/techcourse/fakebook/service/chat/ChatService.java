@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
+
     private final ChatRepository chatRepository;
     private final ChatAssembler chatAssembler;
     private final UserService userService;
     private final SimpMessagingTemplate messanger;
-
-    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
 
 
     public ChatService(ChatRepository chatRepository, ChatAssembler chatAssembler, UserService userService, SimpMessagingTemplate messanger) {
@@ -32,22 +32,6 @@ public class ChatService {
         this.chatAssembler = chatAssembler;
         this.userService = userService;
         this.messanger = messanger;
-    }
-
-    @Transactional
-    public List<ChatResponse> findByFromUserAndToUser(Boolean first, UserOutline userOutline, Long toUserId) {
-        log.debug("begin");
-
-        chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
-        List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
-        List<ChatResponse> chatResponses =
-                chats.stream()
-                        .map(chatAssembler::toChatResponse)
-                        .collect(Collectors.toList());
-        if(first){
-            messanger.convertAndSend(("/api/chatting"), chatResponses);
-        }
-        return chatResponses;
     }
 
     public ChatResponse save(UserOutline userOutline, ChatRequest chatRequest) {
@@ -60,5 +44,22 @@ public class ChatService {
         Chat savedChat = chatRepository.save(chat);
 
         return chatAssembler.toChatResponse(savedChat);
+    }
+
+    @Transactional
+    public List<ChatResponse> findByFromUserAndToUser(Boolean first, UserOutline userOutline, Long toUserId) {
+        log.debug("begin");
+
+        chatRepository.updateReadByFromUserIdAndToUserId(userOutline.getId(), toUserId);
+        List<Chat> chats = chatRepository.findByFromUserAndToUserOrToUserAndFromUser(userOutline.getId(), toUserId);
+        List<ChatResponse> chatResponses =
+                chats.stream()
+                        .map(chatAssembler::toChatResponse)
+                        .collect(Collectors.toList());
+
+        if (first) {
+            messanger.convertAndSend(("/api/chatting"), chatResponses);
+        }
+        return chatResponses;
     }
 }

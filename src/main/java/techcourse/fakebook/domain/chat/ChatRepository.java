@@ -3,9 +3,6 @@ package techcourse.fakebook.domain.chat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.comment.Comment;
-import techcourse.fakebook.domain.user.User;
 
 import java.util.List;
 
