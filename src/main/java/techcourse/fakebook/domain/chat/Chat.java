@@ -17,7 +17,6 @@ public class Chat extends BaseEntity {
     private String content;
 
     @OneToOne
-
     private User fromUser;
 
     @OneToOne
@@ -53,9 +52,7 @@ public class Chat extends BaseEntity {
         return toUser;
     }
 
-    public Boolean getRead() {return read;}
-
-    public void read() {
-        read = true;
+    public Boolean getRead() {
+        return read;
     }
 }

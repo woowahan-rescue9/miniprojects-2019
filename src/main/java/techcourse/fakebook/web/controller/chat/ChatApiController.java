@@ -15,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/chats")
-public class ChatController {
+public class ChatApiController {
+    private static final Logger log = LoggerFactory.getLogger(ChatApiController.class);
+
     private final ChatService chatService;
 
-    private static final Logger log = LoggerFactory.getLogger(ChatController.class);
-
-    public ChatController(ChatService chatService) {
+    public ChatApiController(ChatService chatService) {
         this.chatService = chatService;
     }
 
