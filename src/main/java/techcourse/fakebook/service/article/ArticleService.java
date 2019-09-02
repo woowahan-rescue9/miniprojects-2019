@@ -31,21 +31,17 @@ public class ArticleService {
     private static final Logger log = LoggerFactory.getLogger(ArticleService.class);
 
     private final ArticleRepository articleRepository;
-    private final ArticleLikeRepository articleLikeRepository;
     private final UserService userService;
     private final ArticleAssembler articleAssembler;
     private final AttachmentService attachmentService;
-    private final NotificationService notificationService;
+    private final ArticleLikeService articleLikeService;
 
-    public ArticleService(ArticleRepository articleRepository, ArticleLikeRepository articleLikeRepository,
-                          UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService,
-                          NotificationService notificationService) {
+    public ArticleService(ArticleRepository articleRepository, UserService userService, ArticleAssembler articleAssembler, AttachmentService attachmentService, ArticleLikeService articleLikeService) {
         this.articleRepository = articleRepository;
-        this.articleLikeRepository = articleLikeRepository;
         this.userService = userService;
         this.articleAssembler = articleAssembler;
         this.attachmentService = attachmentService;
-        this.notificationService = notificationService;
+        this.articleLikeService = articleLikeService;
     }
 
     public ArticleResponse findById(Long id) {
@@ -97,31 +93,23 @@ public class ArticleService {
         article.delete();
     }
 
-    public boolean like(Long id, UserOutline userOutline) {
-        Optional<ArticleLike> articleLike = Optional.ofNullable(articleLikeRepository.findByUserIdAndArticleId(userOutline.getId(), id));
-        if (articleLike.isPresent()) {
-            cancelLike(articleLike.get());
+    public boolean like(Long articleId, UserOutline userOutline) {
+        if (articleLikeService.isLiked(userOutline.getId(), articleId)) {
+            articleLikeService.cancelLike(userOutline.getId(), articleId);
             return false;
         }
-        Article article = getArticle(id);
-        articleLikeRepository.save(new ArticleLike(userService.getUser(userOutline.getId()), article));
 
-        if (article.isNotAuthor(userOutline.getId())) {
-            notificationService.likeFromTo(userOutline.getId(), article);
-        }
+        articleLikeService.save(userService.getUser(userOutline.getId()), getArticle(articleId));
         return true;
     }
 
-    private void cancelLike(ArticleLike articleLike) {
-        articleLikeRepository.delete(articleLike);
-    }
 
-    public boolean isLiked(Long id, UserOutline userOutline) {
-        return articleLikeRepository.existsByUserIdAndArticleId(userOutline.getId(), id);
+    public boolean isLiked(Long articleId, UserOutline userOutline) {
+        return articleLikeService.isLiked(userOutline.getId(), articleId);
     }
 
     public Integer getLikeCountOf(Long articleId) {
-        return articleLikeRepository.countArticleLikeByArticleId(articleId);
+        return articleLikeService.countByArticleId(articleId);
     }
 
     public Article getArticle(Long id) {
