@@ -9,8 +9,6 @@ import java.util.Objects;
 
 @Entity
 public class ArticleAttachment extends BaseEntity {
-    public static String ARTICLE_STATIC_FILE_PATH = "article/";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

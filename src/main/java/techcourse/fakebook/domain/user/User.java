@@ -1,6 +1,7 @@
 package techcourse.fakebook.domain.user;
 
 import techcourse.fakebook.domain.BaseEntity;
+import techcourse.fakebook.exception.InvalidUserPasswordException;
 import techcourse.fakebook.utils.validator.FullName;
 
 import javax.persistence.*;
@@ -9,6 +10,8 @@ import java.util.Objects;
 
 @Entity
 public class User extends BaseEntity {
+    public static final String USER_PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[~!@#$%^&*()])[A-Za-z\\d~!@#$%^&*()]{8,}";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,6 +50,12 @@ public class User extends BaseEntity {
         this.profileImage = profileImage;
         this.birth = birth;
         this.introduction = introduction;
+    }
+
+    public static void validatePassword(String password) {
+        if (!password.matches(USER_PASSWORD_REGEX)) {
+            throw new InvalidUserPasswordException();
+        }
     }
 
     public void updateModifiableFields(String name, String encryptedPassword, String introduction, UserProfileImage profileImage) {

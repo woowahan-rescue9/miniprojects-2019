@@ -3,7 +3,7 @@
     top: 34px;
     left: 12px;
     height: 180px;
-    overflow-y: auto;
+    -y: auto;
 }
 
 .dropdown-item {

@@ -87,17 +87,36 @@ class UserServiceTest extends ServiceTestHelper {
         User user = mock(User.class);
         UserProfileImage profileImage = mock(UserProfileImage.class);
         UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
-                "updatedName", "updatedPassword");
+                "updatedName", "!234Qwer");
         Long existUserId = 1L;
         given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
-        given(attachmentService.getProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);
+        given(attachmentService.saveProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);
         given(encryptor.encrypt(userUpdateRequest.getPassword())).willReturn("aaaaaaaa");
         // Act
         userService.update(existUserId, userUpdateRequest);
 
         // Assert
-        verify(user).updateModifiableFields(userUpdateRequest.getName(),  "aaaaaaaa",
-                 userUpdateRequest.getIntroduction(), profileImage);
+        verify(user).updateModifiableFields(userUpdateRequest.getName(), "aaaaaaaa",
+                userUpdateRequest.getIntroduction(), profileImage);
+    }
+
+    @Test
+    void 비밀번호를_입력하지_않고_유저_수정() {
+        // Arrange
+        User user = mock(User.class);
+        UserProfileImage profileImage = mock(UserProfileImage.class);
+        UserUpdateRequest userUpdateRequest = new UserUpdateRequest(image, "updatedIntroduction",
+                "updatedName", null);
+        Long existUserId = 1L;
+        given(userRepository.findById(existUserId)).willReturn(Optional.of(user));
+        given(attachmentService.saveProfileImage(userUpdateRequest.getProfileImage())).willReturn(profileImage);
+        given(user.getEncryptedPassword()).willReturn("aaa");
+        // Act
+        userService.update(existUserId, userUpdateRequest);
+
+        // Assert
+        verify(user).updateModifiableFields(userUpdateRequest.getName(), "aaa",
+                userUpdateRequest.getIntroduction(), profileImage);
     }
 
     @Test

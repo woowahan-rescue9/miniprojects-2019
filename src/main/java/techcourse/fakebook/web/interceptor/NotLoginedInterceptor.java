@@ -20,7 +20,7 @@ public class NotLoginedInterceptor extends HandlerInterceptorAdapter {
 
         Optional<UserOutline> sessionUser = Optional.ofNullable((UserOutline) request.getSession().getAttribute("user"));
 
-        if (request.getRequestURI().matches(".*/users.*") && (request.getMethod().equals("POST") || (request.getMethod().equals("GET")))) {
+        if (request.getRequestURI().matches(".*/users.*") && (request.getMethod().equals("POST"))) {
             return true;
         }
 

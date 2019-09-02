@@ -96,6 +96,31 @@ export default new class Templates {
       <i class="fa fa-thumbs-o-up text-info font-size-16 mrg-left-5"></i>
       <span id="count-of-comment-like-${input.id}"></span>
     </div>`
+
+  }
+
+  friendTemplate(input) {
+    return `<div class="friend">
+      <img src="${input.profileImage}" alt="${input.name}">
+      <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
+    </div>`
+  }
+
+  yourMessage(name, imageSrc, read, msg) {
+    return `<div class="yours msg">
+      <div class="your-profile">
+        <span class="your-profile-image" style="background-image: url('${imageSrc}');"></span>
+        <span class="your-profile-name">${name}</span>
+      </div>
+      <div class="your-message">${msg}</div>
+    </div>`
+  }
+
+  myMessage(read, msg) {
+    return `<div class="mine msg">
+      <div class="my-message">${msg}</div>
+      <div class="read">${read}</div>
+    </div>`
   }
 
   friendTemplate(input) {

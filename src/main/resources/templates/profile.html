@@ -33,6 +33,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/chat.css">
   </head>
   <body>
     <div id="wootecobook-app">
@@ -89,60 +90,79 @@
           <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
             <div class="card widget-compose">
               <div id="profile-photo-container">
-                <img th:src="${user.profileImage.path}"
-                  alt="프로필 사진">
-                <p th:text="${user.name}">이름</p>
-              </div>
-              <div th:if="${session.user}">
-                <input id="user-id" type="hidden" th:value="${session.user.id}">
-                <input id="friend-id" type="hidden" th:value="${user.id}">
-                <input id="already-friend" type="hidden" th:value="${isFriend}">
-                <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button"
-                    th:onclick="|javascript:App.makeFriend('${user.id}')|"><i
-                    class="ti-plus font-size-8"><i class="icons add-friend"></i></i> 친구 추가
-                </button>
-                <button th:if="${session.user.id} != ${user.id}" id="remove-friend" type="button"
-                    th:onclick="|javascript:App.breakWithFriend('${user.id}')|"><i
-                    class="ti-minus font-size-8"><i class="icons add-friend"></i></i> 친구 제거
-                </button>
-                <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button"
-                    onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal"><i
-                    class="icons edit-profile"></i> 프로필 수정
-                </button>
-              </div>
-              <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h2 class="modal-title" id="myModalLabel">프로필 수정</h2>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <img id="profileimg" th:src="${user.profileImage.path}" alt="프로필 사진">
+                  <p th:text="${user.name}">이름</p>
+                </div>
+                <div th:if="${session.user}">
+                  <input id="user-id" type="hidden" th:value="${session.user.id}">
+                  <input id="friend-id" type="hidden" th:value="${user.id}">
+                  <input id="already-friend" type="hidden" th:value="${isFriend}">
+                  <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button" th:onclick="|javascript:App.makeFriend('${user.id}')|">
+                    <i class="ti-plus font-size-8">
+                      <i class="icons add-friend"></i>
+                    </i> 친구 추가
+                  </button>
+                  <button th:if="${session.user.id} != ${user.id}" id="remove-friend" type="button" th:onclick="|javascript:App.breakWithFriend('${user.id}')|">
+                    <i class="ti-minus font-size-8">
+                      <i class="icons add-friend"></i>
+                    </i> 친구 제거
+                  </button>
+                  <button th:if="${session.user.id} != ${user.id}" id="messenger" type="button" data-toggle="modal" data-target="#messenger-modal">
+                    <i class="icons messenger"></i> 메시지
+                  </button>
+                  <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal">
+                    <i class="icons edit-profile"></i> 프로필 수정
+                  </button>
+                </div>
+
+                <div class="modal fade" id="messenger-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" id="messenger-close" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body" id="message-area"></div>
+                      <div class="modal-footer">
+                        <input type="text" id="message-content">
+                        <input type="submit" id="send-message" value="전송">
+                      </div>
                     </div>
-                    <div class="modal-body">
-                      <h3>사진 수정</h3>
-                      <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
-                      <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
+                  </div>
+                </div>
 
-                      <h3>소개 수정</h3>
-                      <input type="text" id="edit-introduction">
-
-                      <h3>이름 수정</h3>
-                      <input type="text" id="edit-name">
-
-                      <h3>비밀번호 수정</h3>
-                      <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
-                      <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      <button type="submit" id="edit-profile-button" class="btn btn-primary"
-                          onclick="javascript:App.editProfile()">Save changes</button>
+                <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h2 class="modal-title" id="myModalLabel">프로필 수정</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h3>사진 수정</h3>
+                        <input id="profile-attachment" type="file" accept="file_extension|image/*|media_type">
+                        <img id="profile-image" src="#" alt="프로필 이미지" style="visibility: hidden"/>
+                        <h3>소개 수정</h3>
+                        <input type="text" id="edit-introduction">
+                        <h3>이름 수정</h3>
+                        <input type="text" id="edit-name">
+                        <h3>비밀번호 수정</h3>
+                        <input type="password" id="edit-password" placeholder="변경할 비밀번호" style="ime-mode:disabled">
+                        <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" id="edit-profile-button" class="btn btn-primary" onclick="javascript:App.editProfile()">Save changes</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
         <div class="row mrg-top-20">
           <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -150,8 +170,10 @@
               <div class="card widget-compose">
                 <div class="introduction-icon"></div>
                 <p class="border bottom width-100 pdd-btm-5 text-bold">소개</p>
-                <p class="text-center width-100" th:text="${user.introduction}">간단한 소개를 추가하여 회원님에 대해 자세히
-                  알려주세요.<br><br><a href="">소개 추가</a></p>
+                <p class="text-center width-100" th:text="${user.introduction}">간단한 소개를 추가하여 회원님에 대해 자세히 알려주세요.
+                    <br><br>
+                    <a href="">소개 추가</a>
+                </p>
               </div>
               <div class="card widget-compose">
                 <div class="friend-icon"></div>
@@ -168,15 +190,15 @@
               <div th:if="${session.user.id} == ${user.id}" class="social-feeds">
                 <div class="card widget-compose">
                   <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
-                  <textarea id="new-article" class="resize-none form-control border bottom resize-none"
-                      th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
-
+                  <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
                   <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
                           <h2 class="modal-title">사진 첨부</h2>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
                         </div>
                         <div class="modal-body">
                           <input id="attachment" type="file" accept="file_extension|image/*|media_type">
@@ -239,7 +261,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://unpkg.com/simple-notifications-solution/dist/Notifications.js"></script>
     <script src="/js/app.js" type="module"></script>
-    <script src="/js/profile.js"></script>
     <script src="/js/notification.js"></script>
+    <script src="/js/chat.js"></script>
   </body>
 </html>

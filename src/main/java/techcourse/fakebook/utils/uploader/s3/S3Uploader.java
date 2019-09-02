@@ -1,13 +1,14 @@
-package techcourse.fakebook.utils.s3;
+package techcourse.fakebook.utils.uploader.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import techcourse.fakebook.exception.FileSaveException;
+import techcourse.fakebook.utils.uploader.Uploader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,23 +16,28 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Component
-public class S3Uploader {
+public class S3Uploader implements Uploader {
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
 
     private final AmazonS3 amazonS3Client;
+    private final String bucket;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    public S3Uploader(AmazonS3 amazonS3Client) {
+    public S3Uploader(AmazonS3 amazonS3Client, String bucket) {
         this.amazonS3Client = amazonS3Client;
+        this.bucket = bucket;
     }
 
-    public String upload(MultipartFile multipartFile, String dirName, String fileName) throws IOException {
-        File uploadFile = convert(multipartFile, fileName)
-                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+    @Override
+    public String upload(MultipartFile multipartFile, String dirName, String fileName) {
+        try {
+            File uploadFile = convert(multipartFile, fileName)
+                    .orElseThrow(FileSaveException::new);
 
-        return upload(uploadFile, dirName, fileName);
+            return upload(uploadFile, dirName, fileName);
+        } catch (IOException e) {
+            log.error("FileSaveError : file write 실패");
+            throw new FileSaveException();
+        }
     }
 
     private String upload(File uploadFile, String dirName, String fileName) {
@@ -63,6 +69,7 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
 
+        log.error("FileSaveError : convert 실패");
         return Optional.empty();
     }
 }
