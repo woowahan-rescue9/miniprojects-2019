@@ -8,7 +8,7 @@ import techcourse.fakebook.service.user.UserService;
 
 @Component
 public class NotificationAssembler {
-    private int maxSummaryLength = 15;
+    public int MAX_SUMMARY_LENGTH = 20;
     private final UserService userService;
 
     public NotificationAssembler(UserService userService) {
@@ -40,18 +40,9 @@ public class NotificationAssembler {
         return new NotificationResponse(type, this.userService.getUserOutline(srcUserId), srcSummary, content);
     }
 
-    public int getMaxSummaryLength() {
-        return this.maxSummaryLength;
-    }
-
-    public int setMaxSummaryLength(int length) {
-        this.maxSummaryLength = length;
-        return length;
-    }
-
     private String summarize(String content) {
-        return (content.length() > this.maxSummaryLength)
-                ? content.substring(0, this.maxSummaryLength - 4) + " ..."
+        return (content.length() > this.MAX_SUMMARY_LENGTH)
+                ? content.substring(0, this.MAX_SUMMARY_LENGTH - 4) + " ..."
                 : content;
     }
 

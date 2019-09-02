@@ -8,9 +8,7 @@
     </appender>
 
     <!-- 자바 패키지별 log level을 설정한다. -->
-    <logger name="techcourse" level="DEBUG">
-        <appender-ref ref="STDOUT"/>
-    </logger>
+    <logger name="techcourse" level="DEBUG"/>
 
     <!-- 기본 log level을 설정한다. -->
     <root level="INFO">

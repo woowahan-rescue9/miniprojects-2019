@@ -62,7 +62,7 @@ class NotificationAssemblerTest {
     }
 
     @Test
-    void 댓글_알림_메세지_짧은_글() {
+    void 댓글_알림_메세지_25자_이하_글() {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
@@ -78,7 +78,7 @@ class NotificationAssemblerTest {
     }
 
     @Test
-    void 댓글_알림_메세지_긴_글() {
+    void 댓글_알림_메세지_25자_초과_글() {
         final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
         final Comment COMMENT = new Comment("ㅋㅋㅋㅋ", ARTICLE, user);
         assertThat(
@@ -89,7 +89,7 @@ class NotificationAssemblerTest {
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent().substring(
                                 0,
-                                notificationAssembler.getMaxSummaryLength() - 4
+                                notificationAssembler.MAX_SUMMARY_LENGTH - 4
                         ) + " ...",
                         COMMENT.getContent()
                 )
@@ -97,7 +97,7 @@ class NotificationAssemblerTest {
     }
 
     @Test
-    void 좋아요_알림_메세지_짧은_글() {
+    void 좋아요_알림_메세지_25자_이하_글() {
         final Article ARTICLE = new Article("ㅎㅎㅎ", user);
         assertThat(
                 notificationAssembler.like(user.getId(), ARTICLE)
@@ -112,7 +112,7 @@ class NotificationAssemblerTest {
     }
 
     @Test
-    void 좋아요_알림_메세지_긴_글() {
+    void 좋아요_알림_메세지_25자_초과_글() {
         final Article ARTICLE = new Article("20대에 운전을 시작한다고 하여 저절로 잘하게 되는 것이 아니듯이, 의식적인 연습을 통해 ~", user);
         assertThat(
                 notificationAssembler.like(user.getId(), ARTICLE)
@@ -122,7 +122,7 @@ class NotificationAssemblerTest {
                         userService.getUserOutline(user.getId()),
                         ARTICLE.getContent().substring(
                                 0,
-                                notificationAssembler.getMaxSummaryLength() - 4
+                                notificationAssembler.MAX_SUMMARY_LENGTH - 4
                         ) + " ...",
                         null
                 )

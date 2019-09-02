@@ -28,6 +28,11 @@ spring:
       enabled: true
   freemarker:
     cache: false
+  task:
+    execution:
+      pool:
+        core-size: 8
+        max-size: 8
 
 cloud:
   aws:
@@ -41,4 +46,3 @@ cloud:
 logging:
   level:
     root: INFO
-    techcource: DEBUG
