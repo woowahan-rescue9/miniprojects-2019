@@ -80,11 +80,15 @@ public class CommentService {
     public boolean like(Long commentId, UserOutline userOutline) {
         Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), commentId));
         if (commentLike.isPresent()) {
-            commentLikeRepository.delete(commentLike.get());
+            cancelLike(commentLike.get());
             return false;
         }
         commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(commentId)));
         return true;
+    }
+
+    private void cancelLike(CommentLike commentLike) {
+        commentLikeRepository.delete(commentLike);
     }
 
     public boolean isLiked(Long commentId, UserOutline userOutline) {

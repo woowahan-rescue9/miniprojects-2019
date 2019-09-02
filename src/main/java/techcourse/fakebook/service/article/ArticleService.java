@@ -100,7 +100,7 @@ public class ArticleService {
     public boolean like(Long id, UserOutline userOutline) {
         Optional<ArticleLike> articleLike = Optional.ofNullable(articleLikeRepository.findByUserIdAndArticleId(userOutline.getId(), id));
         if (articleLike.isPresent()) {
-            articleLikeRepository.delete(articleLike.get());
+            cancelLike(articleLike.get());
             return false;
         }
         Article article = getArticle(id);
@@ -110,6 +110,10 @@ public class ArticleService {
             notificationService.likeFromTo(userOutline.getId(), article);
         }
         return true;
+    }
+
+    private void cancelLike(ArticleLike articleLike) {
+        articleLikeRepository.delete(articleLike);
     }
 
     public boolean isLiked(Long id, UserOutline userOutline) {
