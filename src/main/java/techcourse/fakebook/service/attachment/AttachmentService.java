@@ -47,7 +47,7 @@ public class AttachmentService {
 
         checkImageType(file);
 
-        String filePath = uploader.upload(file, uploaderConfig.articlePath, hashingName);
+        String filePath = uploader.upload(file, uploaderConfig.getArticlePath(), hashingName);
         ArticleAttachment articleAttachment = new ArticleAttachment(file.getOriginalFilename(), filePath, article);
 
         return getAttachmentResponse(articleAttachmentRepository.save(articleAttachment));
@@ -69,14 +69,14 @@ public class AttachmentService {
     }
 
     public UserProfileImage getDefaultProfileImage() {
-        return new UserProfileImage(uploaderConfig.userProfileDefaultName, uploaderConfig.userProfileDefaultPath);
+        return new UserProfileImage(uploaderConfig.getUserProfileDefaultName(), uploaderConfig.getUserProfileDefaultPath());
     }
 
     public UserProfileImage saveProfileImage(MultipartFile file) {
         String hashingName = getHashedName(file.getOriginalFilename());
         checkImageType(file);
 
-        String filePath = uploader.upload(file, uploaderConfig.userProfilePath, hashingName);
+        String filePath = uploader.upload(file, uploaderConfig.getUserProfilePath(), hashingName);
         return new UserProfileImage(file.getOriginalFilename(), filePath);
     }
 
