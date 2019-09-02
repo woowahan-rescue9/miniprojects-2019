@@ -28,19 +28,17 @@ public class CommentService {
     private final ArticleService articleService;
     private final UserService userService;
     private final CommentRepository commentRepository;
-    private final CommentLikeRepository commentLikeRepository;
     private final CommentAssembler commentAssembler;
     private final NotificationService notificationService;
+    private final CommentLikeService commentLikeService;
 
-    public CommentService(ArticleService articleService, UserService userService,
-                          CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler,
-                          NotificationService notificationService) {
+    public CommentService(ArticleService articleService, UserService userService, CommentRepository commentRepository, CommentAssembler commentAssembler, NotificationService notificationService, CommentLikeService commentLikeService) {
         this.articleService = articleService;
         this.userService = userService;
         this.commentRepository = commentRepository;
-        this.commentLikeRepository = commentLikeRepository;
         this.commentAssembler = commentAssembler;
         this.notificationService = notificationService;
+        this.commentLikeService = commentLikeService;
     }
 
     public CommentResponse findById(Long id) {
@@ -78,25 +76,21 @@ public class CommentService {
     }
 
     public boolean like(Long commentId, UserOutline userOutline) {
-        Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), commentId));
-        if (commentLike.isPresent()) {
-            cancelLike(commentLike.get());
+        if (isLiked(commentId, userOutline)) {
+            commentLikeService.cancelLike(userOutline.getId(), commentId);
             return false;
         }
-        commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(commentId)));
+
+        commentLikeService.save(userService.getUser(userOutline.getId()), getComment(commentId));
         return true;
     }
 
-    private void cancelLike(CommentLike commentLike) {
-        commentLikeRepository.delete(commentLike);
-    }
-
     public boolean isLiked(Long commentId, UserOutline userOutline) {
-        return commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId);
+        return commentLikeService.isLiked(userOutline.getId(), commentId);
     }
 
     public Integer getLikeCountOf(Long commentId) {
-        return commentLikeRepository.countCommentLikeByCommentId(commentId);
+        return commentLikeService.countByCommentId(commentId);
     }
 
     public Integer getCommentsCountOf(Long articleId) {
