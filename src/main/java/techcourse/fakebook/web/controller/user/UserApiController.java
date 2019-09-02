@@ -40,7 +40,7 @@ public class UserApiController {
             throw new InvalidSignupException(bindingResult.getFieldError().getDefaultMessage());
         }
 
-        userService.save(userSignupRequest );
+        userService.save(userSignupRequest);
 
         LoginRequest loginRequest = new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword());
         UserOutline userOutline = loginService.login(loginRequest);

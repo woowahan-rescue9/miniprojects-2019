@@ -45,10 +45,10 @@ public class NotificationResponse {
     @Override
     public String toString() {
         return "{ " +
-                    "type: " + this.type + ", " +
-                    "srcId: " + this.srcUser + ", " +
-                    "srcSummary: " + this.srcSummary + ", " +
-                    "content: " + this.content +
+                "type: " + this.type + ", " +
+                "srcId: " + this.srcUser + ", " +
+                "srcSummary: " + this.srcSummary + ", " +
+                "content: " + this.content +
                 " } : NotificationResponse";
     }
 

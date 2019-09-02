@@ -5,25 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.fakebook.domain.article.Article;
-import techcourse.fakebook.domain.article.ArticleRepository;
-import techcourse.fakebook.domain.like.ArticleLike;
-import techcourse.fakebook.domain.like.ArticleLikeRepository;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.exception.InvalidAuthorException;
-import techcourse.fakebook.exception.NotFoundArticleException;
-import techcourse.fakebook.service.article.assembler.ArticleAssembler;
 import techcourse.fakebook.service.article.dto.ArticleRequest;
 import techcourse.fakebook.service.article.dto.ArticleResponse;
-import techcourse.fakebook.service.attachment.AttachmentService;
-import techcourse.fakebook.service.attachment.dto.AttachmentResponse;
-import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

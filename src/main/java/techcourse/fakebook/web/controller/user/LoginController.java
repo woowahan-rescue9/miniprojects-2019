@@ -13,7 +13,6 @@ import techcourse.fakebook.service.user.LoginService;
 import techcourse.fakebook.service.user.dto.LoginRequest;
 import techcourse.fakebook.service.user.dto.UserOutline;
 import techcourse.fakebook.service.user.dto.UserSignupRequest;
-import techcourse.fakebook.web.argumentresolver.SessionUser;
 
 import javax.servlet.http.HttpSession;
 
