@@ -1,115 +1,87 @@
 package techcourse.fakebook.service.comment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import techcourse.fakebook.domain.article.Article;
 import techcourse.fakebook.domain.comment.Comment;
-import techcourse.fakebook.domain.comment.CommentRepository;
-import techcourse.fakebook.domain.like.CommentLike;
-import techcourse.fakebook.domain.like.CommentLikeRepository;
 import techcourse.fakebook.domain.user.User;
-import techcourse.fakebook.exception.InvalidAuthorException;
-import techcourse.fakebook.exception.NotFoundCommentException;
 import techcourse.fakebook.service.article.ArticleService;
-import techcourse.fakebook.service.comment.assembler.CommentAssembler;
 import techcourse.fakebook.service.comment.dto.CommentRequest;
 import techcourse.fakebook.service.comment.dto.CommentResponse;
-import techcourse.fakebook.service.notification.NotificationService;
 import techcourse.fakebook.service.user.UserService;
 import techcourse.fakebook.service.user.dto.UserOutline;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class CommentService {
+    private static final Logger log = LoggerFactory.getLogger(CommentService.class);
+
+    private final CommentInnerService commentInnerService;
+    private final CommentLikeService commentLikeService;
     private final ArticleService articleService;
     private final UserService userService;
-    private final CommentRepository commentRepository;
-    private final CommentLikeRepository commentLikeRepository;
-    private final CommentAssembler commentAssembler;
-    private final NotificationService notificationService;
 
-    public CommentService(ArticleService articleService, UserService userService,
-                          CommentRepository commentRepository, CommentLikeRepository commentLikeRepository, CommentAssembler commentAssembler,
-                          NotificationService notificationService) {
+    public CommentService(CommentInnerService commentInnerService, CommentLikeService commentLikeService, ArticleService articleService, UserService userService) {
+        this.commentInnerService = commentInnerService;
+        this.commentLikeService = commentLikeService;
         this.articleService = articleService;
         this.userService = userService;
-        this.commentRepository = commentRepository;
-        this.commentLikeRepository = commentLikeRepository;
-        this.commentAssembler = commentAssembler;
-        this.notificationService = notificationService;
     }
 
     public CommentResponse findById(Long id) {
-        Comment comment = getComment(id);
-        return commentAssembler.toResponse(comment);
+        log.debug("CommentService.findById : {}", id);
+        return commentInnerService.findById(id);
     }
 
-    public List<CommentResponse> findAllByArticleId(Long id) {
-        return commentRepository.findAllByArticleIdOrderByCreatedDateAsc(id).stream()
-                .map(commentAssembler::toResponse)
-                .collect(Collectors.toList());
+    public List<CommentResponse> findAllByArticleId(Long articleId) {
+        log.debug("CommentService.findAllByArticleId : {}", articleId);
+        return commentInnerService.findAllByArticleId(articleId);
     }
 
     public CommentResponse save(Long articleId, CommentRequest commentRequest, UserOutline userOutline) {
+        log.debug("CommentService.save : (articleId : {}, comment : {}, user : {})", articleId, commentRequest, userOutline);
         User user = userService.getUser(userOutline.getId());
         Article article = articleService.getArticle(articleId);
-        Comment comment = commentRepository.save(commentAssembler.toEntity(commentRequest, article, user));
-        if (article.isNotAuthor(userOutline.getId())) {
-            notificationService.commentFromTo(comment, userOutline.getId(), article);
-        }
-        return commentAssembler.toResponse(comment);
+        return commentInnerService.save(article, user, commentRequest);
     }
 
     public CommentResponse update(Long id, CommentRequest updatedRequest, UserOutline userOutline) {
-        Comment comment = getComment(id);
-        checkAuthor(userOutline, comment);
-        comment.update(updatedRequest.getContent());
-        return commentAssembler.toResponse(comment);
+        log.debug("CommentService.save : (commentId : {}, comment : {}, user : {})", id, updatedRequest, userOutline);
+        return commentInnerService.update(id, updatedRequest, userOutline);
     }
 
     public void deleteById(Long id, UserOutline userOutline) {
-        Comment comment = getComment(id);
-        checkAuthor(userOutline, comment);
-        comment.delete();
+        log.debug("CommentService.deleteById : (commentId : {}, user : {})", id, userOutline);
+        commentInnerService.deleteById(id, userOutline);
     }
 
     public boolean like(Long commentId, UserOutline userOutline) {
-        Optional<CommentLike> commentLike = Optional.ofNullable(commentLikeRepository.findByUserIdAndCommentId(userOutline.getId(), commentId));
-        if (commentLike.isPresent()) {
-            commentLikeRepository.delete(commentLike.get());
+        if (isLiked(commentId, userOutline)) {
+            commentLikeService.cancelLike(userOutline.getId(), commentId);
             return false;
         }
-        commentLikeRepository.save(new CommentLike(userService.getUser(userOutline.getId()), getComment(commentId)));
+
+        commentLikeService.save(userService.getUser(userOutline.getId()), getComment(commentId));
         return true;
     }
 
     public boolean isLiked(Long commentId, UserOutline userOutline) {
-        return commentLikeRepository.existsByUserIdAndCommentId(userOutline.getId(), commentId);
+        return commentLikeService.isLiked(userOutline.getId(), commentId);
     }
 
     public Integer getLikeCountOf(Long commentId) {
-        return commentLikeRepository.countCommentLikeByCommentId(commentId);
+        return commentLikeService.countByCommentId(commentId);
     }
 
     public Integer getCommentsCountOf(Long articleId) {
-        return commentRepository.countCommentByArticleId(articleId);
+        return commentInnerService.getCommentsCountOf(articleId);
     }
 
     private Comment getComment(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(NotFoundCommentException::new);
-        if (comment.isDeleted()) {
-            throw new NotFoundCommentException();
-        }
-        return comment;
-    }
-
-    private void checkAuthor(UserOutline userOutline, Comment comment) {
-        if (comment.isNotAuthor(userOutline.getId())) {
-            throw new InvalidAuthorException();
-        }
+        return commentInnerService.getComment(id);
     }
 }
