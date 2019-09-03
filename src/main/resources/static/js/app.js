@@ -294,9 +294,10 @@ const App = (() => {
 
     async remove(id) {
       try {
+        const articleId = document.getElementById("comment-item-" + id).parentNode.getAttribute("id").substring(9)
         await axios.delete(BASE_URL + "/api/comments/" + id)
-        document.getElementById("comments-" + id).remove()
-        document.getElementById("count-of-comment-" + id).innerText = (await axios.get(BASE_URL + "/api/articles/" + id + "/comments/count")).data
+        document.getElementById("comment-item-" + id).remove()
+        document.getElementById("count-of-comment-" + articleId).innerText = (await axios.get(BASE_URL + "/api/articles/" + articleId + "/comments/count")).data
       } catch (e) {
       }
     }

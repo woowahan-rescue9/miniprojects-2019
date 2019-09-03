@@ -84,12 +84,16 @@ const templates = (() => {
               <span> ${this.escapeHtml(input.content)}</span>
             </div>
             <div class="font-size-12 pdd-left-10 pdd-top-5">
-              <span class="pointer text-link-color comment-like-button" onclick="App.likeComment(${input.id})">좋아요</span>
-              <span> · </span>
-              <span>${input.date}</span>
-            </div>
+            <span class="pointer text-link-color hover-underline" onclick="App.likeComment(${input.id})">좋아요</span>
+            <span> · </span>
+            <span>${input.date}</span>
+            <span id="comment-remove-button-${input.id}">
+                <span> · </span>
+                <span class="pointer text-link-color hover-underline" onclick="App.removeComment(${input.id})">삭제</span>
+              </span>
           </div>
-        </li>`
+        </div>
+      </li>`
     }
 
     commentLikeTemplate(input) {
