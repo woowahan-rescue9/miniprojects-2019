@@ -125,9 +125,7 @@
             <div class="social-feeds">
               <div class="card widget-compose">
                 <p class="border bottom width-100 pdd-btm-5 text-bold write-article-text">게시물 만들기</p>
-                <textarea id="new-article" class="resize-none form-control border bottom resize-none"
-                      th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
-
+                <textarea id="new-article" class="resize-none form-control border bottom resize-none" th:placeholder="${session.user.name} + '님, 무슨 생각을 하고 계신가요?'"></textarea>
                 <div class="modal fade" id="attachment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
@@ -165,7 +163,7 @@
                       <span class="icon-name font-size-13 text-bold"> 기분 / 활동</span>
                     </a>
                   </li>
-                  <li class="bg-mint-button border-radius-round mrg-right-5" onclick="App.writeArticle()">
+                  <li id="write-article" class="bg-mint-button border-radius-round mrg-right-5">
                     <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                       <div class="icons write-article"></div>
                       <span class="icon-name font-size-13 text-bold"> 글쓰기</span>
@@ -195,10 +193,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://unpkg.com/simple-notifications-solution/dist/Notifications.js"></script>
     <script src="/js/app.js" type="module"></script>
-<<<<<<< HEAD
-    <script src="/js/newsfeed.js"></script>
-=======
->>>>>>> bd94cca7e1e98749267d331112537390f9e4840f
     <script src="/js/notification.js"></script>
   </body>
 </html>

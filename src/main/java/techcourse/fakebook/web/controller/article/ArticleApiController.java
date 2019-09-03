@@ -52,9 +52,9 @@ public class ArticleApiController {
     }
 
     @GetMapping("/{id}/like")
-    public ResponseEntity<Void> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Boolean> checkLike(@PathVariable Long id, @SessionUser UserOutline userOutline) {
         if (articleService.isLiked(id, userOutline)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(true);
         }
         return ResponseEntity.noContent().build();
     }

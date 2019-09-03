@@ -20,11 +20,11 @@ export default new class Templates {
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href="javascript:App.editArticle(${input.id})" class="pointer">
+                  <a class="edit-article pointer" data-id="${input.id}">
                     <i class="ti-pencil pdd-right-10 text-dark"></i>
                     <span>게시글 수정</span>
                   </a>
-                  <a href="javascript:App.removeArticle(${input.id})" class="pointer">
+                  <a class="remove-article pointer" data-id="${input.id}">
                     <i class="ti-trash pdd-right-10 text-dark"></i>
                     <span>게시글 삭제</span>
                   </a>
@@ -34,7 +34,7 @@ export default new class Templates {
           </li>
         </ul>
       </div>
-      <div id="article-${input.id}-content" class="feed-body no-pdd">` +
+      <div id="article-${input.id}-content" class="feed-body no-pdd" data-is-editing="false">` +
         input.images.map(image => `<img class="vertical-align" src="${image.path}">`).reduce((a, b) => a + b, "") +
         `<p>
           <span> ${this.escapeHtml(input.content)} </span> 
@@ -110,7 +110,7 @@ export default new class Templates {
     </div>`
   }
 
-  yourMessage(name, imageSrc, read, msg) {
+  yourMessage(name, imageSrc, msg) {
     return `<div class="yours msg">
       <div class="your-profile">
         <span class="your-profile-image" style="background-image: url('${imageSrc}');"></span>
@@ -124,13 +124,6 @@ export default new class Templates {
     return `<div class="mine msg">
       <div class="my-message">${msg}</div>
       <div class="read">${read}</div>
-    </div>`
-  }
-
-  friendTemplate(input) {
-    return `<div class="friend">
-      <img src="${input.profileImage}" alt="${input.name}">
-      <a href="/users/${input.id}"><span class="friend-name">${input.name}</span></a>
     </div>`
   }
 }

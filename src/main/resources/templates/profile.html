@@ -97,12 +97,12 @@
                   <input id="user-id" type="hidden" th:value="${session.user.id}">
                   <input id="friend-id" type="hidden" th:value="${user.id}">
                   <input id="already-friend" type="hidden" th:value="${isFriend}">
-                  <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button" th:onclick="|javascript:App.makeFriend('${user.id}')|">
+                  <button th:if="${session.user.id} != ${user.id}" id="add-friend" type="button">
                     <i class="ti-plus font-size-8">
                       <i class="icons add-friend"></i>
                     </i> 친구 추가
                   </button>
-                  <button th:if="${session.user.id} != ${user.id}" id="remove-friend" type="button" th:onclick="|javascript:App.breakWithFriend('${user.id}')|">
+                  <button th:if="${session.user.id} != ${user.id}" id="remove-friend" type="button">
                     <i class="ti-minus font-size-8">
                       <i class="icons add-friend"></i>
                     </i> 친구 제거
@@ -110,7 +110,7 @@
                   <button th:if="${session.user.id} != ${user.id}" id="messenger" type="button" data-toggle="modal" data-target="#messenger-modal">
                     <i class="icons messenger"></i> 메시지
                   </button>
-                  <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" onclick="javascript:App.userInfo()" data-toggle="modal" data-target="#edit-profile-modal">
+                  <button th:if="${session.user.id} == ${user.id}" id="edit-profile" type="button" data-toggle="modal" data-target="#edit-profile-modal">
                     <i class="icons edit-profile"></i> 프로필 수정
                   </button>
                 </div>
@@ -154,8 +154,8 @@
                         <input type="password" id="edit-password-confirm" placeholder="비밀번호 확인" style="ime-mode:disabled">
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" id="edit-profile-button" class="btn btn-primary" onclick="javascript:App.editProfile()">Save changes</button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                        <button id="edit-profile-button" type="submit" class="btn btn-primary">Save changes</button>
                       </div>
                     </div>
                   </div>
@@ -230,7 +230,7 @@
                         <span class="icon-name font-size-13 text-bold"> 기분 / 활동</span>
                       </a>
                     </li>
-                    <li class="bg-mint-button border-radius-round mrg-right-5" onclick="App.writeArticle()">
+                    <li id="write-article" class="bg-mint-button border-radius-round mrg-right-5">
                       <a class="pdd-vertical-5 pdd-horizon-10 pointer">
                         <div class="icons write-article"></div>
                         <span class="icon-name font-size-13 text-bold"> 글쓰기</span>

@@ -47,9 +47,9 @@ public class CommentApiController {
     }
 
     @GetMapping("/comments/{commentId}/like")
-    public ResponseEntity<Void> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
+    public ResponseEntity<Boolean> checkLike(@PathVariable Long commentId, @SessionUser UserOutline userOutline) {
         if (commentService.isLiked(commentId, userOutline)) {
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(true);
         }
         return ResponseEntity.noContent().build();
     }
