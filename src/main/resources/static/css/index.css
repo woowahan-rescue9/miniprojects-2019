@@ -859,7 +859,7 @@ body {
     box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-.comment-like-button:hover {
+.hover-underline:hover {
     text-decoration: underline;
 }
 
