@@ -11,14 +11,6 @@ window.App = (() => {
       this.searchService = searchService
     }
 
-    showNewsfeed() {
-      this.articleService.showNewsfeed()
-    }
-
-    showArticles(userId) {
-      this.articleService.showArticles(userId)
-    }
-
     likeArticle(id) {
       this.articleService.like(id)
     }
@@ -45,14 +37,6 @@ window.App = (() => {
 
     visitResult(name, id) {
       this.searchService.visitResult(name, id)
-    }
-
-    userInfo() {
-      this.profileService.userInfo()
-    }
-
-    profileImagePreview(input) {
-      this.profileService.profileImagePreview(input)
     }
   }
 
