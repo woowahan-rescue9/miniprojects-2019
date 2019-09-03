@@ -13,7 +13,7 @@ export default new class Templates {
               <a href="/users/${input.user.id}" class="title no-pdd-vertical text-semibold inline-block">${input.user.name}</a>
               <span>님이 게시물을 작성하였습니다.</span>
               <span class="sub-title">${input.date}</span>
-              <a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
+              <a id="article-dropdown-menu-${input.id}" class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
                 <span class="btn-icon text-dark">
                   <i class="ti-more font-size-16"></i>
                 </span>

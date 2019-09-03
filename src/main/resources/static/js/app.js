@@ -136,9 +136,18 @@ window.App = (() => {
             "countOfLike": article.countOfLike
           })
         )
+        this.checkAuthor(article)
         this.checkLike(article.articleResponse.id)
         App.showComments(article.articleResponse.id)
       })
+    }
+
+    async checkAuthor(article) {
+      const url = document.getElementById("user-profile").getAttribute("href")
+      const userId = url.toString().replace("/users/", "")
+      if (article.articleResponse.userOutline.id != userId) {
+        document.getElementById("article-dropdown-menu-" + article.articleResponse.id).style.display = "none"
+      }
     }
 
     async checkLike(articleId) {
@@ -245,8 +254,17 @@ window.App = (() => {
             "user": comment.userOutline
           })
         )
+        this.checkAuthor(comment)
         this.checkLike(comment.id)
       })
+    }
+
+    async checkAuthor(comment) {
+      const url = document.getElementById("user-profile").getAttribute("href")
+      const userId = url.toString().replace("/users/", "")
+      if (comment.userOutline.id != userId) {
+        document.getElementById("comment-remove-button-" + comment.id).style.display = "none"
+      }
     }
 
     async checkLike(commentId) {
