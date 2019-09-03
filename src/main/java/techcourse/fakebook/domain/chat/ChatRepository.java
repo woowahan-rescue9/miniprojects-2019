@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
-    @Query(value = "select * from chat where (FROM_USER_ID = ?1 and TO_USER_ID =?2) or (FROM_USER_ID = ?2 and TO_USER_ID =?1)", nativeQuery = true)
+    @Query(value = "select * from chat where (from_user_id = ?1 and to_user_id =?2) or (from_user_id = ?2 and to_user_id =?1)", nativeQuery = true)
     List<Chat> findByFromUserAndToUserOrToUserAndFromUser(Long fromUserId, Long toUserId);
 
     @Modifying
-    @Query("UPDATE chat set readable = true where TO_USER_ID = ?1 and FROM_USER_ID = ?2")
+    @Query("UPDATE chat set readable = true where to_user_id = ?1 and from_user_id = ?2")
     void updateReadByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 }
