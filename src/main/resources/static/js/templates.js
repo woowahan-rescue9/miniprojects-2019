@@ -14,7 +14,7 @@ const templates = (() => {
                 <a href="/users/${input.user.id}" class="title no-pdd-vertical text-semibold inline-block">${input.user.name}</a>
                 <span>님이 게시물을 작성하였습니다.</span>
                 <span class="sub-title">${input.date}</span>
-                <a class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
+                <a id="article-dropdown-menu-${input.id}" class="pointer absolute top-0 right-0" data-toggle="dropdown" aria-expanded="false">
                   <span class="btn-icon text-dark">
                     <i class="ti-more font-size-16"></i>
                   </span>
@@ -84,12 +84,16 @@ const templates = (() => {
               <span> ${this.escapeHtml(input.content)}</span>
             </div>
             <div class="font-size-12 pdd-left-10 pdd-top-5">
-              <span class="pointer text-link-color comment-like-button" onclick="App.likeComment(${input.id})">좋아요</span>
-              <span> · </span>
-              <span>${input.date}</span>
-            </div>
+            <span class="pointer text-link-color hover-underline" onclick="App.likeComment(${input.id})">좋아요</span>
+            <span> · </span>
+            <span>${input.date}</span>
+            <span id="comment-remove-button-${input.id}">
+                <span> · </span>
+                <span class="pointer text-link-color hover-underline" onclick="App.removeComment(${input.id})">삭제</span>
+              </span>
           </div>
-        </li>`
+        </div>
+      </li>`
     }
 
     commentLikeTemplate(input) {
