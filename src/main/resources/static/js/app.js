@@ -39,6 +39,7 @@ window.App = (() => {
       const DAY = 24 * HOUR
       const WEEK = 7 * DAY
 
+      dateString = dateString + "Z"
       const date = new Date(dateString)
       const difference = (new Date()).getTime() - date.getTime()
       if (difference < 10 * MINUTE) {
