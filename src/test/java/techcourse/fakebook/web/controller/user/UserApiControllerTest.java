@@ -34,8 +34,13 @@ class UserApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 유저_아이디로_유저정보_조회() {
+        UserSignupRequest userSignupRequest = newUserSignupRequest();
+        String sessionId = getSessionId(signup(userSignupRequest));
+        login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
+
         given().
                 port(port).
+                sessionId(sessionId).
         when().
                 get("/api/users/1/info").
         then().
@@ -161,10 +166,15 @@ class UserApiControllerTest extends ControllerTestHelper {
 
     @Test
     void 유저가_작성한_글_조회() {
+        UserSignupRequest userSignupRequest = newUserSignupRequest();
+        String sessionId = getSessionId(signup(userSignupRequest));
+        login(new LoginRequest(userSignupRequest.getEmail(), userSignupRequest.getPassword()));
+
         writeArticle();
 
         given().
                 port(port).
+                sessionId(sessionId).
                 contentType(MediaType.APPLICATION_JSON_UTF8_VALUE).
         when().
                 get("/api/users/1/articles").
