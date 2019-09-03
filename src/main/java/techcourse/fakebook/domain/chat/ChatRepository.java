@@ -11,6 +11,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     List<Chat> findByFromUserAndToUserOrToUserAndFromUser(Long fromUserId, Long toUserId);
 
     @Modifying
-    @Query("UPDATE Chat set read = true where TO_USER_ID = ?1 and FROM_USER_ID = ?2")
+    @Query("UPDATE Chat set readable = true where TO_USER_ID = ?1 and FROM_USER_ID = ?2")
     void updateReadByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 }

@@ -24,16 +24,16 @@ public class Chat extends BaseEntity {
 
     @Column(nullable = false)
     @ColumnDefault("false")
-    private Boolean read;
+    private Boolean readable;
 
     private Chat() {
     }
 
-    public Chat(String content, User fromUser, User toUser, Boolean read) {
+    public Chat(String content, User fromUser, User toUser, Boolean readable) {
         this.content = content;
         this.fromUser = fromUser;
         this.toUser = toUser;
-        this.read = read;
+        this.readable = readable;
     }
 
     public Long getId() {
@@ -52,7 +52,7 @@ public class Chat extends BaseEntity {
         return toUser;
     }
 
-    public Boolean getRead() {
-        return read;
+    public Boolean getReadable() {
+        return readable;
     }
 }

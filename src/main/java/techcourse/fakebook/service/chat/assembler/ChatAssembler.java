@@ -10,7 +10,7 @@ import techcourse.fakebook.service.chat.dto.ChatResponse;
 public class ChatAssembler {
 
     public ChatResponse toChatResponse(Chat chat) {
-        return new ChatResponse(chat.getId(), chat.getFromUser().getId(), chat.getFromUser().getName(), chat.getContent(), chat.getRead());
+        return new ChatResponse(chat.getId(), chat.getFromUser().getId(), chat.getFromUser().getName(), chat.getContent(), chat.getReadable());
     }
 
     public Chat toEntity(ChatRequest chatRequest, User fromUser, User toUser) {
